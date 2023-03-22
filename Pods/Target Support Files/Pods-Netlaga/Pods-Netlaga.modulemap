@@ -1,0 +1,6 @@
+framework module Pods_Netlaga {
+  umbrella header "Pods-Netlaga-umbrella.h"
+
+  export *
+  module * { export * }
+}

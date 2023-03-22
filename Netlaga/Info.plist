@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb438040594912997</string>
+				<string>app-1-9388810413-ios-4b66f0147b9f3ca286e624</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.9388810413-v2kjv7kbhvm91g1p0fofln0ht3nr4f3d</string>
+			</array>
+		</dict>
+	</array>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
+	<key>CFBundleDisplayName</key>
+	<string>netlaga</string>
+	<key>CFBundleVersion</key>
+	<string>2.0.2</string>
+	<key>FacebookAppID</key>
+	<string>438040594912997</string>
+	<key>FacebookClientToken</key>
+	<string>dade6a59f23bd58cafd820c09136337e</string>
+	<key>FacebookDisplayName</key>
+	<string>DatingApp</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
+		<string>fbapi</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>We would like to access your microphone.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>We would like to access your camera/ gallery so you for profile and posts.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Please allow us to access your location to find you rides nearby</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Please allow us to access your location to find you rides nearby</string>
+	<key>NSLocationDefaultAccuracyReduced</key>
+	<false/>
+	<key>NSLocationTemporaryUsageDescriptionDictionary</key>
+	<dict>
+		<key>ForDelivery</key>
+		<string>Help your driver delivery items on time</string>
+	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Please allow us to access your location to find you rides nearby</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<key>UISceneStoryboardFile</key>
+					<string>Main</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>
