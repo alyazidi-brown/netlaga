@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>9388810413-v2kjv7kbhvm91g1p0fofln0ht3nr4f3d.apps.googleusercontent.com</string>
+	<string>9388810413-v2llnkpa8om7k76b73vkctm116qnl7hc.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.9388810413-v2kjv7kbhvm91g1p0fofln0ht3nr4f3d</string>
+	<string>com.googleusercontent.apps.9388810413-v2llnkpa8om7k76b73vkctm116qnl7hc</string>
 	<key>API_KEY</key>
 	<string>AIzaSyBcOkXrQtnu5rTaF7HzQJ9OUzkUyWm_8r8</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>BrownTech.Netlaga</string>
+	<string>com.BrownTech.Netlaga</string>
 	<key>PROJECT_ID</key>
 	<string>datingapp-80400</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:9388810413:ios:e3c2c96f74b2f29986e624</string>
+	<string>1:9388810413:ios:aff6b6d460d1bf9d86e624</string>
 	<key>DATABASE_URL</key>
 	<string>https://datingapp-80400-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
