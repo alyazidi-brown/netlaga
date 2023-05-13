@@ -6,3 +6,18 @@
 //
 
 import Foundation
+
+
+struct ProfilePhotosModel {
+    
+    var profileImage = UIImage()
+    
+    
+    init (profileImage: UIImage) {
+        
+        self.profileImage = profileImage
+        
+    }
+    
+   
+}

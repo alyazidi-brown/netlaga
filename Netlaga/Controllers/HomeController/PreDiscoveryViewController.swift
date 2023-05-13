@@ -15,7 +15,16 @@ import GoogleMaps
 import Alamofire
 import CoreLocation
 
+protocol TinderDelegate: AnyObject {
+    
+    func switchToPersons()
+    
+    
+}
+
 class PreDiscoveryViewController: UITableViewController, CLLocationManagerDelegate{//UITableViewController, GMSMapViewDelegate {
+    
+    weak var delegate: TinderDelegate?
     
     var manager: CLLocationManager? = nil
     
@@ -59,7 +68,7 @@ class PreDiscoveryViewController: UITableViewController, CLLocationManagerDelega
 override func viewDidLoad() {
     super.viewDidLoad()
     
-  
+    view.backgroundColor = .white
     
     tableView.register(TableCell2.self, forCellReuseIdentifier: "cell2")
 
@@ -67,7 +76,7 @@ override func viewDidLoad() {
     setLoadingScreen()
 
     
-    requestNearbyLocations()
+    //requestNearbyLocations()
     //googlePace(iteration: 0)
     
     findMe()
@@ -112,9 +121,10 @@ override func viewDidLoad() {
         
         User.place = discoverySetUp.name
         
+        let token = UserDefaults.standard.value(forKey: "token") as? String ?? ""
        
         
-        let values = ["email": User.email, "firstName": User.firstName, "ava": User.ava, "place": discoverySetUp.name]
+        let values = ["email": User.email, "firstName": User.firstName, "ava": User.ava, "token": token, "place": discoverySetUp.name]
         
         Database.database(url: "https://datingapp-80400-default-rtdb.asia-southeast1.firebasedatabase.app").reference().child("users").child(User.uid).updateChildValues(values) { error, ref in
         
@@ -128,17 +138,19 @@ override func viewDidLoad() {
                   }
             
            
-            let nextVC = TinderViewController()//DiscoveryViewController()
+           // let nextVC = TinderViewController()//DiscoveryViewController()
             
-            let navController = UINavigationController(rootViewController: nextVC)
-            self.present(navController, animated:true, completion: nil)
+    
+            //nextVC.modalPresentationStyle = .overCurrentContext//.overFullScreen
             
-            //nextVC.locationAddress = discoverySetUp.address
-           // nextVC.locationName = discoverySetUp.name
             
-            //nextVC.modalPresentationStyle = .overFullScreen
-            //self.present(nextVC, animated: true, completion: nil)
-
+            //let navController = UINavigationController(rootViewController: nextVC)
+            
+           // HomeTabBarController().present(nextVC, animated: true, completion: nil)
+            //self.present(nextVC, animated:true, completion: nil)
+            
+           
+            self.delegate?.switchToPersons()
                                        
             
         }
@@ -319,6 +331,29 @@ override func viewDidLoad() {
             
         }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            
+        let myLocation : CLLocation = locations[0]
+        
+        let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        let myLocation2 = manager.location!
+        print("locations = \(locValue.latitude) \(locValue.longitude) \(myLocation) \(myLocation2)")
+        
+        let longitude1 = locValue.longitude.roundToDecimal(10)
+        
+        let latitude1 = locValue.latitude.roundToDecimal(10)
+        
+        let myLocation3 = CLLocation(latitude: latitude1, longitude: longitude1)
+        
+        
+        User.location = myLocation3
+        
+        requestNearbyLocations(latitude: latitude1, longitude: longitude1)
+        
+        
+        }   // end of locationManager function
+
+    
     
     
     
@@ -379,7 +414,7 @@ override func viewDidLoad() {
         
        // googlePace(iteration: 0)
         
-        requestNearbyLocations()
+        requestNearbyLocations(latitude: latitude1, longitude: longitude1)
         
        // loopTypes()
            
@@ -424,7 +459,7 @@ override func viewDidLoad() {
 
            }
     
-    func requestNearbyLocations() {
+    func requestNearbyLocations(latitude: Double, longitude: Double) {
             var region = MKCoordinateRegion()
         region.center = CLLocationCoordinate2D(latitude: User.location.coordinate.latitude, longitude: User.location.coordinate.longitude)
         
@@ -445,6 +480,12 @@ override func viewDidLoad() {
             search.start { (response , error ) in
                 
                 guard let response = response else {
+                    
+                    self.removeLoadingScreen()
+                    
+                    self.presentAlertController(withTitle: "Nothing Found", message: "Unfortunately no places of interest found in this area.")
+                    
+                    print("stoppingat this response?")
                     return
                 }
                 

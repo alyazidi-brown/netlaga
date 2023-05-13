@@ -20,6 +20,7 @@ struct Message {
     var user: DiscoveryStruct?
     var photoItem: PhotoMessage?
     var audioItem: AudioItem?
+    var locationItem: LocationItem?
     var kind: MessageKind
     
     init(dictionary: [String: Any]) {
@@ -33,6 +34,7 @@ struct Message {
         self.timeStamp = dictionary["timeStamp"] as? Timestamp ?? Timestamp(date: Date())
         self.photoItem = dictionary["photoItem"] as! PhotoMessage
         self.audioItem = dictionary["audioItem"] as? AudioItem
+        self.locationItem = dictionary["locationItem"] as? LocationItem
         self.kind = dictionary["kind"] as! MessageKind
         
         self.isFromCurrentUser = fromId == Auth.auth().currentUser?.uid

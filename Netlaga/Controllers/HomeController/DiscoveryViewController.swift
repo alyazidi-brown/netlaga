@@ -315,7 +315,7 @@ override func viewDidLoad() {
                         case .failure(let error):
                             
                            
-                            
+                        self.presentAlertController(withTitle: "Error", message: error.localizedDescription)
                             print(error.localizedDescription)
                             //completion(nil, error.localizedDescription)
                     }
@@ -358,7 +358,7 @@ override func viewDidLoad() {
                 else {
                     //print("error")
                     if error != nil {
-                        
+                        self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                         
                     }
                     return
@@ -472,7 +472,7 @@ override func viewDidLoad() {
                     else {
                         //print("error")
                         if error != nil {
-                            
+                            self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                             
                         }
                         return
@@ -583,7 +583,7 @@ override func viewDidLoad() {
                         //print("error")
                         if error != nil {
                             
-                            
+                            self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                         }
                         return
                 }
@@ -725,7 +725,7 @@ override func viewDidLoad() {
                 else {
                     //print("error")
                     if error != nil {
-                        
+                        self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                         
                     }
                     return
@@ -813,13 +813,15 @@ override func viewDidLoad() {
                  let ava = driver.ava
                  
                  let place = driver.place
+            
+                let token = driver.token
                  
                  print("here is driver stuff \(driver) \(place) \(uid) \(currentUid)")
                  
                  
                  if currentUid != uid {//&& place == User.place {
                      
-                     let discovery = DiscoveryStruct(firstName: firstName, email: email, ava: ava, uid: uid, place: place)
+                     let discovery = DiscoveryStruct(firstName: firstName, email: email, ava: ava, uid: uid, place: place, token: token)
                      
                      print("you should be empty at some point\(self.discoveryArray)")
                      
@@ -1010,6 +1012,24 @@ extension UITableView {
     }
 }
 
+
+extension UIView {
+
+    func setEmptyMessageView(_ message: String) {
+        let messageLabel = UILabel(frame: CGRect(x: 0, y: self.bounds.size.height/2 - 25, width: self.bounds.size.width, height: 50))
+        messageLabel.text = message//"No cool people around here.... Don't worry check Feature tab to match you with someone cool."
+        messageLabel.textColor = .black
+        messageLabel.numberOfLines = 0
+        messageLabel.textAlignment = .center
+        messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+        messageLabel.sizeToFit()
+
+        self.addSubview(messageLabel)
+       
+    }
+
+    
+}
 
 
 

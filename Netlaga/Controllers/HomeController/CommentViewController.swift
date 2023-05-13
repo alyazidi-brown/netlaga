@@ -30,13 +30,14 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
 
 override func viewDidLoad() {
     super.viewDidLoad()
+    print("how far comment1")
     
-    txtView.textColor = .lightGray
+    txtView.textColor = .black//lightGray
     txtView.text = "Comment here..."
     txtView.autocapitalizationType = .words
     txtView.isScrollEnabled = false
     
-    view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+    view.backgroundColor = UIColor.black.withAlphaComponent(0.6)//UIColor.black.withAlphaComponent(0.6)
     
     let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
     let displayWidth: CGFloat = self.view.frame.width
@@ -45,6 +46,8 @@ override func viewDidLoad() {
     txtView = UITextView(frame: CGRect(x: 20, y: 100, width: displayWidth - 40, height: 100))
     
     self.view.addSubview(txtView)
+    
+    txtView.backgroundColor = .white
     
     //commentButton = UIButton(frame: CGRect(x: displayWidth - 80, y: 205, width: 40, height: 40))
     self.view.addSubview(commentButton)
@@ -60,11 +63,13 @@ override func viewDidLoad() {
     commentButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
     
 
-            myTableView = UITableView(frame: CGRect(x: 20, y: 250, width: displayWidth - 40, height: displayHeight - 450))
+    myTableView = UITableView(frame: CGRect(x: 20, y: 250, width: displayWidth - 40, height: displayHeight - 450))
     myTableView.register(TimeLineCell.self, forCellReuseIdentifier: "TimeLineCell")
-            myTableView.dataSource = self
-            myTableView.delegate = self
-            self.view.addSubview(myTableView)
+    myTableView.dataSource = self
+    myTableView.delegate = self
+    self.view.addSubview(myTableView)
+    
+    myTableView.backgroundColor = .white
     
     let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction(_:)))
     self.view.addGestureRecognizer(panGestureRecognizer)
@@ -74,26 +79,29 @@ override func viewDidLoad() {
 }
     
     func textViewDidBeginEditing (_ textView: UITextView) {
-        if txtView.textColor == UIColor.lightGray && txtView.isFirstResponder {
+        if txtView.textColor == UIColor.darkGray && txtView.isFirstResponder {
             txtView.text = nil
-            txtView.textColor = .white
+            txtView.textColor = .black//white
         }
     }
     
     func textViewDidEndEditing (_ textView: UITextView) {
         if txtView.text.isEmpty || txtView.text == "" {
-            txtView.textColor = .lightGray
+            txtView.textColor = .darkGray
             txtView.text = "Comment here..."
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
+        print("how far comment2")
+        
         if let touch = touches.first {
             let position :CGPoint = touch.location(in: view)
             print("the position \(position)")
             if position.y < txtView.bounds.origin.y || position.y > txtView.bounds.origin.y + myTableView.bounds.height + txtView.bounds.height + commentButton.bounds.height + 10 || position.x < myTableView.bounds.origin.x || position.x > myTableView.bounds.origin.x + myTableView.bounds.width {
                 
+                print("how far comment3")
                 self.dismiss(animated: true, completion: nil)
             }
             
@@ -113,6 +121,7 @@ override func viewDidLoad() {
             let velocity = gesture.velocity(in: view)
             
             if velocity.y >= 1500 {
+                print("how far comment4")
                 self.dismiss(animated: true, completion: nil)
                 
             }else{
@@ -144,9 +153,14 @@ override func viewDidLoad() {
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TimeLineCell", for: indexPath) as! TimeLineCell
             
+            cell.contentView.backgroundColor = .white
+            
             let commentValues = commentsArray[indexPath.row]
             cell.postName.text = commentValues.firstName
             cell.postText.text = commentValues.text
+            
+            cell.postText.textColor = .black
+            cell.postText.backgroundColor = .white
             
             
             let dateText = commentValues.date_created
@@ -259,7 +273,8 @@ override func viewDidLoad() {
                 
         print("YOU THERE ESSAY load comments \(dataString)")
         
-       
+        DispatchQueue.main.async
+            {
                 
                 do {
                     
@@ -277,6 +292,8 @@ override func viewDidLoad() {
                     if status == "400" {
                         
                         let message = jsonResult["message"] as? String ?? ""
+                        
+                        print("which comment error1")
                         
                         helper.showAlert(title: "JSON Error", message: message, from: self)
                         
@@ -325,14 +342,14 @@ override func viewDidLoad() {
                 catch
                 {
                 
-               
+                print("which comment error2")
                 
                 helper.showAlert(title: "JSON Error", message: error.localizedDescription, from: self)
                     //print(error)
                 }
         
         
-         
+            }
 
     }).resume()
         

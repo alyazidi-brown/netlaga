@@ -96,6 +96,8 @@ class InputViewController: UIViewController {
         
         tf.placeholder = "Jill"
         
+        tf.textColor = .black
+        
         let bottomLine = CALayer()
                 
         bottomLine.frame = CGRect(x: 0.0, y: height + 3, width: 0.5*view.frame.width, height: 1.5)

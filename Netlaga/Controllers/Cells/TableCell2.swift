@@ -48,7 +48,7 @@ class TableCell2: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
      super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-    
+        contentView.backgroundColor = .white
      addSubview(nameLabel)
      
         nameLabel.anchor(left: leftAnchor, right: rightAnchor, paddingLeft: 20, paddingRight: 20)

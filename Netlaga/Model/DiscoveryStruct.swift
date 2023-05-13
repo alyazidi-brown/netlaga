@@ -16,7 +16,7 @@ struct DiscoveryStruct {
     var ava: String
     var uid: String
     var place: String
-    
+    var token: String
     
 }
 

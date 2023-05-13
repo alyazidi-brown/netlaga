@@ -6,3 +6,12 @@
 //
 
 import Foundation
+import UIKit
+
+
+struct InviteStruct {
+    static var inviteImage: UIImage?
+    
+    
+}
+

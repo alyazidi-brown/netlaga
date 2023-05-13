@@ -90,7 +90,7 @@ class LogInViewController: UIViewController {
     
     @objc func signUpAction() {
         
-        let vc =  PhoneViewController() //your view controller
+        let vc = PhoneViewController() //EmailViewController()//PhoneViewController() //your view controller
         vc.signUp = true
         vc.modalPresentationStyle = .overFullScreen
         self.present(vc, animated: true, completion: nil)

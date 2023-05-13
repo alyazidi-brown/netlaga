@@ -10,6 +10,7 @@ target 'Netlaga' do
   pod 'Firebase/Auth'
   pod 'Firebase/Firestore'
   pod 'Firebase/DynamicLinks'
+  pod 'FirebaseMessaging'
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
   pod 'FBSDKShareKit'

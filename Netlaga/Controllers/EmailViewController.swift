@@ -9,6 +9,7 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import MessageUI
+import SwiftUI
 
 
 class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate {
@@ -28,10 +29,26 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .white//.systemBackground
+        
+        let circleView = ContentView()
+                let controller = UIHostingController(rootView: circleView)
+                addChild(controller)
+                controller.view.translatesAutoresizingMaskIntoConstraints = false
+                view.addSubview(controller.view)
+                controller.didMove(toParent: self)
+
+                NSLayoutConstraint.activate([
+                    controller.view.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
+                    controller.view.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
+                    controller.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+                    controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+                ])
+        /*
         view.addSubview(emailField)
         emailField.frame = CGRect(x:0, y:0, width: 220, height: 50)
         emailField.center = view.center
         emailField.delegate = self
+         */
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -65,26 +82,7 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
                           // add an action (button)
                           alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
                               print("Handle Ok logic here")
-                              /*
-                              let recipientEmail = number
-                                          let subject = "Multi client email support"
-                                          let body = "This code supports sending email via multiple different email apps on iOS! :)"
-                                          
-                                          // Show default mail composer
-                                          if MFMailComposeViewController.canSendMail() {
-                                              let mail = MFMailComposeViewController()
-                                              mail.mailComposeDelegate = self
-                                              mail.setToRecipients([recipientEmail])
-                                              mail.setSubject(subject)
-                                              mail.setMessageBody(body, isHTML: false)
-                                              
-                                              self.present(mail, animated: true)
-                                          
-                                          // Show third party email composer if default Mail app is not present
-                                          } else if let emailUrl = self.createEmailUrl(to: recipientEmail, subject: subject, body: body) {
-                                              UIApplication.shared.open(emailUrl)
-                                          }
-                               */
+                            
                               }))
 
                           // show the alert
@@ -98,10 +96,9 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
                     //self.showMessagePrompt("Check your email for link")
                 let alert = UIAlertController(title: "Check your email for link", message: number, preferredStyle: UIAlertController.Style.alert)
 
-                // add an action (button)
-                alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: nil))
+              
                 
-              /*   alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
+                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
                     print("Handle Ok logic here")
                     
                     
@@ -125,7 +122,11 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
                                 }
                     
                      
-                    }))*/
+                    }))
+                
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action: UIAlertAction!) in
+                      print("Handle Cancel Logic here")
+                }))
                  
 
                 // show the alert

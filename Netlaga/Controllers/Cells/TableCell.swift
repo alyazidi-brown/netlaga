@@ -119,6 +119,9 @@ class TableCell: UITableViewCell {
     {
         
         super.layoutSubviews()
+    
+    
+    contentView.backgroundColor = .white
     friendButton.addTarget(self, action: #selector(friendRequest), for: .touchUpInside)
         
         

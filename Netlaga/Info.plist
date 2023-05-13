@@ -8,7 +8,8 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>fb438040594912997</string>
-				<string>app-1-9388810413-ios-4b66f0147b9f3ca286e624</string>
+				<string>app-1-9388810413-ios-aff6b6d460d1bf9d86e624</string>
+				<string>com.BrownTech.Netlaga</string>
 			</array>
 		</dict>
 		<dict>
@@ -16,7 +17,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.9388810413-v2kjv7kbhvm91g1p0fofln0ht3nr4f3d</string>
+				<string>com.googleusercontent.apps.9388810413-v2llnkpa8om7k76b73vkctm116qnl7hc</string>
 			</array>
 		</dict>
 	</array>
@@ -24,8 +25,22 @@
 	<string>AppIcon</string>
 	<key>CFBundleDisplayName</key>
 	<string>netlaga</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.BrownTech.Netlaga</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>2.0.2</string>
+	<string>17</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>processing</string>
+		<string>remote-notification</string>
+	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	</array>
 	<key>FacebookAppID</key>
 	<string>438040594912997</string>
 	<key>FacebookClientToken</key>
@@ -43,7 +58,9 @@
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We would like to access your microphone.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>We would like to access your camera/ gallery so you for profile and posts.</string>
+	<string>We would like to access your camera/ gallery for your profile picture and posts.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We would like to access your gallery for your profile picture and posts.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Please allow us to access your location to find you rides nearby</string>
 	<key>NSLocationAlwaysUsageDescription</key>

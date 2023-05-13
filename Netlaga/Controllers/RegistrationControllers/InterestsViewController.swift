@@ -303,6 +303,11 @@ class InterestsViewController: UIViewController {
                     
                     // error occured
                     if error != nil {
+                        
+                        MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                        UIApplication.shared.endIgnoringInteractionEvents()
+                        
                         Helper().showAlert(title: "Server Error", message: error!.localizedDescription, from: self)
                         return
                     }
@@ -312,6 +317,9 @@ class InterestsViewController: UIViewController {
                         
                         // save mode of casting any data
                         guard let data = data else {
+                            MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                            UIApplication.shared.endIgnoringInteractionEvents()
                             Helper().showAlert(title: "Data Error", message: error!.localizedDescription, from: self)
                             return
                         }
@@ -324,11 +332,19 @@ class InterestsViewController: UIViewController {
                         
                         // save method of accessing json constant
                         guard let parsedJSON = json else {
+                            MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                            UIApplication.shared.endIgnoringInteractionEvents()
+                            
                             return
                         }
                         
                         // uploaded successfully
                         if parsedJSON["status"] as! String == "200" {
+                            
+                            MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                            UIApplication.shared.endIgnoringInteractionEvents()
                             
                             // saving upaded user related information (e.g. ava's path, cover's path)
                             /*
@@ -340,7 +356,9 @@ class InterestsViewController: UIViewController {
                             
                             User.ava = avaImgURL
                             
-                            let values = ["email": User.email, "firstName": User.firstName, "ava": User.ava]
+                             let token = UserDefaults.standard.value(forKey: "token") as? String ?? ""
+                            
+                            let values = ["email": User.email, "firstName": User.firstName, "ava": User.ava, "token": token]
                             
                             Database.database(url: "https://datingapp-80400-default-rtdb.asia-southeast1.firebasedatabase.app").reference().child("users").child(User.uid).updateChildValues(values) { error, ref in
                             
@@ -371,6 +389,9 @@ class InterestsViewController: UIViewController {
                             
                             // show the error message in AlertView
                             if parsedJSON["message"] != nil {
+                                MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                                UIApplication.shared.endIgnoringInteractionEvents()
                                 let message = parsedJSON["message"] as! String
                                 Helper().showAlert(title: "Error", message: message, from: self)
                             }
@@ -378,6 +399,9 @@ class InterestsViewController: UIViewController {
                         }
                         
                     } catch {
+                        MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                        UIApplication.shared.endIgnoringInteractionEvents()
                         Helper().showAlert(title: "JSON Error", message: error.localizedDescription, from: self)
                     }
                     
@@ -389,6 +413,27 @@ class InterestsViewController: UIViewController {
        
         
         @objc func registerAction() {
+            
+            let spinningActivity = MBProgressHUD.showAdded(to: self.view, animated: true)
+                spinningActivity.label.text = "Loading.  Please wait."
+            spinningActivity.detailsLabel.text = "Registering..."
+            
+            if (self.view.frame.width > 414) {
+                
+                //spinningActivity.frame = CGRect(x: self.view.frame.width/2 - 100, y: 300, width: 200, height: 250)
+                spinningActivity.minSize = CGSize(width:200, height: 250);
+                
+                spinningActivity.label.font = UIFont(name: "Helvetica", size:20)
+                
+                spinningActivity.detailsLabel.font = UIFont(name: "Helvetica", size:18)//label.font = UIFont(name: "Helvetica", size:18)
+                
+                
+            }else{
+                
+                
+                
+                
+            }
             
             let joined = interestsArr.joined(separator: ";")
                 
@@ -405,11 +450,9 @@ class InterestsViewController: UIViewController {
                 request.httpMethod = "POST"
                 request.cachePolicy = NSURLRequest.CachePolicy.reloadIgnoringCacheData
                 
+           
             
-                
-            //let paramString: String = "email=\(User.email)&firstName=\(User.firstName)&phoneNumber=\(User.phone)&birthday=\(User.birthday)&gender=\(User.gender)&Interested_In=\(User.matching)&Interests=\(User.interests)&Looking_For=\(User.lookingFor)&Facebook_link=\(User.Facebook_link)"
-            
-            let paramString: String = "uid=\(User.uid)&email=cheesetoochalk26@yahoo.com&firstName=\(User.firstName)&phoneNumber=\(User.phone)&birthday=\(User.birthday)&gender=\(User.gender)&Interested_In=\(User.matching)&Interests=\(joined)&Looking_For=\(User.lookingFor)&Facebook_link=something26&cover=\(emptyString)&ava=\(emptyString)"
+            let paramString: String = "uid=\(User.uid)&email=cheesetoochalk50@yahoo.com&firstName=\(User.firstName)&phoneNumber=\(User.phone)&birthday=\(User.birthday)&gender=\(User.gender)&Interested_In=\(User.matching)&Interests=\(joined)&Looking_For=\(User.lookingFor)&Facebook_link=something50&cover=\(emptyString)&ava=\(emptyString)"
             
             
             print("param stuff \(paramString) \(User.lookingFor)  \(User.interests)  \(User.gender)  \(User.matching)  \(User.firstName)  \(User.birthday)")
@@ -428,6 +471,10 @@ class InterestsViewController: UIViewController {
                             //print("error")
                             if error != nil {
                                 
+                                MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                                UIApplication.shared.endIgnoringInteractionEvents()
+                                
                                 helper.showAlert(title: "Server Error", message: error!.localizedDescription, from: self)
                             }
                             return
@@ -444,6 +491,10 @@ class InterestsViewController: UIViewController {
                             do {
                                 
                                 guard let data = data else {
+                                    MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                                    UIApplication.shared.endIgnoringInteractionEvents()
+                                    
                                     helper.showAlert(title: "Data Error", message: error!.localizedDescription, from: self)
                                     return
                                 }
@@ -483,6 +534,10 @@ class InterestsViewController: UIViewController {
                                     
                                     // show the error message in AlertView
                                     if parsedJSON["message"] != nil {
+                                        MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                                        UIApplication.shared.endIgnoringInteractionEvents()
+                                        
                                         let message = parsedJSON["message"] as! String
                                         
                                         helper.showAlert(title: "JSON Error", message: message, from: self)
@@ -492,6 +547,10 @@ class InterestsViewController: UIViewController {
                             }
                             catch
                             {
+                            
+                            MBProgressHUD.hide(for: self.view, animated: true)//.hideAllHUDs(for: self.view, animated: true)
+
+                            UIApplication.shared.endIgnoringInteractionEvents()
                             
                             helper.showAlert(title: "JSON Error", message: error.localizedDescription, from: self)
                                 //print(error)

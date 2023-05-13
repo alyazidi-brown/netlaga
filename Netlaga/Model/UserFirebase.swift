@@ -14,6 +14,7 @@ struct UserFirebase {
     let uid: String
     let ava: String
     let place: String
+    let token: String
     
     
     init(uid: String, dictionary: [String: Any]) {
@@ -22,6 +23,7 @@ struct UserFirebase {
         self.email = dictionary["email"] as? String ?? ""
         self.ava = dictionary["ava"] as? String ?? ""
         self.place = dictionary["place"] as? String ?? ""
+        self.token = dictionary["token"] as? String ?? ""
         
     }
     

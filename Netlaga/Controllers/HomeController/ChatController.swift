@@ -89,7 +89,10 @@ class ChatController: UIViewController, UICollectionViewDataSource, UICollection
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
         configureUI()
+        
+        
         
         //deleteMessages()
         fetchMessages()
@@ -246,7 +249,7 @@ class ChatController: UIViewController, UICollectionViewDataSource, UICollection
             images.first!.resolve { (image) in
                 print("images coming soon")
                 UserService.uploadPhoto(image, to: self.discoverySetUp) { error in
-                    if let error = error {
+                    if error != nil {
                         
                         print("DEBUG: failed")
                         
@@ -321,8 +324,9 @@ extension ChatController: CustomInputAccessoryViewDelegate {
             
             inputView.clearMessagingText()
             
-            UserService.uploadMessageUser(to: self.discoverySetUp) { error in
+            UserService.uploadMessageUser(to: self.discoverySetUp) { str in//error in
                 
+                /*
                 if let error = error {
                     
                     print("DEBUG: failed")
@@ -332,6 +336,7 @@ extension ChatController: CustomInputAccessoryViewDelegate {
                     //inputView.clearMessagingText()//.messageInputTextView.text = nil
                     
                 }
+                 */
             }
         }
         /*

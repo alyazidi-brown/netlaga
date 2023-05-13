@@ -16,7 +16,7 @@ class MatchViewController: UIViewController {
     
     var users = [NSDictionary]()
     
-    var matchInfo = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "")
+    var matchInfo = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "", token: "")
     
     @IBOutlet weak var matchImage: UIImageView!
     
@@ -98,7 +98,7 @@ class MatchViewController: UIViewController {
                     else {
                         //print("error")
                         if error != nil {
-                            
+                            self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                             
                         }
                         return
@@ -151,6 +151,7 @@ class MatchViewController: UIViewController {
                                     let email = users["email"] as? String
                                     let ava = users["ava"] as? String
                                     let uid = users["uid"] as? String
+                                    //let token = users["token"] as? String ?? ""
                                     //let place = users["place"] as? String
                                     
                                     print("name & birthday \(name) \(birthday)")
@@ -212,7 +213,7 @@ class MatchViewController: UIViewController {
                                     }
                                 
                                
-                                self.matchInfo = DiscoveryStruct(firstName: name!, email: email!, ava: ava!, uid: uid!, place: "")
+                                self.matchInfo = DiscoveryStruct(firstName: name!, email: email!, ava: ava!, uid: uid!, place: "", token: "")
                                 //}
                                 
                                 //let discovery = DiscoveryStruct(firstName: firstName, email: email, ava: ava, uid: uid, place: place)
@@ -298,7 +299,7 @@ class MatchViewController: UIViewController {
                 else {
                     //print("error")
                     if error != nil {
-                        
+                        self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                         
                     }
                     return
@@ -402,7 +403,7 @@ class MatchViewController: UIViewController {
                     //print("error")
                     if error != nil {
                         
-                        
+                        self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                     }
                     return
             }

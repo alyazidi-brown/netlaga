@@ -5,7 +5,7 @@
 //  Created by Scott Brown on 9/12/22.
 //
 import UIKit
-class HomeTabBarController: UITabBarController, UITabBarControllerDelegate {
+class HomeTabBarController: UITabBarController, UITabBarControllerDelegate, TinderDelegate, OriginalDelegate {
     
     var fromPost: Bool = false
     /*
@@ -22,6 +22,20 @@ class HomeTabBarController: UITabBarController, UITabBarControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+ 
+        defaultSettings()
+   
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+       
+            
+       
+         }
+    
+    func defaultSettings() {
         print("order 2 \(fromPost)")
         
         print("order 1")
@@ -30,31 +44,31 @@ class HomeTabBarController: UITabBarController, UITabBarControllerDelegate {
             
                 // Create Tab one
                 let tabOne = HomeViewController()
-                let tabOneBarItem = UITabBarItem(title: "", image: UIImage(named: "Female.png"), selectedImage: UIImage(named: "Female.png"))
-                tabOneBarItem.image = UIImage(named: "Female.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                let tabOneBarItem = UITabBarItem(title: "", image: UIImage(named: "friend.png"), selectedImage: UIImage(named: "friend.png"))
+                tabOneBarItem.image = UIImage(named: "friend.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
                 
                 tabOne.tabBarItem = tabOneBarItem
                 
                 
                 // Create Tab two
                 let tabTwo = PreDiscoveryViewController()//DiscoveryViewController()
-                let tabTwoBarItem2 = UITabBarItem(title: "", image: UIImage(named: "Female.png"), selectedImage: UIImage(named: "Female.png"))
-                tabTwoBarItem2.image = UIImage(named: "Female.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                let tabTwoBarItem2 = UITabBarItem(title: "", image: UIImage(named: "network"), selectedImage: UIImage(named: "network"))
+                tabTwoBarItem2.image = UIImage(named: "network")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
                 
                 tabTwo.tabBarItem = tabTwoBarItem2
-                
+        tabTwo.delegate = self
             
-                    // Create Tab three
-                    let tabThree = FeaturesViewController()
-                    let tabThreeBarItem3 = UITabBarItem(title: "", image: UIImage(named: "Female.png"), selectedImage: UIImage(named: "Female.png"))
-                    tabThreeBarItem3.image = UIImage(named: "Female.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            // Create Tab three
+            let tabThree = FeaturesViewController()
+            let tabThreeBarItem3 = UITabBarItem(title: "", image: UIImage(named: "friend.png"), selectedImage: UIImage(named: "friend.png"))
+            tabThreeBarItem3.image = UIImage(named: "friend.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
                     
-                    tabThree.tabBarItem = tabThreeBarItem3
+            tabThree.tabBarItem = tabThreeBarItem3
             
-                // Create Tab three
-                let tabFour = TimeLineViewController()
-                let tabFourBarItem4 = UITabBarItem(title: "", image: UIImage(named: "Female.png"), selectedImage: UIImage(named: "Female.png"))
-            tabFourBarItem4.image = UIImage(named: "Female.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+            // Create Tab three
+            let tabFour = TimeLineViewController()
+            let tabFourBarItem4 = UITabBarItem(title: "", image: UIImage(named: "hourglass"), selectedImage: UIImage(named: "hourglass"))
+            tabFourBarItem4.image = UIImage(named: "hourglass")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
                 
             tabFour.tabBarItem = tabFourBarItem4
             
@@ -73,46 +87,67 @@ class HomeTabBarController: UITabBarController, UITabBarControllerDelegate {
             
         self.selectedIndex = 3
             
+        } else {
+            
+            self.selectedIndex = 1
         }
-   
+        
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        
-        
-        
-        
-        /*
-        // Create Tab one
-        let tabOne = HomeViewController()
-        let tabOneBarItem = UITabBarItem(title: "", image: UIImage(named: "Female.png"), selectedImage: UIImage(named: "Female.png"))
-        
-        tabOne.tabBarItem = tabOneBarItem
-        
-        
-        // Create Tab two
-        let tabTwo = DiscoveryViewController()
-        let tabTwoBarItem2 = UITabBarItem(title: "", image: UIImage(named: "Female.png"), selectedImage: UIImage(named: "Female.png"))
-        
-        tabTwo.tabBarItem = tabTwoBarItem2
-        
     
-            // Create Tab three
-            let tabThree = FeaturesViewController()
-            let tabThreeBarItem3 = UITabBarItem(title: "", image: UIImage(named: "Female.png"), selectedImage: UIImage(named: "Female.png"))
+    func switchToPersons() {
+        
+        
+            //Assign self for delegate for that ViewController can respond to UITabBarControllerDelegate methods
+            self.delegate = self
             
-            tabThree.tabBarItem = tabThreeBarItem3
+                // Create Tab one
+                let tabOne = HomeViewController()
+                let tabOneBarItem = UITabBarItem(title: "", image: UIImage(named: "friend.png"), selectedImage: UIImage(named: "friend.png"))
+                tabOneBarItem.image = UIImage(named: "friend.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                
+                tabOne.tabBarItem = tabOneBarItem
+                
+                
+                // Create Tab two
+                let tabTwo = TinderViewController()
+                let tabTwoBarItem2 = UITabBarItem(title: "", image: UIImage(named: "network"), selectedImage: UIImage(named: "network"))
+                tabTwoBarItem2.image = UIImage(named: "network")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                
+                tabTwo.tabBarItem = tabTwoBarItem2
+                
+            
+                    // Create Tab three
+                    let tabThree = FeaturesViewController()
+                    let tabThreeBarItem3 = UITabBarItem(title: "", image: UIImage(named: "friend.png"), selectedImage: UIImage(named: "friend.png"))
+                    tabThreeBarItem3.image = UIImage(named: "friend.png")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                    
+                    tabThree.tabBarItem = tabThreeBarItem3
+            
+                // Create Tab three
+                let tabFour = TimeLineViewController()
+                let tabFourBarItem4 = UITabBarItem(title: "", image: UIImage(named: "hourglass"), selectedImage: UIImage(named: "hourglass"))
+            tabFourBarItem4.image = UIImage(named: "hourglass")?.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                
+            tabFour.tabBarItem = tabFourBarItem4
+            
+           
+            self.viewControllers = [tabOne, tabTwo, tabThree, tabFour]
         
-             
-             self.viewControllers = [tabOne, tabTwo, tabThree]
-         
-         */
-         }
-    
-    
+        if fromPost == true {
+        
+            print("order 3")
+            
+        self.selectedIndex = 3
+            
+        } else {
+            
+            self.selectedIndex = 1
+        }
+        
+        
+    }
     
     
          

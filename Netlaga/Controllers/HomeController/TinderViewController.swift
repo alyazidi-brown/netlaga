@@ -31,8 +31,19 @@ import MapKit
 import CoreLocation
 import PopBounceButton
 import Shuffle_iOS
+import Alamofire
+
+protocol OriginalDelegate: AnyObject {
+    
+    func defaultSettings()
+    
+    
+}
+
 
 class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonStackViewDelegate, SwipeCardStackDataSource, SwipeCardStackDelegate {
+    
+    weak var delegate: OriginalDelegate?
     
     var users = [NSDictionary]()
     
@@ -47,10 +58,43 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
     let geofire = GeoFire(firebaseRef: REF_USER_LOCATIONS)
     
     var likeObject = LikedObject()
+    
+    private let stackHolderView = UIView()
+    
+    var emptyView = UIView()
 
-  private let cardStack = SwipeCardStack()
+    private let cardStack = SwipeCardStack()
 
-  private let buttonStackView = ButtonStackView()
+    private let buttonStackView = ButtonStackView()
+    
+    var dismissButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        button.setTitle("Change Location", for: .normal)
+        
+        
+        
+        button.tintColor = UIColor.blue
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        // 2. check the idiom
+        switch (deviceIdiom) {
+
+        case .pad:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            //print("iPad style UI")
+        case .phone:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("iPhone and iPod touch style UI")
+       // case .tv:
+           // print("tvOS style UI")
+        default:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("Unspecified UI idiom")
+        }
+        
+        return button
+        }()
     
     
 
@@ -91,7 +135,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
     cardStack.delegate = self
     cardStack.dataSource = self
     buttonStackView.delegate = self
-      checkLikes()
+    checkLikes()
       
     
       
@@ -103,6 +147,31 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
     layoutButtonStackView()
     layoutCardStackView()
     configureBackgroundGradient()
+      
+      view.addSubview(dismissButton)
+      
+      dismissButton.translatesAutoresizingMaskIntoConstraints = false
+      
+      dismissButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+      dismissButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+      dismissButton.widthAnchor.constraint(equalToConstant: 250).isActive = true
+      dismissButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
+      
+      let dismissAction = UIAction { action in
+              
+              print("reaches the dismiss")
+          
+          self.dismiss(animated: false) {
+              let vc = HomeTabBarController()//your view controller
+              vc.modalPresentationStyle = .overFullScreen
+            self.present(vc, animated: true, completion: nil)
+          }
+              
+              //self.delegate?.defaultSettings()
+        
+        }
+      
+      dismissButton.addAction(dismissAction, for: .touchUpInside)
   }
 
   private func configureNavigationBar() {
@@ -134,23 +203,34 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
   }
 
   private func layoutButtonStackView() {
-    view.addSubview(buttonStackView)
-    buttonStackView.anchor(left: view.safeAreaLayoutGuide.leftAnchor,
-                           bottom: view.safeAreaLayoutGuide.bottomAnchor,
-                           right: view.safeAreaLayoutGuide.rightAnchor,
+      
+    view.addSubview(stackHolderView)
+    stackHolderView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
+                             left: view.safeAreaLayoutGuide.leftAnchor,
+                             bottom: view.bottomAnchor,
+                             right: view.safeAreaLayoutGuide.rightAnchor,paddingTop: 50,
+                             paddingBottom: 70)
+
+    /*
+      stackHolderView.addSubview(buttonStackView)
+    buttonStackView.anchor(left: stackHolderView.leftAnchor,
+                           bottom: stackHolderView.bottomAnchor,
+                           right: stackHolderView.rightAnchor,
                            paddingLeft: 24,
                            paddingBottom: 12,
                            paddingRight: 24)
+     */
   }
 
   private func layoutCardStackView() {
       
-    view.addSubview(cardStack)
-    cardStack.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-                     left: view.safeAreaLayoutGuide.leftAnchor,
-                     bottom: buttonStackView.topAnchor,
-                     right: view.safeAreaLayoutGuide.rightAnchor,
-                     paddingTop: 80)
+    
+      
+    stackHolderView.addSubview(cardStack)
+    cardStack.anchor(top: stackHolderView.topAnchor,
+                     left: stackHolderView.leftAnchor,
+                     bottom: stackHolderView.bottomAnchor,
+                     right: stackHolderView.rightAnchor)
   }
 
   @objc
@@ -167,10 +247,53 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
             }
         }
     
+    func friendNotification(title: String, body: String, topic: String) {
+        
+        
+        
+        let parameters: [String:Any] = ["title": title, "body": body, "topic": topic]
+        
+       
+                
+                let url = "https://us-central1-touchroad-543e4.cloudfunctions.net/notificationRequest"
+                
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { response in
+                  
+                    
+                    switch response.result {
+                        case .success(let dict):
+                            
+                           
+                            
+                            print(dict)
+                            let successDict: [String: Any?] = dict as? [String: Any?] ?? [:]
+                            let body = successDict["body"] as? [String: Any?] ?? [:]
+                            let success = body["success"] as? [String: Any?] ?? [:]
+                           
+                          
+                            print("body results \(successDict) \(success)") //body\(body) success\(success)")
+                            
+                         
+                            //completion(link, nil)
+                        case .failure(let error):
+                            
+                            
+                               
+                                
+                                self.presentAlertController(withTitle: "Error", message: "\(error.localizedDescription)")
+                               
+                            
+                            print(error.localizedDescription)
+                            //completion(nil, error.localizedDescription)
+                    }
+                }
+        }
+    
     private func showMatchView(userId: String) {
         
         let matchView = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "matchView") as! MatchViewController
-                
+        
+              
         matchView.userId = userId
        
         self.present(matchView, animated: true, completion: nil)
@@ -230,10 +353,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
                         
                     }
                 
-                            
-                      //  }
-                        
-                  //  }
+              
                 
                 }
 
@@ -296,7 +416,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
                 else {
                     //print("error")
                     if error != nil {
-                        
+                        self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                         
                     }
                     return
@@ -416,7 +536,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
                     else {
                         //print("error")
                         if error != nil {
-                            
+                            self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                             
                         }
                         return
@@ -562,7 +682,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
                 else {
                     //print("error")
                     if error != nil {
-                        
+                        self.presentAlertController(withTitle: "Error", message: error!.localizedDescription)
                         
                     }
                     return
@@ -659,25 +779,24 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
                  let ava = driver.ava
                  
                  let place = driver.place
+            
+                let token = driver.token
                  
                  print("here is driver stuff \(driver) \(place) \(uid) \(currentUid)")
                  
                  
                  if currentUid != uid {//&& place == User.place {
                      
-                     let discovery = DiscoveryStruct(firstName: firstName, email: email, ava: ava, uid: uid, place: place)
+                     let discovery = DiscoveryStruct(firstName: firstName, email: email, ava: ava, uid: uid, place: place, token: token)
                      
                      print("you should be empty at some point\(self.cardModels) \(uid) \(LikedObject.likedIdArray)")
                      
-                
-                     
-                     if  self.cardModels.contains{ $0.uid == uid } || LikedObject.likedIdArray.contains(uid) {
+                     if  self.cardModels.contains(where: { $0.uid == uid }) || LikedObject.likedIdArray.contains(uid) {
                          
                          
                      } else {
                 
-                     
-                 self.cardModels.append(discovery)
+                  self.cardModels.append(discovery)
                          
                      }
                      
@@ -872,10 +991,53 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
   }
 
   func numberOfCards(in cardStack: SwipeCardStack) -> Int {
+      if cardModels.count == 0 {
+          cardStack.removeFromSuperview()
+          //stackHolderView.setEmptyMessageView("No cool people around here right now.")
+          
+          stackHolderView.addSubview(emptyView)
+          emptyView.anchor(top: stackHolderView.topAnchor,
+                           left: stackHolderView.leftAnchor,
+                           bottom: stackHolderView.bottomAnchor,
+                           right: stackHolderView.rightAnchor)
+          
+          let messageLabel = UILabel(frame: CGRect(x: 0, y: emptyView.bounds.size.height/2 - 25, width: emptyView.bounds.size.width, height: 50))
+          messageLabel.text = "No cool people around here.... Don't worry check Feature tab to match you with someone cool."
+          messageLabel.textColor = .black
+          messageLabel.numberOfLines = 0
+          messageLabel.textAlignment = .center
+          messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+         // messageLabel.sizeToFit()
+
+          emptyView.addSubview(messageLabel)
+          
+      }
     return cardModels.count
   }
 
   func didSwipeAllCards(_ cardStack: SwipeCardStack) {
+      
+      cardStack.removeFromSuperview()
+      //stackHolderView.setEmptyMessageView("No cool people around here right now.")
+      
+      stackHolderView.addSubview(emptyView)
+      emptyView.anchor(top: stackHolderView.topAnchor,
+                       left: stackHolderView.leftAnchor,
+                       bottom: stackHolderView.bottomAnchor,
+                       right: stackHolderView.rightAnchor)
+      
+      let messageLabel = UILabel(frame: CGRect(x: 0, y: emptyView.bounds.size.height/2 - 25, width: emptyView.bounds.size.width, height: 50))
+      messageLabel.text = "No cool people around here.... Don't worry check Feature tab to match you with someone cool."
+      messageLabel.textColor = .black
+      messageLabel.numberOfLines = 0
+      messageLabel.textAlignment = .center
+      messageLabel.font = UIFont(name: "TrebuchetMS", size: 15)
+      //messageLabel.sizeToFit()
+
+      emptyView.addSubview(messageLabel)
+      
+      
+      
     print("Swiped all cards!")
   }
 
@@ -918,4 +1080,6 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
     }
   }
 }
+
+
 

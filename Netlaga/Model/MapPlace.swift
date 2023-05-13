@@ -6,3 +6,13 @@
 //
 
 import Foundation
+
+
+struct MapPlace {
+    static var name: String?
+    static var identifier: String?
+    
+    
+    
+    
+}

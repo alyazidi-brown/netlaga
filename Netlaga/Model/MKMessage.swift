@@ -23,6 +23,7 @@ class MKMessage: NSObject, MessageType {
     
     var photoItem: PhotoMessage?
     var audioItem: AudioItem?
+    var locationItem: LocationItem?
     var user: DiscoveryStruct?
    // var status: String
     
@@ -37,6 +38,7 @@ class MKMessage: NSObject, MessageType {
         self.user = message.user
         self.photoItem = message.photoItem
         self.audioItem = message.audioItem
+        self.locationItem = message.locationItem
         //self.incoming = FUser.currentId() != mksender.senderId
     }
     

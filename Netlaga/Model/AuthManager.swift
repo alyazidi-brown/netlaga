@@ -16,30 +16,34 @@ class AuthManager {
     
     private var verificationId: String?
         
-    public func startAuth(phoneNumber:String, completion: @escaping (Bool) -> Void) {
+    public func startAuth(phoneNumber:String, completion: @escaping (Bool, Error) -> Void) {
        
         PhoneAuthProvider.provider().verifyPhoneNumber(phoneNumber, uiDelegate: nil) {[weak self] verificationId, error in
             
+            /*
             if let error = error {
                     //self.(error.localizedDescription)
-                //presentAlertController(withTitle: "Oops An Error Occured", message: error.localizedDescription)
+                //self.presentAlertController(withTitle: "Oops An Error Occured", message: error.localizedDescription)
                 
                 print("phone error here \(error.localizedDescription)")
                     return
                   }
+             */
             
             guard let verificationId = verificationId, error == nil else {
-                completion(false)
+                completion(false, error as! Error)
                 return
             }
             
             self?.verificationId = verificationId
-            completion(true)
+            completion(true, error as! Error)
             
         }
         
         
     }
+    
+    
     
     public func verifyCode(smsCode: String, completion: @escaping (Bool) -> Void) {
         

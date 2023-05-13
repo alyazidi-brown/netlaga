@@ -19,7 +19,7 @@ class AudioRecorderVC: BaseViewController {
     var recordingSession: AVAudioSession?
     var audioRecorder: AVAudioRecorder?
     
-    var discoverySetUp = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "")
+    var discoverySetUp = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "", token: "")
     
     var numberOfRecords = 0
     
@@ -66,6 +66,48 @@ class AudioRecorderVC: BaseViewController {
         
         return button
         }()
+    
+    var dismissButton: UIButton = {
+        let button = UIButton(type: .system)
+        
+        button.setTitle("Dismiss", for: .normal)
+        
+        //button.addTarget(self, action: #selector(sendAudio), for: .touchUpInside)
+        //button.addTarget(self, action: #selector(sendAudio), for: .touchUpInside)
+        
+        /*
+        let action = UIAction { action in
+                print("howdy!")
+            
+            //AudioRecorderVC.sendAudio()
+            }
+        
+        button.addAction(action, for: .touchUpInside)
+         */
+         
+        
+        button.tintColor = UIColor.blue
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        // 2. check the idiom
+        switch (deviceIdiom) {
+
+        case .pad:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            //print("iPad style UI")
+        case .phone:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("iPhone and iPod touch style UI")
+       // case .tv:
+           // print("tvOS style UI")
+        default:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("Unspecified UI idiom")
+        }
+        
+        return button
+        }()
+    
     var isRecording = false
     
     var fileName: URL?
@@ -88,18 +130,35 @@ class AudioRecorderVC: BaseViewController {
             self.sendAudio()
             }
         
+        let dismissAction = UIAction { action in
+                print("howdy!")
+            
+            self.dismiss(animated: true, completion: nil)
+            }
+        
         sendButton.addAction(action, for: .touchUpInside)
+        
+        dismissButton.addAction(dismissAction, for: .touchUpInside)
     }
 
     func setupView() {
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         ivBack.isHidden = true
+        view.addSubview(dismissButton)
         view.addSubview(sendButton)
         view.addSubview(lbTimeCounter)
         view.addSubview(btnRecord)
         
         sendButton.translatesAutoresizingMaskIntoConstraints = false
+        dismissButton.translatesAutoresizingMaskIntoConstraints = false
+        
         lbTimeCounter.translatesAutoresizingMaskIntoConstraints = false
         btnRecord.translatesAutoresizingMaskIntoConstraints = false
+        
+        dismissButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        dismissButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        dismissButton.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        dismissButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         sendButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
         sendButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
@@ -142,7 +201,7 @@ class AudioRecorderVC: BaseViewController {
         if !isRecording {
             btnRecord.setImage(imgStartRecord, for: .normal)
             
-            counter = 0.0
+            //counter = 0.0
             lbTimeCounter.text = String(format: "%.1f", counter)
             
             timer?.invalidate()

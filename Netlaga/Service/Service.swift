@@ -11,6 +11,7 @@ import GeoFire
 import FirebaseAuth
 import FirebaseFirestore
 import MessageKit
+import AVKit
 
 // MARK: - DatabaseRefs
 
@@ -345,6 +346,33 @@ struct UserService {
         }
     }
     
+    static func duration(for resource: String) -> Double {
+        let asset = AVURLAsset(url: URL(string: resource)!)//AVURLAsset(url: URL(fileURLWithPath: resource))
+        
+        print("asset \(asset), duration \(asset.duration) and double \(Double(CMTimeGetSeconds(asset.duration)))")
+        
+        return Double(CMTimeGetSeconds(asset.duration))
+    }
+    
+    static func durationURL(for resource: String) -> Double {
+        
+        do
+            {
+            let avAudioPlayer = try AVAudioPlayer (contentsOf: URL(string: resource)!)
+            let duration = avAudioPlayer.duration
+            
+            print("duration new \(duration) and double \(duration)")
+            
+            return Double(duration)
+                
+            }
+            catch{
+                return 0.0
+            }
+        
+        
+    }
+    
     static func fetchMessagesTwo(forUser user: DiscoveryStruct, completion: @escaping([MKMessage]) -> Void) {
         
         
@@ -365,6 +393,14 @@ struct UserService {
                     guard let stamp = dictionary["timestamp"] as? Timestamp else {
                                 return
                             }
+                    guard let inviteLatitude = dictionary["latitude"] as? String else {
+                                return
+                            }
+                    
+                    guard let inviteLongitude = dictionary["longitude"] as? String else {
+                                return
+                            }
+                    
                     guard let type = dictionary["type"] as? String else {
                                 return
                             }
@@ -372,10 +408,7 @@ struct UserService {
                     guard let mediaURL = dictionary["mediaURL"] as? String else {
                                 return
                             }
-                    
-                    guard let mediaURLTwo = dictionary["mediaURLTwo"] as? String else {
-                                return
-                            }
+                   
                     
                     guard let text = dictionary["text"] as? String else {
                                 return
@@ -386,66 +419,61 @@ struct UserService {
                     
                     let diffComponents = Calendar.current.dateComponents([.hour, .minute], from: date, to: Date())
                     let hours = diffComponents.hour
-                    let minutes = diffComponents.minute
                     
-                    if minutes! < 2 {
+                    
+                    if hours! < 24 {
                         
                         if type == "picture" {
                             
                             print("presumably you're entering here")
                             
-                            if let url = URL(string: "\(mediaURL)") {
-                                let task = URLSession.shared.dataTask(with: url) { data, response, error in
-                                    guard let data = data, error == nil else { return }
-                                    
-                                    DispatchQueue.main.async { /// execute on main thread
-                                                               ///
-                                    
-                                        let audioItem = AudioItem.self//Audio(url: URL, duration: 0, size: CGSize(width: 0, height: 0))//PhotoMessage(path: mediaURL)
-                                      
-                                        dictionary.updateValue(audioItem, forKey: "audioItem")
-                                                
-                                        let photoItem = PhotoMessage(path: mediaURL)
-                                        photoItem.image = UIImage(data: data)
-                                        
-                                    
-                                        dictionary.updateValue(photoItem, forKey: "photoItem")
-                                        
-                                        
-                                    
-                                        let messageKind = MessageKind.photo(photoItem)
-                                        
+                            UserService.timeThePhoto(media: mediaURL) { thePhotoItem in
                             
-                                        dictionary.updateValue(messageKind, forKey: "kind")
-                                        
-                                        let message = Message(dictionary: dictionary)
-                                                                
-                                        let mkMessage = MKMessage(message: message)
-                                        
-                                        messagesTwo.append(mkMessage)
-                                        
-                                        completion(messagesTwo)
-                                        
-                                    }
-                                    
-                                }
+                            dictionary.updateValue(thePhotoItem, forKey: "photoItem")
+                            
+                            let messageKind = MessageKind.photo(thePhotoItem)
+                            
+                            dictionary.updateValue(messageKind, forKey: "kind")
+                            
+                            let audioItem = AudioItem.self//Audio(url: URL, duration: 0, size: CGSize(width: 0, height: 0))//PhotoMessage(path: mediaURL)
+
+                                dictionary.updateValue(audioItem, forKey: "audioItem")
+
+                                let locationItem = LocationItem.self
                                 
-                                task.resume()
-                            }
+                                dictionary.updateValue(locationItem, forKey: "locationItem")
+                                
+                                let message = Message(dictionary: dictionary)
+                                                        
+                                let mkMessage = MKMessage(message: message)
+                                
+                                messagesTwo.append(mkMessage)
                             
+                                completion(messagesTwo)
+                                
+                            }
 
                         } else if type == "audio"{
                             
-                            print("presumably you're entering here")
+                           
+                            
+                            var audioDuration: Double = 0.0
                             
                            let audioUrl = URL(string: "\(mediaURL)")
+                            
+                            audioDuration = self.duration(for: "\(mediaURL)")
                                     
-                                   
-                                        let photoItem = PhotoMessage(path: "")
+                            print("presumably you're entering here \(Float(audioDuration))")
+                            
+                            let photoItem = PhotoMessage(path: "")
                                        
-                                        dictionary.updateValue(photoItem, forKey: "photoItem")
+                            dictionary.updateValue(photoItem, forKey: "photoItem")
+                            
+                            let locationItem = LocationItem.self
+                            
+                            dictionary.updateValue(locationItem, forKey: "locationItem")
                                         
-                            let audioItem = Audio(url: audioUrl!, duration: 10, size: CGSize(width: 200, height: 30))//PhotoMessage(path: mediaURL)
+                            let audioItem = Audio(url: audioUrl!, duration: Float(audioDuration), size: CGSize(width: 200, height: 30))//PhotoMessage(path: mediaURL)
                             
                             
                                         dictionary.updateValue(audioItem, forKey: "audioItem")
@@ -468,9 +496,57 @@ struct UserService {
                             
                             
                             
-                        } else {
+                        } else if type == "location"{
+                            
+                            
+                            var inviteLocation = CLLocation()
+                            
+                            
+                            
+                            inviteLocation = CLLocation(latitude: Double(inviteLatitude) ?? 0.0, longitude: Double(inviteLongitude) ?? 0.0)
+                           
+                            
+                            let photoItem = PhotoMessage(path: "")
+                                       
+                            dictionary.updateValue(photoItem, forKey: "photoItem")
+                                        
+                            let audioItem = AudioItem.self
+                            
+                            
+                            
+                            let locationItem = Location(location: inviteLocation, size: CGSize(width: 200, height: 200))
+                            
+                            dictionary.updateValue(locationItem, forKey: "locationItem")
+                            
+                                        dictionary.updateValue(audioItem, forKey: "audioItem")
+                                        
+                                    
+                                        let messageKind = MessageKind.location(locationItem)
+                            
+                            
+                                        
+                            
+                                        dictionary.updateValue(messageKind, forKey: "kind")
+                                        
+                                        let message = Message(dictionary: dictionary)
+                                                                
+                                        let mkMessage = MKMessage(message: message)
+                            
+                                        
+                                        messagesTwo.append(mkMessage)
+                                        
+                                        completion(messagesTwo)
+                                        
+                            
+                            
+                            
+                        }else {
                             
                             let audioItem = AudioItem.self//Audio(url: URL(string: "")!, duration: 0, size: CGSize(width: 0, height: 0))//PhotoMessage(path: mediaURL)
+                            
+                            let locationItem = LocationItem.self
+                            
+                            dictionary.updateValue(locationItem, forKey: "locationItem")
                           
                             dictionary.updateValue(audioItem, forKey: "audioItem")
                             
@@ -501,6 +577,31 @@ struct UserService {
         }
     }
     
+    static func timeThePhoto(media: String, completion: @escaping(PhotoMessage) -> Void) {
+        print("pic order")
+        if let url = URL(string: "\(media)") {
+            let task = URLSession.shared.dataTask(with: url) { data, response, error in
+                guard let data = data, error == nil else { return }
+                
+                print("pic order1")
+                DispatchQueue.main.async { /// execute on main thread
+                    print("pic order2")
+                    let photoItem = PhotoMessage(path: media)
+                    photoItem.image = UIImage(data: data)
+                    print("pic order3")
+                    completion(photoItem)
+                    
+                }
+                
+                print("pic order4")
+            }
+            print("pic order5")
+            task.resume()
+            print("pic order6")
+        }
+        print("pic order7")
+    }
+    
     static func fetchMessageUsers(completion: @escaping([String]) -> Void) {
         
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -526,9 +627,15 @@ struct UserService {
         }
     }
     
-    static func uploadMessageUser(to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
+    //static func uploadMessageUser(to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
         
+    static func uploadMessageUser(to user: DiscoveryStruct, completion: @escaping(String) -> Void) {
+    
+        
+        print("message user1")
         guard let currentUid = Auth.auth().currentUser?.uid else {return}
+        
+        print("message user2")
         
         if UserMessageObject.uIds.contains(user.uid) {
             
@@ -538,6 +645,8 @@ struct UserService {
             
         }
         
+        print("message user3")
+        
         let data = ["uIds": UserMessageObject.uIds] as [String : Any]
         
         let docRef = COLLECTION_MESSAGE_USERS.document(currentUid)
@@ -545,30 +654,42 @@ struct UserService {
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 
-                COLLECTION_MESSAGE_USERS.document(currentUid).updateData(data) {_ in
+                print("message user4")
                 
-              
+                COLLECTION_MESSAGE_USERS.document(currentUid).updateData(data) {_ in
+                    
+                    completion("string")
+                
+                    print("message user5")
                 }
                 
                
             } else {
                 
+                print("message user6")
+                
                 COLLECTION_MESSAGE_USERS.document(currentUid).setData(data) { (error) in
+                    
+                    print("message user7")
                     
                     if error != nil {
                         print(error!.localizedDescription)
                     }
+                    
+                    completion("string")
                 }
                 
              
             }
         }
-        
       
     }
     
-    static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
-        
+    //static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
+    //static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, completion: @escaping (String, Error?) -> Void) {
+    
+    static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, completion: @escaping(String) -> Void) {
+    
     guard let currentUid = Auth.auth().currentUser?.uid else {return}
     
     let fileName = Date().stringDate()
@@ -576,7 +697,7 @@ struct UserService {
         
     print("well 1st off are you here? \(fileDirectory)")
     
-    FileStorage.saveImageLocally(imageData: message!.jpegData(compressionQuality: 0.6) as! NSData, fileName: fileName)
+        FileStorage.saveImageLocally(imageData: message!.jpegData(compressionQuality: 0.6)! as NSData, fileName: fileName)
         print("well 1st off are you here2?")
    
     FileStorage.uploadImage(message!, directory: fileDirectory) { (imageURL) in
@@ -585,7 +706,9 @@ struct UserService {
         
         if imageURL != nil {
           
-            
+            UserService.uploadMessageUser(to: user) { upload in//error in
+                
+                
             UserService.uploadMessage(mediaURL: imageURL, mediaURLTwo: fileDirectory, type: "picture", to: user) { error in
                 
             
@@ -596,6 +719,30 @@ struct UserService {
                     return
                     
                     
+                }
+                
+                //completion(imageURL ?? "")
+                
+               
+                    
+                    /*
+                    if let error = error {
+                        
+                        print("DEBUG: failed")
+                        
+                        return
+                        
+                        //inputView.clearMessagingText()//.messageInputTextView.text = nil
+                        
+                    }
+                     */
+                    
+                    completion(upload)
+                    
+                    print("here is your imageurl \(imageURL ?? "")")
+                    //completion(imageURL ?? "")
+                    
+                    //completion(imageURL ?? "", error )
                 }
             
          
@@ -613,12 +760,12 @@ struct UserService {
         
     }
     
-    static func uploadMessage(_ message: String? = "", mediaURL: String? = "", mediaURLTwo: String? = "", type: String, to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
+    static func uploadMessage(_ message: String? = "", mediaURL: String? = "", mediaURLTwo: String? = "", inviteLatitude: String? = "", inviteLongitude: String? = "", type: String, to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
         
         guard let currentUid = Auth.auth().currentUser?.uid else {return}
         
         
-        let data = ["text": message, "fromId": currentUid, "toId": user.uid, "timestamp": Timestamp(date: Date()), "type": type, "mediaURL": mediaURL, "mediaURLTwo": mediaURLTwo] as [String : Any]
+        let data = ["text": message, "fromId": currentUid, "toId": user.uid, "timestamp": Timestamp(date: Date()), "type": type, "mediaURL": mediaURL, "mediaURLTwo": mediaURLTwo, "latitude": inviteLatitude, "longitude": inviteLongitude] as [String : Any]
         
         print("is my data here? \(data)")
         
@@ -627,6 +774,8 @@ struct UserService {
             print("is my data here2?")
             
             COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: completion)
+            
+            
             
             print("is my data here3?")
             

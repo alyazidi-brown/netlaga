@@ -441,6 +441,8 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         
         User.location = myLocation3
         
+        print("my location 3 user location \(myLocation3) \(User.location)")
+        
         fetchUserData(location: myLocation3)
         
         

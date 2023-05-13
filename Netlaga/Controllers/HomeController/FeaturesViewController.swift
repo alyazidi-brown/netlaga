@@ -47,6 +47,8 @@ class FeaturesViewController: UITableViewController, CLLocationManagerDelegate, 
 
 override func viewDidLoad() {
     super.viewDidLoad()
+    
+    view.backgroundColor = .white
 
     tableView.register(TableCell.self, forCellReuseIdentifier: "cell")
     
@@ -117,6 +119,8 @@ override func viewDidLoad() {
                     
                     
                 } else {
+                    
+                    //self.presentAlertController(withTitle: "Error", message: error.localizedDescription)
                     print("No matches")
                     //note show activity indicator result
                 }
@@ -271,7 +275,7 @@ override func viewDidLoad() {
         
         let discoverySetUp = discoveryArray[indexPath.row]
         
-        let discoverySetUp2 = DiscoveryStruct(firstName: discoverySetUp.firstName, email: discoverySetUp.email, ava: discoverySetUp.ava, uid: discoverySetUp.uid, place: "")
+        let discoverySetUp2 = DiscoveryStruct(firstName: discoverySetUp.firstName, email: discoverySetUp.email, ava: discoverySetUp.ava, uid: discoverySetUp.uid, place: "", token: discoverySetUp.token)
         print("check that correct user is selected \(discoverySetUp.firstName) \(discoverySetUp.uid)")
         /*
         let vc = ChatController(discoverySetUp: discoverySetUp2) //your view controller
@@ -279,7 +283,11 @@ override func viewDidLoad() {
         self.present(vc, animated: true, completion: nil)
          */
         //deleteMessages(discoveryStruct: discoverySetUp2)
-        deleteImage(discoveryStruct: discoverySetUp2)
+        
+        //deleteImage(discoveryStruct: discoverySetUp2)
+        
+        gotoChat(discoveryStruct: discoverySetUp2)
+        
         //navigationController?.pushViewController(vc, animated: true)
         
         //delegate?.controller(self, wantsToStartChatWith: discoverySetUp)
@@ -294,6 +302,7 @@ override func viewDidLoad() {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 100
 }
+    
     
     func deleteMessages(discoveryStruct: DiscoveryStruct) {
        
@@ -323,6 +332,8 @@ override func viewDidLoad() {
                             
                             let vc = ChatViewController(recipientId: discoveryStruct.uid, recipientName: discoveryStruct.firstName)//ChatController(discoverySetUp: matchInfo) //your view controller
                             vc.discoverySetUp = discoveryStruct
+                            vc.hidesBottomBarWhenPushed = true
+                            //self.navigationController?.pushViewController(vc, animated: true)
                             vc.modalPresentationStyle = .overFullScreen
                             self.present(vc, animated: true, completion: nil)
                             
@@ -346,10 +357,23 @@ override func viewDidLoad() {
         
         
     }
+     
+    
+    func gotoChat(discoveryStruct: DiscoveryStruct) {
+        
+        let vc = ChatViewController(recipientId: discoveryStruct.uid, recipientName: discoveryStruct.firstName)//ChatController(discoverySetUp: matchInfo) //your view controller
+        vc.discoverySetUp = discoveryStruct
+        vc.hidesBottomBarWhenPushed = true
+        vc.modalPresentationStyle = .overFullScreen
+        self.present(vc, animated: true, completion: nil)
+        
+    }
+    
     
     func deleteImage(discoveryStruct: DiscoveryStruct) {
        
    
+        print("I go here 1st")
         
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
@@ -373,6 +397,8 @@ override func viewDidLoad() {
                          
                         case .failure(let error):
                         print("delete here5 \(error.localizedDescription)")
+                        
+                        self.presentAlertController(withTitle: "Error", message: error.localizedDescription)
                            
                             print(error.localizedDescription)
                             //completion(nil, error.localizedDescription)

@@ -24,8 +24,10 @@ class TimeLineCell: UITableViewCell {//CommentCell {
     let postText : UITextView = {
     let lbl = UITextView()
     lbl.textColor = .black
+    lbl.backgroundColor = .white
     lbl.font = UIFont.boldSystemFont(ofSize: 12)
     lbl.textAlignment = .left
+    lbl.isEditable = false
     return lbl
     }()
     
@@ -148,6 +150,8 @@ class TimeLineCell: UITableViewCell {//CommentCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
      super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        contentView.backgroundColor = .white
         
        /*
         addSubview(photoImageView)

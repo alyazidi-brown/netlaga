@@ -17,9 +17,90 @@ import FirebaseAuth
 import FirebaseStorage
 import FirebaseDatabase
 import AVFoundation
+import Alamofire
+import CoreLocation
+import UIKit
 
 
-class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
+
+
+
+class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, InviteLocationDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    
+    func uploadLocation(location: CLLocation, locationImage: UIImage) {
+        print ("do you even go here location chat?")
+        var latitudeStr: String = ""
+        var longitudeStr: String = ""
+        
+        latitudeStr = "\(location.coordinate.latitude)"
+        longitudeStr = "\(location.coordinate.longitude)"
+        
+        print ("latitude string \(latitudeStr) \(longitudeStr)")
+        
+        UserService.uploadMessage(inviteLatitude: latitudeStr, inviteLongitude: longitudeStr, type: "location", to: discoverySetUp) { error in
+            if let error = error {
+                
+                print("DEBUG: failed")
+                
+                return
+                
+                //inputView.clearMessagingText()//.messageInputTextView.text = nil
+                
+            }
+            
+            let title = "You've received a message."
+            
+            let body = "\(User.firstName) sent you a message."
+            
+            PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+            
+            UserService.uploadPhoto(locationImage, to: self.discoverySetUp) { imageUrl in//{ error  in
+                
+                print(imageUrl)
+                /*
+                if error != nil {
+                    
+                    print("DEBUG: failed")
+                    
+                    return
+
+                    
+                }
+                */
+                
+                UserService.uploadMessage("Wanna meet here? :D", type: "text", to: self.discoverySetUp) { error in
+                    if let error = error {
+                        
+                        print("DEBUG: failed")
+                        
+                        return
+                        
+                        
+                    }
+                    
+                
+            }
+                 
+            }
+            
+            
+            UserService.uploadMessageUser(to: self.discoverySetUp) { str in//error in
+                
+                /*
+                if let error = error {
+                    
+                    print("DEBUG: failed")
+                    
+                    return
+                    
+                    
+                }
+                 */
+            }
+        }
+    }
+    
     
     //MARK: - Vars
     //private var chatId = ""
@@ -30,6 +111,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
     var audioRecorder: AVAudioRecorder?
     var isRecording = false
     
+    var imagePicker = UIImagePickerController()
     let viewIndicator = UIView()
     var loadingIndicator: NVActivityIndicatorView?
     let storageRef = Storage.storage().reference()
@@ -46,7 +128,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
     var audioController: AudioController?
     var isPlayingSound = false
     
-    var discoverySetUp = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "")
+    var discoverySetUp = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "", token: "")
     
     let currentUser = MKSender(senderId: User.uid, displayName: User.firstName)
     
@@ -124,6 +206,8 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
         
         print("right chat")
         
+        view.backgroundColor = .white
+        
         overrideUserInterfaceStyle = .light
         
         senderRoom = Auth.auth().currentUser?.uid ?? "userNotFound"
@@ -136,15 +220,42 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
         configureMessageCollectionView()
         configureMessageInputBar()
         
-        downloadChats()
+        //downloadChats()
         
         audioController = AudioController(messageCollectionView: messagesCollectionView)
+        
+        /*
+            //Looks for single or multiple taps.
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+
+        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+        //tap.cancelsTouchesInView = false
+
+        view.addGestureRecognizer(tap)
+        
+        let tapTwo = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+
+        
+
+        view.addGestureRecognizer(tap)
+        
+        messagesCollectionView.addGestureRecognizer(tapTwo)
+         */
     }
     
+        //Calls this function when the tap is recognized.
+        @objc func dismissKeyboard() {
+            
+            print("message view is being tapped.")
+            //Causes the view (or one of its embedded text fields) to resign the first responder status.
+            view.endEditing(true)
+        }
     
-    override func viewWillAppear(_ animated: Bool) {
+    
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        downloadChats()
+        deleteImage(discoveryStruct: discoverySetUp)
         //FirebaseListener.shared.resetRecentCounter(chatRoomId: chatId)
     }
     
@@ -184,6 +295,82 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
 
     }
     
+    func deleteImage(discoveryStruct: DiscoveryStruct) {
+       
+   
+        print("I go here 1st")
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        
+        let parameters: [String:Any] = ["userId": currentUid, "messengerId": discoveryStruct.uid]
+        
+                let url = "https://us-central1-datingapp-80400.cloudfunctions.net/scrapeImage"
+                
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { response in
+                    
+            print("delete here32 \(parameters) \(response)")
+                    
+                    switch response.result {
+                        case .success(let dict):
+                        
+                        self.deleteMessages(discoveryStruct: discoveryStruct)
+                            
+                        print("delete here4 \(response)")
+                           
+                           
+                         
+                        case .failure(let error):
+                        print("delete here5 \(error.localizedDescription)")
+                        
+                        self.presentAlertController(withTitle: "Error", message: error.localizedDescription)
+                           
+                            print(error.localizedDescription)
+                            //completion(nil, error.localizedDescription)
+                    }
+                }
+        
+        
+    }
+    
+    
+    func deleteMessages(discoveryStruct: DiscoveryStruct) {
+       
+   print("new chat controller")
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        
+        let parameters: [String:Any] = ["userId": currentUid, "messengerId": discoveryStruct.uid]
+        
+                let url = "https://us-central1-datingapp-80400.cloudfunctions.net/scrape"
+                
+        AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: [:]).responseJSON { response in
+                    
+            
+                    
+                    switch response.result {
+                        case .success(let dict):
+                            
+                       
+                        let successDict: [String: Any?] = dict as? [String: Any?] ?? [:]
+                        
+    
+                           
+                        case .failure(let error):
+                        
+                        self.presentAlertController(withTitle: "Error", message: error.localizedDescription)
+                        
+                        print("delete here5 \(error.localizedDescription)")
+                           
+                            print(error.localizedDescription)
+                          
+                    }
+                }
+        
+        
+    }
+    
      func configureMessageCollectionView() {
 
         messagesCollectionView.messagesDataSource = self
@@ -194,7 +381,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
         
         
         
-        scrollsToBottomOnKeyboardBeginsEditing = true
+       // scrollsToBottomOnKeyboardBeginsEditing = true
         maintainPositionOnKeyboardFrameChanged = true
         
         messagesCollectionView.refreshControl = refreshController
@@ -292,6 +479,26 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
                                 
                                 
                             }
+                            
+                            let title = "You've received a message."
+                            
+                            let body = "\(User.firstName) sent you a message."
+                            
+                            PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                            
+                            UserService.uploadMessageUser(to: self.discoverySetUp) { str in//error in
+                                
+                                /*
+                                if let error = error {
+                                    
+                                    print("DEBUG: failed")
+                                    
+                                    return
+                                    
+                                    
+                                }
+                                 */
+                            }
                         
                      
                     }
@@ -322,7 +529,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
         
         print("back button pressed")
         
-        self.dismiss(animated: true, completion: nil)
+        self.dismiss(animated: false, completion: nil)
     }
     
     @objc func recordAction() {
@@ -348,10 +555,17 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
             self.showImageGalleryFor(camera: false)
         }
         
+        let invite = UIAlertAction(title: "Invite To Meet Up", style: .default) { (alert) in
+           
+            self.locationInvite()
+            
+        }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         optionMenu.addAction(takePhoto)
         optionMenu.addAction(sharePhoto)
+        optionMenu.addAction(invite)
         optionMenu.addAction(cancelAction)
         
         self.present(optionMenu, animated: true, completion: nil)
@@ -378,9 +592,16 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
                 
             }
             
+            let title = "You've received a message."
             
-            UserService.uploadMessageUser(to: self.discoverySetUp) { error in
+            let body = "\(User.firstName) sent you a message."
+            
+            PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+            
+            
+            UserService.uploadMessageUser(to: self.discoverySetUp) { str in//error in
                 
+                /*
                 if let error = error {
                     
                     print("DEBUG: failed")
@@ -390,6 +611,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
                     //inputView.clearMessagingText()//.messageInputTextView.text = nil
                     
                 }
+                 */
             }
         }
         
@@ -408,7 +630,8 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
             print("the messages \(self.mkmessagesTwo) \(messages)")
             
             self.messagesCollectionView.reloadData()
-            self.messagesCollectionView.scrollToBottom()
+            self.view.isUserInteractionEnabled = true
+            self.messagesCollectionView.scrollToLastItem()
         }
         
        
@@ -427,7 +650,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
         
         if refreshController.isRefreshing {
             
-            if displayingMessagesCount <  loadedMessageDictionaries.count {
+            if displayingMessagesCount <  mkmessagesTwo.count {//loadedMessageDictionaries.count {
                 
                // self.loadMoreMessages(maxNumber: maxMessageNumber, minNumber: minMessageNumber)
                 messagesCollectionView.reloadDataAndKeepOffset()
@@ -459,7 +682,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
     //MARK: - Gallery
     
     private func showImageGalleryFor(camera: Bool) {
-        
+        /*
         self.gallery = GalleryController()
         self.gallery.delegate = self
         
@@ -468,6 +691,51 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate {
         Config.initialTab = .imageTab
         
         self.present(gallery, animated: true, completion: nil)
+         */
+       // alert.dismiss(animated: true, completion: nil)
+        if UIImagePickerController.isSourceTypeAvailable(.photoLibrary){
+                    imagePicker.delegate = self
+                    imagePicker.sourceType = .photoLibrary
+                    imagePicker.allowsEditing = false
+
+                    present(imagePicker, animated: true, completion: nil)
+                }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("image comes here")
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+            if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                
+                print("image comes here2")
+                UserService.uploadPhoto(image, to: self.discoverySetUp) { imageUrl in//{ error  in
+                    
+                    
+                    
+                    print("images coming soon2 \(imageUrl)")
+                    
+                    let title = "You've received a message."
+                    
+                    let body = "\(User.firstName) sent you a message."
+                    
+                    PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                }
+            }
+
+        }
+    
+    
+    
+        //MARK: - LocationInvite
+    private func locationInvite() {
+        
+        let vc = MapInviteViewController()
+        
+        let navController = UINavigationController(rootViewController: vc)
+        vc.delegate = self
+        self.present(navController, animated:true, completion: nil)
+        //self.present(vc, animated:true, completion: nil)
     }
       
 }
@@ -491,11 +759,12 @@ extension ChatViewController : MessagesDataSource {
     }
     
     
+    /*
     func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         
         if indexPath.section % 3 == 0 {
 
-            let showLoadMore = (indexPath.section == 0) && loadedMessageDictionaries.count > displayingMessagesCount
+            let showLoadMore = (indexPath.section == 0) && mkmessagesTwo.count > displayingMessagesCount//loadedMessageDictionaries.count > displayingMessagesCount
             
             let text = showLoadMore ? "Pull to load more" : MessageKitDateFormatter.shared.string(from: message.sentDate)
             let font = showLoadMore ? UIFont.boldSystemFont(ofSize: 15) : UIFont.boldSystemFont(ofSize: 10)
@@ -505,7 +774,7 @@ extension ChatViewController : MessagesDataSource {
         }
         return nil
     }
-    /*
+    
     func cellBottomLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
         
         if isFromCurrentSender(message: message) {
@@ -526,6 +795,28 @@ extension ChatViewController : MessagesDataSource {
 
 extension ChatViewController: MessageCellDelegate {
     
+    func didTapPlayButton(in cell: AudioMessageCell) {
+        
+        let indexPath = messagesCollectionView.indexPath(for: cell)
+        let msg = mkmessagesTwo[indexPath!.section]
+        print("tap on audio message")
+        
+        switch msg.kind {
+       
+        case .audio(_):
+            audioController?.mp3Player?.volume = 1.0
+            if audioController?.state == .stopped {
+                audioController!.playSound(for: msg, in: cell)
+            } else if audioController?.state == .playing {
+                audioController?.pauseSound(for: msg, in: cell)
+            } else if audioController?.state == .pause {
+                audioController?.resumeSound()
+            }
+        default:
+            print("do nothing")
+        }
+    }
+    
     func didTapMessage(in cell: MessageCollectionViewCell) {
         
         let indexPath = messagesCollectionView.indexPath(for: cell)
@@ -535,6 +826,7 @@ extension ChatViewController: MessageCellDelegate {
         switch msg.kind {
        
         case .audio(_):
+            audioController?.mp3Player?.volume = 1.0
             if audioController?.state == .stopped {
                 audioController!.playSound(for: msg, in: cell as! AudioMessageCell)
             } else if audioController?.state == .playing {
@@ -587,11 +879,12 @@ extension ChatViewController: MessagesDisplayDelegate {
 
 extension ChatViewController: MessagesLayoutDelegate {
     
+    /*
     func cellTopLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
         
         if indexPath.section % 3 == 0 {
             
-            if (indexPath.section == 0) && loadedMessageDictionaries.count > displayingMessagesCount {
+            if (indexPath.section == 0) && mkmessagesTwo.count > displayingMessagesCount {//loadedMessageDictionaries.count > displayingMessagesCount {
                 
                 return 40
             }
@@ -601,17 +894,31 @@ extension ChatViewController: MessagesLayoutDelegate {
         
         return 0
     }
-    
+    */
     func cellBottomLabelHeight(for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) -> CGFloat {
+        
+        print("sender stuff\(isFromCurrentSender(message: message))")
         
         return isFromCurrentSender(message: message) ? 17 : 0
     }
     
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messageCollectionView: MessagesCollectionView) {
         
-        let imageURL = User.ava
+        var imageURL : String = ""
         
-        print("image url here? \(imageURL) \(indexPath.section)")
+        if User.uid == message.sender.senderId {
+            
+            imageURL = User.ava
+            
+        } else {
+            
+            imageURL = discoverySetUp.ava
+            
+        }
+        
+     
+        
+        print("image url here? \(imageURL) \(indexPath.section) messagetype \(message.sender.senderId) \(message.messageId)")
         
         if let url = URL(string: "\(imageURL)") {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -644,12 +951,14 @@ extension ChatViewController: InputBarAccessoryViewDelegate {
     
     func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
         
+        view.endEditing(true)
+        
         for component in inputBar.inputTextView.components {
             if let text = component as? String {
                 
-              
-                
                 messageSend(text: text, photo: nil)
+                
+                
             }
         }
         
@@ -670,7 +979,8 @@ extension ChatViewController : GalleryControllerDelegate {
         if images.count > 0 {
             images.first!.resolve { (image) in
                 print("images coming soon")
-                UserService.uploadPhoto(image, to: self.discoverySetUp) { error in
+                UserService.uploadPhoto(image, to: self.discoverySetUp) { imageUrl in//{ error  in
+                    /*
                     if let error = error {
                         
                         print("DEBUG: failed")
@@ -679,6 +989,14 @@ extension ChatViewController : GalleryControllerDelegate {
     
                         
                     }
+                    */
+                    print("images coming soon2 \(imageUrl)")
+                    
+                    let title = "You've received a message."
+                    
+                    let body = "\(User.firstName) sent you a message."
+                    
+                    PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
                 }
                 //self.messageSend(text: nil, photo: image)
             }
