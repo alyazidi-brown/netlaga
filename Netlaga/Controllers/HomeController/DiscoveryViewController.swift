@@ -337,7 +337,7 @@ override func viewDidLoad() {
         
     
         
-        let paramString: String = "action=\(status)&user_id=\(User.uid)&friend_id=\(friend_id)"
+        let paramString: String = "action=\(status)&user_id=\(UserTwo.uid)&friend_id=\(friend_id)"
         
        
         
@@ -562,7 +562,7 @@ override func viewDidLoad() {
             
         
             
-            let paramString: String = "action=listRequests&user_id=\(User.uid)"
+            let paramString: String = "action=listRequests&user_id=\(UserTwo.uid)"
             
            
          
@@ -801,7 +801,7 @@ override func viewDidLoad() {
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
          
         
-        fetchDrivers(location: User.location) { (driver) in
+        fetchDrivers(location: UserTwo.location) { (driver) in
         
                    
                  let firstName = driver.firstName
@@ -968,7 +968,7 @@ override func viewDidLoad() {
     func distanceCalculator(location: CLLocation) -> Double {
         
             //My location
-        let myLocation = User.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
+        let myLocation = UserTwo.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
 
             //My buddy's location
             let myBuddysLocation = location//CLLocation(latitude: 59.326354, longitude: 18.072310)

@@ -107,7 +107,7 @@ class SMSCodeViewController: UIViewController, UITextFieldDelegate {
             
             DispatchQueue.main.async {
                 if self.signUp == true {
-                let vc = InputViewController()//FacebookViewController()//InputViewController()//EmailViewController()//InputViewController()
+                let vc = EmailViewController()//InputViewController()//FacebookViewController()//InputViewController()//EmailViewController()//InputViewController()
                 vc.title = "Enter Code"
                     self.present(vc, animated: true)
                     

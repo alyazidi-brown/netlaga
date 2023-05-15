@@ -28,7 +28,7 @@ class PostViewController: UIViewController, UITextViewDelegate,UINavigationContr
             
             view.backgroundColor = .white
             
-            print("user id in post \(User.uid)")
+            print("user id in post \(UserTwo.uid)")
             
             let barHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
             let displayWidth: CGFloat = self.view.frame.width
@@ -118,7 +118,7 @@ class PostViewController: UIViewController, UITextViewDelegate,UINavigationContr
         
         // values to be sent to the server under keys (e.g. ID, TYPE)
         //let params = ["user_id": User.uid, "type": "posts", "text": text, "date": dateString]
-        let params = ["user_id": User.uid, "type": "posts", "text": text]
+        let params = ["user_id": UserTwo.uid, "type": "posts", "text": text]
         //let params = ["id": id, "type": "ava"]
         print("params \(params)")
         

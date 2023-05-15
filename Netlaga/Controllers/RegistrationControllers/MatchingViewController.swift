@@ -197,7 +197,7 @@ class MatchingViewController: UIViewController {
                 
             } else {
             
-                User.matching = matched
+                UserTwo.matching = matched
             
             let vc = InterestsViewController() //your view controller
             vc.modalPresentationStyle = .overFullScreen

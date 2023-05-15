@@ -199,7 +199,7 @@ class LookingViewController: UIViewController {
                 
             let joined = lookingArr.joined(separator: ";")
                 
-                User.lookingFor = joined
+                UserTwo.lookingFor = joined
             
             let vc = MatchingViewController() //your view controller
             vc.modalPresentationStyle = .overFullScreen

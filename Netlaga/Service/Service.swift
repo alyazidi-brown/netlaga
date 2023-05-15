@@ -148,7 +148,7 @@ struct UserService {
     func distanceCalculator(location: CLLocation) -> Double {
         
             //My location
-        let myLocation = User.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
+        let myLocation = UserTwo.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
 
             //My buddy's location
             let myBuddysLocation = location//CLLocation(latitude: 59.326354, longitude: 18.072310)

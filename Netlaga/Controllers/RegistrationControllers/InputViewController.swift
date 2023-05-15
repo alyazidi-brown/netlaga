@@ -146,7 +146,7 @@ class InputViewController: UIViewController {
         
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
         
-        User.uid = currentUid
+        UserTwo.uid = currentUid
         
         configureUI()
         
@@ -188,7 +188,7 @@ class InputViewController: UIViewController {
                 
             } else {
                 
-                User.firstName = nameTextField.text ?? "First Name"
+                UserTwo.firstName = nameTextField.text ?? "First Name"
             
             let vc = DOBViewController() //your view controller
             vc.modalPresentationStyle = .overFullScreen

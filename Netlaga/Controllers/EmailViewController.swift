@@ -58,7 +58,7 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
             
             let number = text
             
-            User.email = number
+            UserTwo.email = number
             
             let actionCodeSettings = ActionCodeSettings()
             actionCodeSettings.url = URL(string: "https://datingappnew.page.link/open2")

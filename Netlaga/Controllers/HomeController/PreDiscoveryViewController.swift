@@ -119,14 +119,14 @@ override func viewDidLoad() {
         
         let discoverySetUp = shuffledList[indexPath.row]
         
-        User.place = discoverySetUp.name
+        UserTwo.place = discoverySetUp.name
         
         let token = UserDefaults.standard.value(forKey: "token") as? String ?? ""
        
         
-        let values = ["email": User.email, "firstName": User.firstName, "ava": User.ava, "token": token, "place": discoverySetUp.name]
+        let values = ["email": UserTwo.email, "firstName": UserTwo.firstName, "ava": UserTwo.ava, "token": token, "place": discoverySetUp.name]
         
-        Database.database(url: "https://datingapp-80400-default-rtdb.asia-southeast1.firebasedatabase.app").reference().child("users").child(User.uid).updateChildValues(values) { error, ref in
+        Database.database(url: "https://datingapp-80400-default-rtdb.asia-southeast1.firebasedatabase.app").reference().child("users").child(UserTwo.uid).updateChildValues(values) { error, ref in
         
             
            
@@ -184,9 +184,9 @@ override func viewDidLoad() {
         
         var longitudeString : String = ""
         
-        latitudeString = String(User.location.coordinate.latitude)
+        latitudeString = String(UserTwo.location.coordinate.latitude)
         
-        longitudeString = String(User.location.coordinate.longitude)
+        longitudeString = String(UserTwo.location.coordinate.longitude)
         
         
         var http : String = ""
@@ -295,7 +295,7 @@ override func viewDidLoad() {
     func distanceCalculator(location: CLLocation) -> Double {
         
             //My location
-        let myLocation = User.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
+        let myLocation = UserTwo.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
 
             //My buddy's location
             let myBuddysLocation = location//CLLocation(latitude: 59.326354, longitude: 18.072310)
@@ -327,7 +327,7 @@ override func viewDidLoad() {
                 print("LocationManager Authorized")
             }
         
-        monitorRegionAtLocation(center: User.location.coordinate, identifier: "Geofence")
+        monitorRegionAtLocation(center: UserTwo.location.coordinate, identifier: "Geofence")
             
         }
     
@@ -346,7 +346,7 @@ override func viewDidLoad() {
         let myLocation3 = CLLocation(latitude: latitude1, longitude: longitude1)
         
         
-        User.location = myLocation3
+        UserTwo.location = myLocation3
         
         requestNearbyLocations(latitude: latitude1, longitude: longitude1)
         
@@ -389,12 +389,12 @@ override func viewDidLoad() {
     let myLocation3 = CLLocation(latitude: latitude1, longitude: longitude1)
     
     
-    User.location = myLocation3
+    UserTwo.location = myLocation3
         
         let geofire = GeoFire(firebaseRef: REF_USER_LOCATIONS)
         
        
-        geofire.setLocation(myLocation3, forKey: User.uid, withCompletionBlock: { (error) in
+        geofire.setLocation(myLocation3, forKey: UserTwo.uid, withCompletionBlock: { (error) in
             
             print("strange that you don't make it here2")
             
@@ -410,7 +410,7 @@ override func viewDidLoad() {
         
         print("are you here again3?")
         
-        monitorRegionAtLocation(center: User.location.coordinate, identifier: "Geofence")
+        monitorRegionAtLocation(center: UserTwo.location.coordinate, identifier: "Geofence")
         
        // googlePace(iteration: 0)
         
@@ -461,7 +461,7 @@ override func viewDidLoad() {
     
     func requestNearbyLocations(latitude: Double, longitude: Double) {
             var region = MKCoordinateRegion()
-        region.center = CLLocationCoordinate2D(latitude: User.location.coordinate.latitude, longitude: User.location.coordinate.longitude)
+        region.center = CLLocationCoordinate2D(latitude: UserTwo.location.coordinate.latitude, longitude: UserTwo.location.coordinate.longitude)
         
         print("region here \(region.center)")
         
@@ -584,7 +584,7 @@ override func viewDidLoad() {
     
     func requestNearbyLocations() {
             var region = MKCoordinateRegion()
-        region.center = CLLocationCoordinate2D(latitude: User.location.coordinate.latitude, longitude: User.location.coordinate.longitude)
+        region.center = CLLocationCoordinate2D(latitude: UserTwo.location.coordinate.latitude, longitude: UserTwo.location.coordinate.longitude)
         
         print("region here \(region.center)")
         

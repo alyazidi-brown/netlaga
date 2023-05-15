@@ -311,10 +311,10 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
                         let Facebook_link = json["Facebook_link"] as! String
                         let ava = json["ava"] as! String
                         
-                        User.uid = uid
-                        User.email = email
-                        User.firstName = firstName
-                        User.ava = ava
+                        UserTwo.uid = uid
+                        UserTwo.email = email
+                        UserTwo.firstName = firstName
+                        UserTwo.ava = ava
                         
                         let userModel = UserModel(status: status, uid: uid, email: email, firstName: firstName, phoneNumber: phoneNumber, birthday: birthday, gender: gender, Interested_In: Interested_In, Facebook_link: Facebook_link, id: id, ava: ava)
                         
@@ -439,9 +439,9 @@ class HomeViewController: UIViewController, CLLocationManagerDelegate {
         let myLocation3 = CLLocation(latitude: latitude1, longitude: longitude1)
         
         
-        User.location = myLocation3
+        UserTwo.location = myLocation3
         
-        print("my location 3 user location \(myLocation3) \(User.location)")
+        print("my location 3 user location \(myLocation3) \(UserTwo.location)")
         
         fetchUserData(location: myLocation3)
         

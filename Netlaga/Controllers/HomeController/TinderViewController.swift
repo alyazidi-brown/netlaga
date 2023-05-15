@@ -307,7 +307,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
   
         if LikedObject.likedIdArray.contains(userId) == false {
             
-            friendRequest(status: "add", friend_id: userId, user_id: User.uid) { status in
+            friendRequest(status: "add", friend_id: userId, user_id: UserTwo.uid) { status in
                 if status == "success" {
             
             
@@ -337,7 +337,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
                  
                     UserService.saveMatch(userId: userId) {
                         
-                        self.friendRequest(status: "confirm", friend_id: userId, user_id: User.uid) { status in
+                        self.friendRequest(status: "confirm", friend_id: userId, user_id: UserTwo.uid) { status in
                             
                             
                             if status == "success" {
@@ -767,7 +767,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
          
         
-        fetchDrivers(location: User.location) { (driver) in
+        fetchDrivers(location: UserTwo.location) { (driver) in
         
                    
                  let firstName = driver.firstName
@@ -940,7 +940,7 @@ class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonS
     func distanceCalculator(location: CLLocation) -> Double {
         
             //My location
-        let myLocation = User.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
+        let myLocation = UserTwo.location//CLLocation(latitude: 59.244696, longitude: 17.813868)
 
             //My buddy's location
             let myBuddysLocation = location//CLLocation(latitude: 59.326354, longitude: 18.072310)

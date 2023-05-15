@@ -177,7 +177,7 @@ class GenderViewController: UIViewController {
                 
             } else {
                 
-                User.gender = genderSelected
+                UserTwo.gender = genderSelected
             
             let vc = LookingViewController() //your view controller
             vc.modalPresentationStyle = .overFullScreen

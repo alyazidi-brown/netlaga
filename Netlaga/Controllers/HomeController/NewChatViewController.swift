@@ -51,7 +51,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
             
             let title = "You've received a message."
             
-            let body = "\(User.firstName) sent you a message."
+            let body = "\(UserTwo.firstName) sent you a message."
             
             PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
             
@@ -130,7 +130,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
     
     var discoverySetUp = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "", token: "")
     
-    let currentUser = MKSender(senderId: User.uid, displayName: User.firstName)
+    let currentUser = MKSender(senderId: UserTwo.uid, displayName: UserTwo.firstName)
     
     private var mkmessages: [Message] = []
     
@@ -482,7 +482,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
                             
                             let title = "You've received a message."
                             
-                            let body = "\(User.firstName) sent you a message."
+                            let body = "\(UserTwo.firstName) sent you a message."
                             
                             PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
                             
@@ -594,7 +594,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
             
             let title = "You've received a message."
             
-            let body = "\(User.firstName) sent you a message."
+            let body = "\(UserTwo.firstName) sent you a message."
             
             PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
             
@@ -717,7 +717,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
                     
                     let title = "You've received a message."
                     
-                    let body = "\(User.firstName) sent you a message."
+                    let body = "\(UserTwo.firstName) sent you a message."
                     
                     PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
                 }
@@ -906,9 +906,9 @@ extension ChatViewController: MessagesLayoutDelegate {
         
         var imageURL : String = ""
         
-        if User.uid == message.sender.senderId {
+        if UserTwo.uid == message.sender.senderId {
             
-            imageURL = User.ava
+            imageURL = UserTwo.ava
             
         } else {
             
@@ -994,7 +994,7 @@ extension ChatViewController : GalleryControllerDelegate {
                     
                     let title = "You've received a message."
                     
-                    let body = "\(User.firstName) sent you a message."
+                    let body = "\(UserTwo.firstName) sent you a message."
                     
                     PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
                 }

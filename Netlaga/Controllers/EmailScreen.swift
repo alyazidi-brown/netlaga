@@ -13,6 +13,7 @@ import FirebaseAuth
 struct ContentView: View {
   @State private var email: String = ""
   @State private var isPresentingSheet = false
+  @State var isPresented = false
 
   /// This property will cause an alert view to display when it has a non-null value.
   @State private var alertItem: AlertItem? = nil
@@ -60,7 +61,8 @@ struct ContentView: View {
       }
     }
     .sheet(isPresented: $isPresentingSheet) {
-      SuccessView(email: email)
+      //SuccessView(email: email)
+        MyView()
     }
     .alert(item: $alertItem) { alert -> Alert in
       Alert(
@@ -95,6 +97,8 @@ struct ContentView: View {
   //private func passwordlessSignIn(email: String, link: String,
                                   //completion: @escaping (Result<User?, Error>) -> Void) {
     
+    /*private func passwordlessSignIn(email: String, link: String,
+                                    completion: @escaping (Result<User?, Error>) -> Void) {*/
     private func passwordlessSignIn(email: String, link: String,
                                     completion: @escaping (Result<User?, Error>) -> Void) {
     Auth.auth().signIn(withEmail: email, link: link) { result, error in
@@ -107,12 +111,26 @@ struct ContentView: View {
         completion(.failure(error))
       } else {
         print("✔ Authentication was successful.")
+          isPresented = true
         //completion(.success(result?.user))
           //completion(.success(result?.uid))
-          alertItem = AlertItem(
-            title: "Success!",
-            message: "If you're seeing this.  Email verification may have been successful"
-          )
+          
+              
+           
+          //alertItem = AlertItem(
+          /*
+          Alert(
+            title: Text("Success!"),
+            message: Text("If you're seeing this.  Email verification may have been successful"),
+            dismissButton: .default(Text("Okay"), action: {
+                .sheet(isPresented: $isPresented) {
+                           MyView()
+                      }
+                })
+            
+          )*/
+           
+          completion(.success(result?.user))
       }
     }
   }
@@ -168,6 +186,20 @@ struct CustomStyledButton: View {
     .background(Color.orange)
     .cornerRadius(16.0)
   }
+}
+
+struct MyView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = InputViewController
+    
+    func makeUIViewController(context: Context) -> InputViewController {
+        let vc = InputViewController()
+        // Do some configurations here if needed.
+        return vc
+    }
+    
+    func updateUIViewController(_ uiViewController: InputViewController, context: Context) {
+        // Updates the state of the specified view controller with new information from SwiftUI.
+    }
 }
 
 /// Displayed when a user successfuly logs in.

@@ -216,7 +216,7 @@ class InterestsViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
-        print("\(User.birthday) \(User.firstName) user struct")
+        print("\(UserTwo.birthday) \(UserTwo.firstName) user struct")
         
         var backbutton = UIButton(type: .custom)
         backbutton.setImage(UIImage(named: "BackButton.png"), for: .normal) // Image can be downloaded from here below link
@@ -288,12 +288,12 @@ class InterestsViewController: UIViewController {
             var imageData = Data()
             
         /*
-            if imageView.image != UIImage(named: "HomeCover.jpg") && imageView.image != UIImage(named: "user.png") {
+            if imageView.image != UIImage(named: "HomeCover.jpg") && imageView.image != UIImage(named: "UserTwo.png") {
                 imageData = imageView.image!.jpegData(compressionQuality: 0.5)!
             }
          */
         
-        imageData = User.avaImgData
+        imageData = UserTwo.avaImgData
             
             // assigning full body to the request to be sent to the server
             request.httpBody = Helper().body(with: params, filename: "\(imageViewTapped).jpg", filePathKey: "file", imageDataKey: imageData, boundary: boundary) as Data
@@ -354,13 +354,13 @@ class InterestsViewController: UIViewController {
                              */
                             let avaImgURL = parsedJSON["ava"] as! String
                             
-                            User.ava = avaImgURL
+                            UserTwo.ava = avaImgURL
                             
                              let token = UserDefaults.standard.value(forKey: "token") as? String ?? ""
                             
-                            let values = ["email": User.email, "firstName": User.firstName, "ava": User.ava, "token": token]
+                            let values = ["email": UserTwo.email, "firstName": UserTwo.firstName, "ava": UserTwo.ava, "token": token]
                             
-                            Database.database(url: "https://datingapp-80400-default-rtdb.asia-southeast1.firebasedatabase.app").reference().child("users").child(User.uid).updateChildValues(values) { error, ref in
+                            Database.database(url: "https://datingapp-80400-default-rtdb.asia-southeast1.firebasedatabase.app").reference().child("users").child(UserTwo.uid).updateChildValues(values) { error, ref in
                             
                             //Database.database().reference().child("users").child(uid).updateChildValues(values) { error, ref in
                                 
@@ -437,7 +437,7 @@ class InterestsViewController: UIViewController {
             
             let joined = interestsArr.joined(separator: ";")
                 
-            User.interests = joined
+            UserTwo.interests = joined
             
             var emptyString = "default"
             
@@ -452,10 +452,10 @@ class InterestsViewController: UIViewController {
                 
            
             
-            let paramString: String = "uid=\(User.uid)&email=cheesetoochalk50@yahoo.com&firstName=\(User.firstName)&phoneNumber=\(User.phone)&birthday=\(User.birthday)&gender=\(User.gender)&Interested_In=\(User.matching)&Interests=\(joined)&Looking_For=\(User.lookingFor)&Facebook_link=something50&cover=\(emptyString)&ava=\(emptyString)"
+            let paramString: String = "uid=\(UserTwo.uid)&email=cheesetoochalk50@yahoo.com&firstName=\(UserTwo.firstName)&phoneNumber=\(UserTwo.phone)&birthday=\(UserTwo.birthday)&gender=\(UserTwo.gender)&Interested_In=\(UserTwo.matching)&Interests=\(joined)&Looking_For=\(UserTwo.lookingFor)&Facebook_link=something50&cover=\(emptyString)&ava=\(emptyString)"
             
             
-            print("param stuff \(paramString) \(User.lookingFor)  \(User.interests)  \(User.gender)  \(User.matching)  \(User.firstName)  \(User.birthday)")
+            print("param stuff \(paramString) \(UserTwo.lookingFor)  \(UserTwo.interests)  \(UserTwo.gender)  \(UserTwo.matching)  \(UserTwo.firstName)  \(UserTwo.birthday)")
               
                 request.httpBody = paramString.data(using: String.Encoding.utf8)
                 
@@ -516,9 +516,9 @@ class InterestsViewController: UIViewController {
                                     let firstName = parsedJSON["firstName"] as! String
                                     let uid = parsedJSON["uid"] as! String
                                     
-                                    User.email = email
+                                    UserTwo.email = email
                                     
-                                    User.uid = uid
+                                    UserTwo.uid = uid
                                     
                                     print("need to check that you go here")
                                     

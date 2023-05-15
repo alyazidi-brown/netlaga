@@ -284,7 +284,7 @@ class DOBViewController: UIViewController, UITextFieldDelegate{
                 
             } else {
                 
-                User.birthday = dobTextField.text ?? "01-01-01"
+                UserTwo.birthday = dobTextField.text ?? "01-01-01"
             
             
             let vc = ProfileImagesViewController() //your view controller

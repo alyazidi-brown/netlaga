@@ -42,8 +42,8 @@ class MatchViewController: UIViewController {
         
         searchUsers(uid: userId)
         
-        friendRequest(status: "reject", friend_id: userId, user_id: User.uid) { status in
-            self.friendRequest(status: "reject", friend_id: User.uid, user_id: self.userId)
+        friendRequest(status: "reject", friend_id: userId, user_id: UserTwo.uid) { status in
+            self.friendRequest(status: "reject", friend_id: UserTwo.uid, user_id: self.userId)
         }
       
     }

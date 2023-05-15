@@ -64,7 +64,7 @@ class MessageTwo {
         senderId = dictionary[kSENDERID] as? String ?? ""
         senderName = dictionary[kSENDERNAME] as? String ?? ""
         type = dictionary[kTYPE] as? String ?? ""
-        isIncoming = (dictionary[kSENDERID] as? String ?? "") != User.uid
+        isIncoming = (dictionary[kSENDERID] as? String ?? "") != UserTwo.uid
         sentDate = (dictionary[kDATE] as? Timestamp)?.dateValue() ?? Date()
         message = dictionary[kMESSAGE] as? String ?? ""
         photoWidth = dictionary[kPHOTOWIDTH] as? Int ?? 0

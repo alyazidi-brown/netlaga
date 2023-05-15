@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 
-struct User {
+struct UserTwo {
     
     static var uid = ""
     static var email = ""

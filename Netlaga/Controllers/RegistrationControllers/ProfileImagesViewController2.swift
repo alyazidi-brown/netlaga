@@ -286,7 +286,7 @@ class ProfileImagesViewController: UIViewController, UIImagePickerControllerDele
             
             if profileImageArr.count > 0 {
             
-            User.avaImgData = profileImageArr[0].profileImage.pngData()!
+                UserTwo.avaImgData = profileImageArr[0].profileImage.pngData()!
                 
             }
             

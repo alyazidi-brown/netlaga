@@ -82,7 +82,7 @@ class PhoneViewController: UIViewController, UITextFieldDelegate {
             
             let number = "\(text)"//"+1\(text)"
             
-            User.phone = number
+            UserTwo.phone = number
             
             PhoneAuthProvider.provider().verifyPhoneNumber(number, uiDelegate: nil) {[weak self] verificationId, error in
                 
