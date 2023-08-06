@@ -1,0 +1,1193 @@
+
+
+
+{
+  "countries" : [
+    {
+      "abb": "GE-AB",
+      "code": "+7 840",
+      "name": "Abkhazia"
+    },
+    {
+      "abb": "AF",
+      "code": "+93",
+      "name": "Afghanistan"
+    },
+    {
+      "abb": "AL",
+      "code": "+355",
+      "name": "Albania"
+    },
+    {
+      "abb": "DZ",
+      "code": "+213",
+      "name": "Algeria"
+    },
+    {
+      "abb": "AS",
+      "code": "+1 684",
+      "name": "American Samoa"
+    },
+    {
+      "abb": "AD",
+      "code": "+376",
+      "name": "Andorra"
+    },
+    {
+      "abb": "AO",
+      "code": "+244",
+      "name": "Angola"
+    },
+    {
+      "abb": "AI",
+      "code": "+1 264",
+      "name": "Anguilla"
+    },
+    {
+      "abb": "AG",
+      "code": "+1 268",
+      "name": "Antigua and Barbuda"
+    },
+    {
+      "abb": "AR",
+      "code": "+54",
+      "name": "Argentina"
+    },
+    {
+      "abb": "AM",
+      "code": "+374",
+      "name": "Armenia"
+    },
+    {
+      "abb": "AW",
+      "code": "+297",
+      "name": "Aruba"
+    },
+    {
+      "abb": "SH",
+      "code": "+247",
+      "name": "Ascension"
+    },
+    {
+      "abb": "AU",
+      "code": "+61",
+      "name": "Australia"
+    },
+    {
+      "abb": "AU",
+      "code": "+672",
+      "name": "Australian External Territories"
+    },
+    {
+      "abb": "AT",
+      "code": "+43",
+      "name": "Austria"
+    },
+    {
+      "abb": "AZ",
+      "code": "+994",
+      "name": "Azerbaijan"
+    },
+    {
+      "abb": "BS",
+      "code": "+1 242",
+      "name": "Bahamas"
+    },
+    {
+      "abb": "BH",
+      "code": "+973",
+      "name": "Bahrain"
+    },
+    {
+      "abb": "BD",
+      "code": "+880",
+      "name": "Bangladesh"
+    },
+    {
+      "abb": "BB",
+      "code": "+1 246",
+      "name": "Barbados"
+    },
+    {
+      "abb": "AG",
+      "code": "+1 268",
+      "name": "Barbuda"
+    },
+    {
+      "abb": "BY",
+      "code": "+375",
+      "name": "Belarus"
+    },
+    {
+      "abb": "BE",
+      "code": "+32",
+      "name": "Belgium"
+    },
+    {
+      "abb": "BZ",
+      "code": "+501",
+      "name": "Belize"
+    },
+    {
+      "abb": "BJ",
+      "code": "+229",
+      "name": "Benin"
+    },
+    {
+      "abb": "BM",
+      "code": "+1 441",
+      "name": "Bermuda"
+    },
+    {
+      "abb": "BT",
+      "code": "+975",
+      "name": "Bhutan"
+    },
+    {
+      "abb": "BO",
+      "code": "+591",
+      "name": "Bolivia"
+    },
+    {
+      "abb": "BA",
+      "code": "+387",
+      "name": "Bosnia and Herzegovina"
+    },
+    {
+      "abb": "BW",
+      "code": "+267",
+      "name": "Botswana"
+    },
+    {
+      "abb": "BR",
+      "code": "+55",
+      "name": "Brazil"
+    },
+    {
+      "abb": "IO",
+      "code": "+246",
+      "name": "British Indian Ocean Territory"
+    },
+    {
+      "abb": "VG",
+      "code": "+1 284",
+      "name": "British Virgin Islands"
+    },
+    {
+      "abb": "BN",
+      "code": "+673",
+      "name": "Brunei"
+    },
+    {
+      "abb": "BG",
+      "code": "+359",
+      "name": "Bulgaria"
+    },
+    {
+      "abb": "BF",
+      "code": "+226",
+      "name": "Burkina Faso"
+    },
+    {
+      "abb": "BI",
+      "code": "+257",
+      "name": "Burundi"
+    },
+    {
+      "abb": "KH",
+      "code": "+855",
+      "name": "Cambodia"
+    },
+    {
+      "abb": "CM",
+      "code": "+237",
+      "name": "Cameroon"
+    },
+    {
+      "abb": "CA",
+      "code": "+1",
+      "name": "Canada"
+    },
+    {
+      "abb": "CV",
+      "code": "+238",
+      "name": "Cape Verde"
+    },
+    {
+      "abb": "KY",
+      "code": "+ 345",
+      "name": "Cayman Islands"
+    },
+    {
+      "abb": "CF",
+      "code": "+236",
+      "name": "Central African Republic"
+    },
+    {
+      "abb": "TD",
+      "code": "+235",
+      "name": "Chad"
+    },
+    {
+      "abb": "CL",
+      "code": "+56",
+      "name": "Chile"
+    },
+    {
+      "abb": "CN",
+      "code": "+86",
+      "name": "China"
+    },
+    {
+      "abb": "CX",
+      "code": "+61",
+      "name": "Christmas Island"
+    },
+    {
+      "abb": "CC",
+      "code": "+61",
+      "name": "Cocos-Keeling Islands"
+    },
+    {
+      "abb": "CO",
+      "code": "+57",
+      "name": "Colombia"
+    },
+    {
+      "abb": "KM",
+      "code": "+269",
+      "name": "Comoros"
+    },
+    {
+      "abb": "CG",
+      "code": "+242",
+      "name": "Congo"
+    },
+    {
+      "abb": "CD",
+      "code": "+243",
+      "name": "Congo, Dem. Rep. of (Zaire)"
+    },
+    {
+      "abb": "CK",
+      "code": "+682",
+      "name": "Cook Islands"
+    },
+    {
+      "abb": "CR",
+      "code": "+506",
+      "name": "Costa Rica"
+    },
+    {
+      "abb": "HR",
+      "code": "+385",
+      "name": "Croatia"
+    },
+    {
+      "abb": "CU",
+      "code": "+53",
+      "name": "Cuba"
+    },
+    {
+      "abb": "CW",
+      "code": "+599",
+      "name": "Curacao"
+    },
+    {
+      "abb": "CY",
+      "code": "+537",
+      "name": "Cyprus"
+    },
+    {
+      "abb": "CZ",
+      "code": "+420",
+      "name": "Czech Republic"
+    },
+    {
+      "abb": "DK",
+      "code": "+45",
+      "name": "Denmark"
+    },
+    {
+      "abb": "DG",
+      "code": "+246",
+      "name": "Diego Garcia"
+    },
+    {
+      "abb": "DJ",
+      "code": "+253",
+      "name": "Djibouti"
+    },
+    {
+      "abb": "DM",
+      "code": "+1 767",
+      "name": "Dominica"
+    },
+    {
+      "abb": "DO",
+      "code": "+1 809",
+      "name": "Dominican Republic"
+    },
+    {
+      "abb": "TL",
+      "code": "+670",
+      "name": "East Timor"
+    },
+    {
+      "abb": "CL",
+      "code": "+56",
+      "name": "Easter Island"
+    },
+    {
+      "abb": "EC",
+      "code": "+593",
+      "name": "Ecuador"
+    },
+    {
+      "abb": "EG",
+      "code": "+20",
+      "name": "Egypt"
+    },
+    {
+      "abb": "SV",
+      "code": "+503",
+      "name": "El Salvador"
+    },
+    {
+      "abb": "GQ",
+      "code": "+240",
+      "name": "Equatorial Guinea"
+    },
+    {
+      "abb": "ER",
+      "code": "+291",
+      "name": "Eritrea"
+    },
+    {
+      "abb": "EE",
+      "code": "+372",
+      "name": "Estonia"
+    },
+    {
+      "abb": "ET",
+      "code": "+251",
+      "name": "Ethiopia"
+    },
+    {
+      "abb": "FK",
+      "code": "+500",
+      "name": "Falkland Islands"
+    },
+    {
+      "abb": "FO",
+      "code": "+298",
+      "name": "Faroe Islands"
+    },
+    {
+      "abb": "FJ",
+      "code": "+679",
+      "name": "Fiji"
+    },
+    {
+      "abb": "FI",
+      "code": "+358",
+      "name": "Finland"
+    },
+    {
+      "abb": "FR",
+      "code": "+33",
+      "name": "France"
+    },
+    {
+      "abb": "MQ",
+      "code": "+596",
+      "name": "French Antilles"
+    },
+    {
+      "abb": "GF",
+      "code": "+594",
+      "name": "French Guiana"
+    },
+    {
+      "abb": "PF",
+      "code": "+689",
+      "name": "French Polynesia"
+    },
+    {
+      "abb": "GA",
+      "code": "+241",
+      "name": "Gabon"
+    },
+    {
+      "abb": "GM",
+      "code": "+220",
+      "name": "Gambia"
+    },
+    {
+      "abb": "GE",
+      "code": "+995",
+      "name": "Georgia"
+    },
+    {
+      "abb": "DE",
+      "code": "+49",
+      "name": "Germany"
+    },
+    {
+      "abb": "GH",
+      "code": "+233",
+      "name": "Ghana"
+    },
+    {
+      "abb": "GI",
+      "code": "+350",
+      "name": "Gibraltar"
+    },
+    {
+      "abb": "GR",
+      "code": "+30",
+      "name": "Greece"
+    },
+    {
+      "abb": "GL",
+      "code": "+299",
+      "name": "Greenland"
+    },
+    {
+      "abb": "GD",
+      "code": "+1 473",
+      "name": "Grenada"
+    },
+    {
+      "abb": "GP",
+      "code": "+590",
+      "name": "Guadeloupe"
+    },
+    {
+      "abb": "GU",
+      "code": "+1 671",
+      "name": "Guam"
+    },
+    {
+      "abb": "GT",
+      "code": "+502",
+      "name": "Guatemala"
+    },
+    {
+      "abb": "GN",
+      "code": "+224",
+      "name": "Guinea"
+    },
+    {
+      "abb": "GW",
+      "code": "+245",
+      "name": "Guinea-Bissau"
+    },
+    {
+      "abb": "GY",
+      "code": "+595",
+      "name": "Guyana"
+    },
+    {
+      "abb": "HT",
+      "code": "+509",
+      "name": "Haiti"
+    },
+    {
+      "abb": "HN",
+      "code": "+504",
+      "name": "Honduras"
+    },
+    {
+      "abb": "HK",
+      "code": "+852",
+      "name": "Hong Kong SAR China"
+    },
+    {
+      "abb": "HU",
+      "code": "+36",
+      "name": "Hungary"
+    },
+    {
+      "abb": "IS",
+      "code": "+354",
+      "name": "Iceland"
+    },
+    {
+      "abb": "IN",
+      "code": "+91",
+      "name": "India"
+    },
+    {
+      "abb": "ID",
+      "code": "+62",
+      "name": "Indonesia"
+    },
+    {
+      "abb": "IR",
+      "code": "+98",
+      "name": "Iran"
+    },
+    {
+      "abb": "IQ",
+      "code": "+964",
+      "name": "Iraq"
+    },
+    {
+      "abb": "IE",
+      "code": "+353",
+      "name": "Ireland"
+    },
+    {
+      "abb": "IL",
+      "code": "+972",
+      "name": "Israel"
+    },
+    {
+      "abb": "IT",
+      "code": "+39",
+      "name": "Italy"
+    },
+    {
+      "abb": "CI",
+      "code": "+225",
+      "name": "Ivory Coast"
+    },
+    {
+      "abb": "JM",
+      "code": "+1 876",
+      "name": "Jamaica"
+    },
+    {
+      "abb": "JP",
+      "code": "+81",
+      "name": "Japan"
+    },
+    {
+      "abb": "JO",
+      "code": "+962",
+      "name": "Jordan"
+    },
+    {
+      "abb": "KZ",
+      "code": "+7 7",
+      "name": "Kazakhstan"
+    },
+    {
+      "abb": "KE",
+      "code": "+254",
+      "name": "Kenya"
+    },
+    {
+      "abb": "KI",
+      "code": "+686",
+      "name": "Kiribati"
+    },
+    {
+      "abb": "KW",
+      "code": "+965",
+      "name": "Kuwait"
+    },
+    {
+      "abb": "KG",
+      "code": "+996",
+      "name": "Kyrgyzstan"
+    },
+    {
+      "abb": "LA",
+      "code": "+856",
+      "name": "Laos"
+    },
+    {
+      "abb": "LV",
+      "code": "+371",
+      "name": "Latvia"
+    },
+    {
+      "abb": "LB",
+      "code": "+961",
+      "name": "Lebanon"
+    },
+    {
+      "abb": "LS",
+      "code": "+266",
+      "name": "Lesotho"
+    },
+    {
+      "abb": "LR",
+      "code": "+231",
+      "name": "Liberia"
+    },
+    {
+      "abb": "LY",
+      "code": "+218",
+      "name": "Libya"
+    },
+    {
+      "abb": "LI",
+      "code": "+423",
+      "name": "Liechtenstein"
+    },
+    {
+      "abb": "LT",
+      "code": "+370",
+      "name": "Lithuania"
+    },
+    {
+      "abb": "LU",
+      "code": "+352",
+      "name": "Luxembourg"
+    },
+    {
+      "abb": "MO",
+      "code": "+853",
+      "name": "Macau SAR China"
+    },
+    {
+      "abb": "MK",
+      "code": "+389",
+      "name": "Macedonia"
+    },
+    {
+      "abb": "MG",
+      "code": "+261",
+      "name": "Madagascar"
+    },
+    {
+      "abb": "MW",
+      "code": "+265",
+      "name": "Malawi"
+    },
+    {
+      "abb": "MY",
+      "code": "+60",
+      "name": "Malaysia"
+    },
+    {
+      "abb": "MV",
+      "code": "+960",
+      "name": "Maldives"
+    },
+    {
+      "abb": "ML",
+      "code": "+223",
+      "name": "Mali"
+    },
+    {
+      "abb": "MT",
+      "code": "+356",
+      "name": "Malta"
+    },
+    {
+      "abb": "MH",
+      "code": "+692",
+      "name": "Marshall Islands"
+    },
+    {
+      "abb": "MQ",
+      "code": "+596",
+      "name": "Martinique"
+    },
+    {
+      "abb": "MR",
+      "code": "+222",
+      "name": "Mauritania"
+    },
+    {
+      "abb": "MU",
+      "code": "+230",
+      "name": "Mauritius"
+    },
+    {
+      "abb": "YT",
+      "code": "+262",
+      "name": "Mayotte"
+    },
+    {
+      "abb": "MX",
+      "code": "+52",
+      "name": "Mexico"
+    },
+    {
+      "abb": "FM",
+      "code": "+691",
+      "name": "Micronesia"
+    },
+    {
+      "abb": "MI",
+      "code": "+1 808",
+      "name": "Midway Island"
+    },
+    {
+      "abb": "MD",
+      "code": "+373",
+      "name": "Moldova"
+    },
+    {
+      "abb": "MC",
+      "code": "+377",
+      "name": "Monaco"
+    },
+    {
+      "abb": "MN",
+      "code": "+976",
+      "name": "Mongolia"
+    },
+    {
+      "abb": "ME",
+      "code": "+382",
+      "name": "Montenegro"
+    },
+    {
+      "abb": "MS",
+      "code": "+1664",
+      "name": "Montserrat"
+    },
+    {
+      "abb": "MA",
+      "code": "+212",
+      "name": "Morocco"
+    },
+    {
+      "abb": "MM",
+      "code": "+95",
+      "name": "Myanmar"
+    },
+    {
+      "abb": "NA",
+      "code": "+264",
+      "name": "Namibia"
+    },
+    {
+      "abb": "NR",
+      "code": "+674",
+      "name": "Nauru"
+    },
+    {
+      "abb": "NP",
+      "code": "+977",
+      "name": "Nepal"
+    },
+    {
+      "abb": "NL",
+      "code": "+31",
+      "name": "Netherlands"
+    },
+    {
+      "abb": "AN",
+      "code": "+599",
+      "name": "Netherlands Antilles"
+    },
+    {
+      "abb": "KN",
+      "code": "+1 869",
+      "name": "Nevis"
+    },
+    {
+      "abb": "NC",
+      "code": "+687",
+      "name": "New Caledonia"
+    },
+    {
+      "abb": "NZ",
+      "code": "+64",
+      "name": "New Zealand"
+    },
+    {
+      "abb": "NI",
+      "code": "+505",
+      "name": "Nicaragua"
+    },
+    {
+      "abb": "NE",
+      "code": "+227",
+      "name": "Niger"
+    },
+    {
+      "abb": "NG",
+      "code": "+234",
+      "name": "Nigeria"
+    },
+    {
+      "abb": "NU",
+      "code": "+683",
+      "name": "Niue"
+    },
+    {
+      "abb": "NF",
+      "code": "+672",
+      "name": "Norfolk Island"
+    },
+    {
+      "abb": "KP",
+      "code": "+850",
+      "name": "North Korea"
+    },
+    {
+      "abb": "MP",
+      "code": "+1 670",
+      "name": "Northern Mariana Islands"
+    },
+    {
+      "abb": "NO",
+      "code": "+47",
+      "name": "Norway"
+    },
+    {
+      "abb": "OM",
+      "code": "+968",
+      "name": "Oman"
+    },
+    {
+      "abb": "PK",
+      "code": "+92",
+      "name": "Pakistan"
+    },
+    {
+      "abb": "PW",
+      "code": "+680",
+      "name": "Palau"
+    },
+    {
+      "abb": "PS",
+      "code": "+970",
+      "name": "Palestinian Territory"
+    },
+    {
+      "abb": "PA",
+      "code": "+507",
+      "name": "Panama"
+    },
+    {
+      "abb": "PG",
+      "code": "+675",
+      "name": "Papua New Guinea"
+    },
+    {
+      "abb": "PY",
+      "code": "+595",
+      "name": "Paraguay"
+    },
+    {
+      "abb": "PE",
+      "code": "+51",
+      "name": "Peru"
+    },
+    {
+      "abb": "PH",
+      "code": "+63",
+      "name": "Philippines"
+    },
+    {
+      "abb": "PL",
+      "code": "+48",
+      "name": "Poland"
+    },
+    {
+      "abb": "PT",
+      "code": "+351",
+      "name": "Portugal"
+    },
+    {
+      "abb": "PR",
+      "code": "+1 787",
+      "name": "Puerto Rico"
+    },
+    {
+      "abb": "QA",
+      "code": "+974",
+      "name": "Qatar"
+    },
+    {
+      "abb": "RE",
+      "code": "+262",
+      "name": "Reunion"
+    },
+    {
+      "abb": "RO",
+      "code": "+40",
+      "name": "Romania"
+    },
+    {
+      "abb": "RU",
+      "code": "+7",
+      "name": "Russia"
+    },
+    {
+      "abb": "RW",
+      "code": "+250",
+      "name": "Rwanda"
+    },
+    {
+      "abb": "WS",
+      "code": "+685",
+      "name": "Samoa"
+    },
+    {
+      "abb": "SM",
+      "code": "+378",
+      "name": "San Marino"
+    },
+    {
+      "abb": "SA",
+      "code": "+966",
+      "name": "Saudi Arabia"
+    },
+    {
+      "abb": "SN",
+      "code": "+221",
+      "name": "Senegal"
+    },
+    {
+      "abb": "RS",
+      "code": "+381",
+      "name": "Serbia"
+    },
+    {
+      "abb": "SC",
+      "code": "+248",
+      "name": "Seychelles"
+    },
+    {
+      "abb": "SL",
+      "code": "+232",
+      "name": "Sierra Leone"
+    },
+    {
+      "abb": "SG",
+      "code": "+65",
+      "name": "Singapore"
+    },
+    {
+      "abb": "SK",
+      "code": "+421",
+      "name": "Slovakia"
+    },
+    {
+      "abb": "SI",
+      "code": "+386",
+      "name": "Slovenia"
+    },
+    {
+      "abb": "SB",
+      "code": "+677",
+      "name": "Solomon Islands"
+    },
+    {
+      "abb": "ZA",
+      "code": "+27",
+      "name": "South Africa"
+    },
+    {
+      "abb": "GS",
+      "code": "+500",
+      "name": "South Georgia and the South Sandwich Islands"
+    },
+    {
+      "abb": "KR",
+      "code": "+82",
+      "name": "South Korea"
+    },
+    {
+      "abb": "ES",
+      "code": "+34",
+      "name": "Spain"
+    },
+    {
+      "abb": "LK",
+      "code": "+94",
+      "name": "Sri Lanka"
+    },
+    {
+      "abb": "SD",
+      "code": "+249",
+      "name": "Sudan"
+    },
+    {
+      "abb": "SR",
+      "code": "+597",
+      "name": "Suriname"
+    },
+    {
+      "abb": "SZ",
+      "code": "+268",
+      "name": "Swaziland"
+    },
+    {
+      "abb": "SE",
+      "code": "+46",
+      "name": "Sweden"
+    },
+    {
+      "abb": "CH",
+      "code": "+41",
+      "name": "Switzerland"
+    },
+    {
+      "abb": "SY",
+      "code": "+963",
+      "name": "Syria"
+    },
+    {
+      "abb": "TW",
+      "code": "+886",
+      "name": "Taiwan"
+    },
+    {
+      "abb": "TJ",
+      "code": "+992",
+      "name": "Tajikistan"
+    },
+    {
+      "abb": "TZ",
+      "code": "+255",
+      "name": "Tanzania"
+    },
+    {
+      "abb": "TE",
+      "code": "+1650",
+      "name": "Test"
+    },
+    {
+      "abb": "TH",
+      "code": "+66",
+      "name": "Thailand"
+    },
+    {
+      "abb": "TL",
+      "code": "+670",
+      "name": "Timor Leste"
+    },
+    {
+      "abb": "TG",
+      "code": "+228",
+      "name": "Togo"
+    },
+    {
+      "abb": "TK",
+      "code": "+690",
+      "name": "Tokelau"
+    },
+    {
+      "abb": "TO",
+      "code": "+676",
+      "name": "Tonga"
+    },
+    {
+      "abb": "TT",
+      "code": "+1 868",
+      "name": "Trinidad and Tobago"
+    },
+    {
+      "abb": "TN",
+      "code": "+216",
+      "name": "Tunisia"
+    },
+    {
+      "abb": "TR",
+      "code": "+90",
+      "name": "Turkey"
+    },
+    {
+      "abb": "TM",
+      "code": "+993",
+      "name": "Turkmenistan"
+    },
+    {
+      "abb": "TC",
+      "code": "+1 649",
+      "name": "Turks and Caicos Islands"
+    },
+    {
+      "abb": "TV",
+      "code": "+688",
+      "name": "Tuvalu"
+    },
+    {
+      "abb": "VI",
+      "code": "+1 340",
+      "name": "U.S. Virgin Islands"
+    },
+    {
+      "abb": "UG",
+      "code": "+256",
+      "name": "Uganda"
+    },
+    {
+      "abb": "UA",
+      "code": "+380",
+      "name": "Ukraine"
+    },
+    {
+      "abb": "AE",
+      "code": "+971",
+      "name": "United Arab Emirates"
+    },
+    {
+      "abb": "GB",
+      "code": "+44",
+      "name": "United Kingdom"
+    },
+    {
+      "abb": "US",
+      "code": "+1",
+      "name": "United States"
+    },
+    {
+      "abb": "UY",
+      "code": "+598",
+      "name": "Uruguay"
+    },
+    {
+      "abb": "UZ",
+      "code": "+998",
+      "name": "Uzbekistan"
+    },
+    {
+      "abb": "VU",
+      "code": "+678",
+      "name": "Vanuatu"
+    },
+    {
+      "abb": "VE",
+      "code": "+58",
+      "name": "Venezuela"
+    },
+    {
+      "abb": "VN",
+      "code": "+84",
+      "name": "Vietnam"
+    },
+    {
+      "abb": "UM",
+      "code": "+1 808",
+      "name": "Wake Island"
+    },
+    {
+      "abb": "WF",
+      "code": "+681",
+      "name": "Wallis and Futuna"
+    },
+    {
+      "abb": "YE",
+      "code": "+967",
+      "name": "Yemen"
+    },
+    {
+      "abb": "ZM",
+      "code": "+260",
+      "name": "Zambia"
+    },
+    {
+      "abb": "TZ",
+      "code": "+255",
+      "name": "Zanzibar"
+    },
+    {
+      "abb": "ZW",
+      "code": "+263",
+      "name": "Zimbabwe"
+    }
+  ]
+}
+

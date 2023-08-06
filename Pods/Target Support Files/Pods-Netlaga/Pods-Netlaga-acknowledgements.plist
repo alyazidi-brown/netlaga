@@ -3473,7 +3473,7 @@ SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2022 Google</string>
+			<string>Copyright 2023 Google</string>
 			<key>License</key>
 			<string>Copyright</string>
 			<key>Title</key>
@@ -3483,7 +3483,7 @@ SOFTWARE.
 		</dict>
 		<dict>
 			<key>FooterText</key>
-			<string>Copyright 2022 Google</string>
+			<string>Copyright 2023 Google</string>
 			<key>License</key>
 			<string>Copyright</string>
 			<key>Title</key>
@@ -4222,7 +4222,7 @@ SOFTWARE.
    limitations under the License.
 </string>
 			<key>License</key>
-			<string>Apache</string>
+			<string>Apache-2.0</string>
 			<key>Title</key>
 			<string>PromisesObjC</string>
 			<key>Type</key>

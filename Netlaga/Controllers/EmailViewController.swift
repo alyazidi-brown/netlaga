@@ -12,7 +12,12 @@ import MessageUI
 import SwiftUI
 
 
+
+
+
 class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeViewControllerDelegate {
+    
+    var signUp : Bool = false
     
     private let emailField: UITextField = {
         
@@ -24,17 +29,30 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
         return field
         
     }()
+    
+   
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         view.backgroundColor = .white//.systemBackground
         
-        let circleView = ContentView()
-                let controller = UIHostingController(rootView: circleView)
+        //self.presentAlertController(withTitle: "Easy frictionless sign up with email!", message: "Instructions: Enter e-mail in textfield.  Press 'Send Sign In Link'.  You will be redirected to email app.  Check inbox, spam, or junk for email then press the link in the email")
+       
+        let circleView = ContentView(dismissAction: {self.dismiss( animated: true, completion: nil )})
+        print("1st sign up \(signUp)")
+        
+        let NameScreenData = NameScreenData()
+        
+        NameScreenData.signUp = signUp
+        
+        let controller = UIHostingController(rootView: circleView.environmentObject(NameScreenData))
                 addChild(controller)
                 controller.view.translatesAutoresizingMaskIntoConstraints = false
                 view.addSubview(controller.view)
+                circleView.signUp = signUp
                 controller.didMove(toParent: self)
 
                 NSLayoutConstraint.activate([
@@ -43,6 +61,8 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
                     controller.view.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
                     controller.view.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
                 ])
+        
+         
         /*
         view.addSubview(emailField)
         emailField.frame = CGRect(x:0, y:0, width: 220, height: 50)
@@ -50,6 +70,12 @@ class EmailViewController: UIViewController, UITextFieldDelegate, MFMailComposeV
         emailField.delegate = self
          */
     }
+    
+    
+    
+       func dismiss() {
+           dismiss(animated: true, completion: nil)
+       }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

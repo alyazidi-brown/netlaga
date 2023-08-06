@@ -14,8 +14,13 @@ import CoreLocation
 import Alamofire
 
 
+protocol postEventDelegate: AnyObject {
+    func postEvent(discoverySetUp: DiscoveryStruct, event: Bool)
+}
 
-class FeaturesViewController: UITableViewController, CLLocationManagerDelegate, friendDelegate {
+
+
+class FeaturesViewController: UITableViewController, CLLocationManagerDelegate, friendDelegate, ReadMessageDelegate, SaveInviteDelegate, chatResetDelegate {
     
     
     
@@ -29,6 +34,8 @@ class FeaturesViewController: UITableViewController, CLLocationManagerDelegate, 
     
     //var discoveryArray = [DiscoveryStruct]()
     
+    weak var postDelegate: postEventDelegate?
+    
     var locationName : String = ""
     var locationAddress : String = ""
     
@@ -36,6 +43,10 @@ class FeaturesViewController: UITableViewController, CLLocationManagerDelegate, 
     static let shared = DiscoveryViewController()
     
     var discoveryArray = [UserFirebase]()
+    
+    var discoverySetUp = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "", token: "")
+    
+    var event: Bool = false
     
     var newPostsQuery = GFCircleQuery()
     
@@ -47,6 +58,7 @@ class FeaturesViewController: UITableViewController, CLLocationManagerDelegate, 
 
 override func viewDidLoad() {
     super.viewDidLoad()
+    
     
     view.backgroundColor = .white
 
@@ -68,9 +80,51 @@ override func viewDidLoad() {
     }
     
     downloadMatches()
+    
+    let myNotificationKey = "notificationKey" //Declare variable at the global level
+
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(notifyMe),
+                                           name: NSNotification.Name(rawValue: myNotificationKey),
+                                           object: nil) //In First VC's viewDidLoad()
    
+    print("I am in features screen")
+    
+    if event == true {
+      
+        gotoChat(discoveryStruct: discoverySetUp)
+        
+    }
     
 }
+    
+    func chatReset(discoverySetUp: DiscoveryStruct, event: Bool) {
+        print("invite 2")
+        self.postDelegate?.postEvent(discoverySetUp: discoverySetUp, event: event)
+    }
+    
+    
+    func saveInvite(date: String, time: String, name: String, discoverySetUp: DiscoveryStruct) {
+        
+        print("attempt event presentation")
+        let vc =  EventViewController() //your view controller
+        vc.discoverySetUp = discoverySetUp
+        vc.inviteDateString = date
+        vc.inviteTimeString = time
+        vc.inviteTitle = name
+        vc.chatDelegate = self
+        
+        vc.modalPresentationStyle = .overFullScreen
+        
+        //self.navigationController?.pushViewController(vc, animated: true)
+       // self.present(vc, animated: true, completion: nil)
+        
+        self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
+        self.tabBarController?.show(vc, sender: self)
+    }
+    
+    
+    @objc func notifyMe() { tableView.reloadData() }
     
         //MARK: - Download
         private func downloadMatches() {
@@ -141,7 +195,7 @@ override func viewDidLoad() {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
     if discoveryArray.count == 0 {
-    self.tableView.setEmptyMessage("No cool people around here.... Don't worry check Feature tab to match you with someone cool.")
+    self.tableView.setEmptyMessage("You have not matched with anyone so far.")//("No cool people around here.... Don't worry check Feature tab to match you with someone cool.")
     } else {
     self.tableView.restore()
     }
@@ -159,9 +213,11 @@ override func viewDidLoad() {
        // cell.selectionStyle = .none
         
         cell.contentView.addSubview(cell.profilePhotoImageView)
+        cell.contentView.addSubview(cell.unreadImageView)
         cell.contentView.addSubview(cell.nameLabel)
         cell.contentView.addSubview(cell.locationLabel)
         cell.contentView.addSubview(cell.friendButton)
+        
         
         cell.profilePhotoImageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -174,12 +230,22 @@ override func viewDidLoad() {
             
             ])
         
+        cell.unreadImageView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            
+            cell.unreadImageView.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 20),
+            cell.unreadImageView.heightAnchor.constraint(equalToConstant: 20),
+            cell.unreadImageView.widthAnchor.constraint(equalToConstant: 20),
+            cell.unreadImageView.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -5),
+            
+            ])
+        
         cell.nameLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             
             cell.nameLabel.topAnchor.constraint(equalTo: cell.contentView.topAnchor, constant: 20),
             cell.nameLabel.heightAnchor.constraint(equalToConstant: 50),
-            cell.nameLabel.trailingAnchor.constraint(equalTo: cell.contentView.trailingAnchor, constant: -100),
+            cell.nameLabel.trailingAnchor.constraint(equalTo: cell.unreadImageView.leadingAnchor, constant: -10),
             cell.nameLabel.leadingAnchor.constraint(equalTo: cell.profilePhotoImageView.trailingAnchor, constant: 20)
             
             
@@ -208,6 +274,11 @@ override func viewDidLoad() {
             
             ])
         
+        
+        cell.unreadImageView.image = UIImage(named: "blue_circle.png")
+        
+        
+        
         cell.friendButton.isHidden = true
             
         cell.contentView.isUserInteractionEnabled = true
@@ -215,6 +286,45 @@ override func viewDidLoad() {
          
         
     let discoverySetUp = discoveryArray[indexPath.row]
+        
+        /*
+        let userDefaults = UserDefaults.standard
+                
+        let offer_list = userDefaults.object(forKey: "\(discoverySetUp.uid)") as? [String] ?? []
+                
+                if offer_list.count == 0 {
+                    
+                    cell.unreadImageView.isHidden = true
+                    
+                } else {
+         
+                    
+                    cell.unreadImageView.isHidden = false
+                    
+                    
+                }
+*/
+        
+        if UserDefaults.standard.object(forKey: discoverySetUp.uid) != nil {
+            
+          //Key exists
+            
+            if (UserDefaults.standard.object(forKey: discoverySetUp.uid) != nil) == false {
+                
+                cell.unreadImageView.isHidden = true
+                
+            } else {
+     
+                
+                cell.unreadImageView.isHidden = false
+                
+                
+            }
+        } else {
+            
+            cell.unreadImageView.isHidden = true
+            
+        }
         
         
         let imageUrl = URL(string: discoverySetUp.ava)
@@ -273,9 +383,9 @@ override func viewDidLoad() {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let discoverySetUp = discoveryArray[indexPath.row]
+        let discoverySetUp2 = discoveryArray[indexPath.row]
         
-        let discoverySetUp2 = DiscoveryStruct(firstName: discoverySetUp.firstName, email: discoverySetUp.email, ava: discoverySetUp.ava, uid: discoverySetUp.uid, place: "", token: discoverySetUp.token)
+        let discoverySetUp3 = DiscoveryStruct(firstName: discoverySetUp2.firstName, email: discoverySetUp2.email, ava: discoverySetUp2.ava, uid: discoverySetUp2.uid, place: "", token: discoverySetUp2.token)
         print("check that correct user is selected \(discoverySetUp.firstName) \(discoverySetUp.uid)")
         /*
         let vc = ChatController(discoverySetUp: discoverySetUp2) //your view controller
@@ -286,7 +396,7 @@ override func viewDidLoad() {
         
         //deleteImage(discoveryStruct: discoverySetUp2)
         
-        gotoChat(discoveryStruct: discoverySetUp2)
+        gotoChat(discoveryStruct: discoverySetUp3)
         
         //navigationController?.pushViewController(vc, animated: true)
         
@@ -363,9 +473,18 @@ override func viewDidLoad() {
         
         let vc = ChatViewController(recipientId: discoveryStruct.uid, recipientName: discoveryStruct.firstName)//ChatController(discoverySetUp: matchInfo) //your view controller
         vc.discoverySetUp = discoveryStruct
+        vc.delegate = self
+        vc.inviteDelegate = self
         vc.hidesBottomBarWhenPushed = true
         vc.modalPresentationStyle = .overFullScreen
-        self.present(vc, animated: true, completion: nil)
+        //self.present(vc, animated: true, completion: nil)
+        
+        //let vc = TimeLineViewController()
+       //navigationController?.pushViewController(vc, animated: true)
+        //self.tabBarController?.navigationController?.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "BackButton"), style: .plain, target: self, action: nil)
+       // self.tabBarController?.navigationController?.navigationItem.backBarButtonItem = UIBarButtonItem(title:  "your custom back button title", style: .plain, target: self, action: nil)
+        self.tabBarController?.navigationController?.pushViewController(vc, animated: true)
+        self.tabBarController?.show(vc, sender: self)
         
     }
     

@@ -3,7 +3,7 @@
 //  DatingApp
 //
 //  Created by Scott Brown on 1/12/23.
-//
+//https://www.hackingwithswift.com/example-code/media/how-to-record-audio-using-avaudiorecorder
 
 import UIKit
 import AVFAudio
@@ -16,7 +16,7 @@ class AudioRecorderVC: BaseViewController {
     
     var delegate: AudioRecorderVCDelegate?
     
-    var recordingSession: AVAudioSession?
+    var recordingSession: AVAudioSession!//?
     var audioRecorder: AVAudioRecorder?
     
     var discoverySetUp = DiscoveryStruct(firstName: "", email: "", ava: "", uid: "", place: "", token: "")
@@ -142,12 +142,14 @@ class AudioRecorderVC: BaseViewController {
     }
 
     func setupView() {
-        view.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        view.backgroundColor = .white//UIColor.black.withAlphaComponent(0.6)
         ivBack.isHidden = true
         view.addSubview(dismissButton)
         view.addSubview(sendButton)
         view.addSubview(lbTimeCounter)
         view.addSubview(btnRecord)
+        
+        btnRecord.isHidden = true
         
         sendButton.translatesAutoresizingMaskIntoConstraints = false
         dismissButton.translatesAutoresizingMaskIntoConstraints = false
@@ -186,11 +188,32 @@ class AudioRecorderVC: BaseViewController {
     }
     
     func setupSession() {
+        /*
         recordingSession = AVAudioSession.sharedInstance()
         AVAudioSession.sharedInstance().requestRecordPermission { hasPermission in
             if hasPermission {
                 print("Accepted")
             }
+        }
+         */
+        recordingSession = AVAudioSession.sharedInstance()
+
+        do {
+            try recordingSession.setCategory(.playAndRecord, mode: .default)
+            try recordingSession.setActive(true)
+            recordingSession.requestRecordPermission() { [unowned self] allowed in
+                DispatchQueue.main.async {
+                    if allowed {
+                        self.btnRecord.isHidden = false
+                        //self.loadRecordingUI()
+                    } else {
+                        self.presentAlertController(withTitle: "Permission Needed for Audio", message: "Please go to settings and allow for audio recordings.")
+                        // failed to record!
+                    }
+                }
+            }
+        } catch {
+            // failed to record!
         }
     }
     
@@ -221,19 +244,25 @@ class AudioRecorderVC: BaseViewController {
                  AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue]
             
             // Start Audio Recording
-            do {
-                audioRecorder = try AVAudioRecorder(url: fileName!, settings: settings)
-                audioRecorder?.delegate = self
-                audioRecorder?.record()
-            } catch {
-                print("Not working!")
-            }
+            //Task {
+                do {
+                    audioRecorder = try AVAudioRecorder(url: fileName!, settings: settings)
+                    
+                    print("when it goes through")
+                    audioRecorder?.delegate = self
+                    print("when it goes through2")
+                    audioRecorder?.record()
+                    print("when it goes through3")
+                } catch {
+                    print("Not working!")
+                }
+            //}
             
         } else {
             // Stop audio recording
             audioRecorder?.stop()
             audioRecorder = nil
-            sendButton.isEnabled = true
+            //sendButton.isEnabled = true
             print("Am I enabled?")
         }
     }
@@ -260,6 +289,27 @@ class AudioRecorderVC: BaseViewController {
 }
 
 extension AudioRecorderVC : AVAudioRecorderDelegate {
+    
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        
+        print("done recording1")
+        if !flag {
+            
+            print("done recording")
+                //finishRecording(success: false)
+        }else {
+            
+            
+            do {
+            try recordingSession.setCategory(.playback, mode: .default)
+            
+            sendButton.isEnabled = true
+            print("done recording2")
+            } catch {
+                // failed to record!
+            }
+        }
+    }
     
 }
 

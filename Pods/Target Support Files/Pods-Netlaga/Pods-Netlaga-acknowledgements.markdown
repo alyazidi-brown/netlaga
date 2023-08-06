@@ -3318,11 +3318,11 @@ Copyright 2021 Google
 
 ## GoogleMaps
 
-Copyright 2022 Google
+Copyright 2023 Google
 
 ## GooglePlaces
 
-Copyright 2022 Google
+Copyright 2023 Google
 
 ## GoogleUtilities
 

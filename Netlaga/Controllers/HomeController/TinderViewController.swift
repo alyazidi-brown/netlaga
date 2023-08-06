@@ -33,17 +33,18 @@ import PopBounceButton
 import Shuffle_iOS
 import Alamofire
 
+/*
 protocol OriginalDelegate: AnyObject {
     
     func defaultSettings()
     
     
 }
-
+*/
 
 class TinderViewController: UIViewController, CLLocationManagerDelegate, ButtonStackViewDelegate, SwipeCardStackDataSource, SwipeCardStackDelegate {
     
-    weak var delegate: OriginalDelegate?
+    //weak var delegate: OriginalDelegate?
     
     var users = [NSDictionary]()
     

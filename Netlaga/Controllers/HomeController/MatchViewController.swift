@@ -41,11 +41,21 @@ class MatchViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         searchUsers(uid: userId)
-        
+        /*
         friendRequest(status: "reject", friend_id: userId, user_id: UserTwo.uid) { status in
             self.friendRequest(status: "reject", friend_id: UserTwo.uid, user_id: self.userId)
         }
+         */
       
+    }
+    
+    
+    @IBAction func dismissAction(_ sender: Any) {
+        
+        
+        self.dismiss(animated: true)
+        
+        
     }
     
     @IBAction func msgAction(_ sender: Any) {

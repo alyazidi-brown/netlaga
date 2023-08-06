@@ -26,6 +26,10 @@ class PreDiscoveryViewController: UITableViewController, CLLocationManagerDelega
     
     weak var delegate: TinderDelegate?
     
+    var updateMessage: Bool = false
+    
+    var firstPlaceCheck: Bool = false
+    
     var manager: CLLocationManager? = nil
     
     var placeArray = [PlaceList]()
@@ -86,6 +90,22 @@ override func viewDidLoad() {
    
 }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        findMe()
+        
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        print("DISAPPEAR TRIGGERED")
+        
+        stopMonitoringRegionAtLocation(center: UserTwo.location.coordinate, identifier: "Geofence")
+        
+    }
+    
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -119,7 +139,15 @@ override func viewDidLoad() {
         
         let discoverySetUp = shuffledList[indexPath.row]
         
-        UserTwo.place = discoverySetUp.name
+        if discoverySetUp.name == "Don't share place name" {
+          
+            UserTwo.place = ""
+            
+        } else {
+            
+            UserTwo.place = discoverySetUp.name
+            
+        }
         
         let token = UserDefaults.standard.value(forKey: "token") as? String ?? ""
        
@@ -373,13 +401,31 @@ override func viewDidLoad() {
            }
        }
     
+    func stopMonitoringRegionAtLocation(center: CLLocationCoordinate2D, identifier: String) {
+        print("are you here again2?")
+           // Make sure the devices supports region monitoring.
+           if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+               // Register the region.
+               let maxDistance = CLLocationDistance(20)
+               let region = CLCircularRegion(center: center,
+                 radius: maxDistance, identifier: identifier)
+               region.notifyOnEntry = false
+               region.notifyOnExit = true
+               manager!.stopUpdatingLocation()
+               manager!.stopMonitoring(for: region)
+            
+           }
+       }
+    
     
     
     func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
        
     
     let locValue:CLLocationCoordinate2D = manager.location!.coordinate
+        
     let myLocation2 = manager.location!
+        
     print("locations2 = \(locValue.latitude) \(locValue.longitude)")
     
     let longitude1 = locValue.longitude.roundToDecimal(10)
@@ -388,25 +434,30 @@ override func viewDidLoad() {
     
     let myLocation3 = CLLocation(latitude: latitude1, longitude: longitude1)
     
-    
-    UserTwo.location = myLocation3
+        print("locations3 = \(myLocation3) \(UserTwo.uid)")
+        
+        UserTwo.location = myLocation3
         
         let geofire = GeoFire(firebaseRef: REF_USER_LOCATIONS)
         
-       
-        geofire.setLocation(myLocation3, forKey: UserTwo.uid, withCompletionBlock: { (error) in
+        
+        if UserTwo.uid != nil && UserTwo.uid != "" {
             
-            print("strange that you don't make it here2")
+            geofire.setLocation(myLocation3, forKey: UserTwo.uid, withCompletionBlock: { (error) in
+                
+                print("strange that you don't make it here2")
+                
+                if (error != nil) {
+                    self.presentAlertController(withTitle: "Error", message: "\(error!.localizedDescription)")
+                    
+                    
+                } else {
+                    
+                }
+                
+            })
             
-            if (error != nil) {
-                self.presentAlertController(withTitle: "Error", message: "\(error!.localizedDescription)")
-                
-                
-              } else {
-                
-              }
-            
-        })
+        }
         
         print("are you here again3?")
         
@@ -483,8 +534,37 @@ override func viewDidLoad() {
                     
                     self.removeLoadingScreen()
                     
-                    self.presentAlertController(withTitle: "Nothing Found", message: "Unfortunately no places of interest found in this area.")
-                    
+                    if self.updateMessage == false {
+                        
+                        self.updateMessage = true
+                        
+                        self.presentAlertController(withTitle: "Nothing Found", message: "Unfortunately no places of interest found in this area.")
+                        
+                        let noPlace = PlaceList(name: "Don't share place name", address: "", category: "none")
+                        
+                        self.shuffledList.append(noPlace)
+                        
+                        if self.shuffledList.count == 1 {
+                            
+                            self.delegate?.switchToPersons()
+                            
+                        } else {
+                            
+                            for _ in 0..<self.shuffledList.count {
+                                
+                                DispatchQueue.main.async {
+                                    
+                                    self.tableView.reloadData()
+                                    
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                        
+                    }
+                   
                     print("stoppingat this response?")
                     return
                 }
@@ -524,11 +604,17 @@ override func viewDidLoad() {
                     
                     let place = PlaceList(name: item.name ?? "Name Unavailable", address: address, category: "none")
                     
+                    
+                    
                     print("places \(place)")
                     
-                    self.placeArray.append(place)
-                    
-                    print("places2 \(self.placeArray)")
+                    if !self.placeArray.contains(where: {$0.name == place.name}) &&  !self.placeArray.contains(where: {$0.address == place.address}){
+                     
+                        self.placeArray.append(place)
+                        
+                        print("places2 \(self.placeArray)")
+                        
+                    }
                     
                       
                     /*
@@ -538,8 +624,8 @@ override func viewDidLoad() {
                                         
                         self.removeLoadingScreen()
                         
-                        
-                                            
+                     
+                     
                     }
                     */
                    // DispatchQueue.main.async {
@@ -548,20 +634,32 @@ override func viewDidLoad() {
                     
                 }
                 
-                self.shuffledList = self.placeArray.shuffled()
+                self.shuffledList = self.placeArray//.shuffled()
+                
+                let noPlace = PlaceList(name: "Don't share place name", address: "", category: "none")
+                
+                self.shuffledList.append(noPlace)
                 
                 print("seems like this is missing2")
                 
-                for _ in 0..<self.shuffledList.count {
+                if self.shuffledList.count == 1 {
                     
-                    print("seems like this is missing")
+                    self.delegate?.switchToPersons()
                     
+                } else {
                     
-                    DispatchQueue.main.async {
-                      
-                    self.tableView.reloadData()
+                    for _ in 0..<self.shuffledList.count {
                         
-                    self.removeLoadingScreen()
+                        print("seems like this is missing")
+                        
+                        
+                        DispatchQueue.main.async {
+                            
+                            self.tableView.reloadData()
+                            
+                            self.removeLoadingScreen()
+                            
+                        }
                         
                     }
                     

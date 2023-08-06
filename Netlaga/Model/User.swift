@@ -11,6 +11,7 @@ import CoreLocation
 
 struct UserTwo {
     
+    static var id = ""
     static var uid = ""
     static var email = ""
     static var phone = ""

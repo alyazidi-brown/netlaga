@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -33,7 +34,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="boU-24-OSC">
-                                <rect key="frame" x="16" y="89" width="382" height="500"/>
+                                <rect key="frame" x="16" y="93" width="382" height="500"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="matchBackground" translatesAutoresizingMaskIntoConstraints="NO" id="ZYN-YN-2wb">
                                         <rect key="frame" x="23.5" y="0.0" width="335" height="281"/>
@@ -109,12 +110,22 @@
                                     <constraint firstItem="ZYN-YN-2wb" firstAttribute="centerX" secondItem="boU-24-OSC" secondAttribute="centerX" id="y2g-MU-NCK"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MZr-Yd-Q55">
+                                <rect key="frame" x="12" y="48" width="84" height="35"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Dismiss"/>
+                                <connections>
+                                    <action selector="dismissAction:" destination="JYe-tW-iZq" eventType="touchUpInside" id="4Pp-z8-uIO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="cZ8-tB-7ss"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="boU-24-OSC" firstAttribute="leading" secondItem="cZ8-tB-7ss" secondAttribute="leading" constant="16" id="5Aw-Pz-Dc6"/>
+                            <constraint firstItem="MZr-Yd-Q55" firstAttribute="top" secondItem="cZ8-tB-7ss" secondAttribute="top" id="A6f-Vu-vga"/>
                             <constraint firstItem="boU-24-OSC" firstAttribute="top" secondItem="cZ8-tB-7ss" secondAttribute="top" constant="45" id="EYS-3h-EtC"/>
+                            <constraint firstItem="MZr-Yd-Q55" firstAttribute="leading" secondItem="cZ8-tB-7ss" secondAttribute="leading" constant="12" id="IVx-Vq-xyT"/>
                             <constraint firstItem="cZ8-tB-7ss" firstAttribute="trailing" secondItem="boU-24-OSC" secondAttribute="trailing" constant="16" id="Qb3-gm-7wf"/>
                         </constraints>
                     </view>

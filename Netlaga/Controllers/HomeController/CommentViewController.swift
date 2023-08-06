@@ -24,6 +24,32 @@ class CommentViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     var txtView = UITextView()
     
+    private let dismissButton: AuthButton = {
+        let button = AuthButton(type: .system)
+        button.setTitle("Dismiss", for: .normal)
+        
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        // 2. check the idiom
+        switch (deviceIdiom) {
+
+        case .pad:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            //print("iPad style UI")
+        case .phone:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("iPhone and iPod touch style UI")
+       // case .tv:
+           // print("tvOS style UI")
+        default:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("Unspecified UI idiom")
+        }
+        
+        return button
+    }()
+    
     var post_id : Int = 0
     
     var commentButton = UIButton()
@@ -71,12 +97,26 @@ override func viewDidLoad() {
     
     myTableView.backgroundColor = .white
     
+    /*
     let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(panGestureRecognizerAction(_:)))
     self.view.addGestureRecognizer(panGestureRecognizer)
+     */
+    
+    view.addSubview(dismissButton)
+    dismissButton.anchor(left: txtView.leftAnchor, bottom: txtView.topAnchor, paddingLeft: 0, paddingBottom: 10, width: 0.5*view.frame.width, height: 50)
+    
     
     loadComments()
     
 }
+    
+    @objc func backAction() {
+        
+        print("dismiss comment")
+        
+        self.dismiss(animated: true, completion: nil)
+        
+    }
     
     func textViewDidBeginEditing (_ textView: UITextView) {
         if txtView.textColor == UIColor.darkGray && txtView.isFirstResponder {
@@ -273,84 +313,104 @@ override func viewDidLoad() {
                 
         print("YOU THERE ESSAY load comments \(dataString)")
         
-        DispatchQueue.main.async
+        var dataEncoded : NSString = ""
+        
+        dataEncoded = dataString ?? ""
+        
+        switch dataEncoded {
+        case "":
+            print("Bring an umbrella")
+            
+            DispatchQueue.main.async
+            {
+                
+                self.commentsArray = []
+                
+                self.myTableView.reloadData()
+                
+            }
+            
+        default:
+            
+            DispatchQueue.main.async
             {
                 
                 do {
                     
-                  
+                    
                     
                     let datadata = dataString!.data(using: String.Encoding.utf8.rawValue)
                     
                     //if let jsonResult = try JSONSerialization.jsonObject(with: datadata!, options: []) as? [String : Any] {
                     
-                   if let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
-
-                      let status = jsonResult["status"] as? String ?? ""
-                       
-                    // uploaded successfully
-                    if status == "400" {
+                    if let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
                         
-                        let message = jsonResult["message"] as? String ?? ""
+                        let status = jsonResult["status"] as? String ?? ""
                         
-                        print("which comment error1")
-                        
-                        helper.showAlert(title: "JSON Error", message: message, from: self)
-                        
-        
-                        
-                    // error while uploading
-                    } else {
-                        
-                        if let parse = jsonResult ["comments"] as? [[String:Any]] {
-                        
-                        print("YOU THERE ESSAY6? \(dataString)")
+                        // uploaded successfully
+                        if status == "400" {
                             
-                            for json in parse {
-                        
-                        // saving upaded user related information (e.g. ava's path, cover's path)
-                        let user_id = json["user_id"] as? String ?? ""
-                        let text = json["text"] as? String ?? ""
-                        let id =    json["id"] as! Int
-                        let picture = json["picture"] as? String ?? ""
-                        let date_created = json["date_created"] as? String ?? ""
-                        let firstName = json["firstName"] as? String ?? ""
-                        let cover = json["cover"] as? String ?? ""
-                        let ava = json["ava"] as? String ?? ""
-                        let post_id = json["post_id"] as? String ?? ""
-                        
-                            print("text name \(text) \(firstName) \(post_id)")
-                                let commentModel = CommentsModel(user_id: user_id, text: text, id: id, picture: picture, date_created: date_created, firstName: firstName, cover: cover, ava: ava, post_id: post_id)
+                            let message = jsonResult["message"] as? String ?? ""
+                            
+                            print("which comment error1")
+                            
+                            helper.showAlert(title: "JSON Error", message: message, from: self)
+                            
+                            
+                            
+                            // error while uploading
+                        } else {
+                            
+                            if let parse = jsonResult ["comments"] as? [[String:Any]] {
                                 
-                                self.commentsArray.append(commentModel)
-                        
-                            }
-                            
-                            DispatchQueue.main.async {
+                                print("YOU THERE ESSAY6? \(dataString)")
+                                
+                                for json in parse {
+                                    
+                                    // saving upaded user related information (e.g. ava's path, cover's path)
+                                    let user_id = json["user_id"] as? String ?? ""
+                                    let text = json["text"] as? String ?? ""
+                                    let id =    json["id"] as! Int
+                                    let picture = json["picture"] as? String ?? ""
+                                    let date_created = json["date_created"] as? String ?? ""
+                                    let firstName = json["firstName"] as? String ?? ""
+                                    let cover = json["cover"] as? String ?? ""
+                                    let ava = json["ava"] as? String ?? ""
+                                    let post_id = json["post_id"] as? String ?? ""
+                                    
+                                    print("text name \(text) \(firstName) \(post_id)")
+                                    let commentModel = CommentsModel(user_id: user_id, text: text, id: id, picture: picture, date_created: date_created, firstName: firstName, cover: cover, ava: ava, post_id: post_id)
+                                    
+                                    self.commentsArray.append(commentModel)
+                                    
+                                }
+                                
+                                DispatchQueue.main.async {
                                     self.myTableView.reloadData()
-                                                                                            
-                            }
-                            
-                            
+                                    
+                                }
                                 
+                                
+                                
+                            }
                         }
-                    }
                         
                     }
                     
                 }
                 catch
                 {
-                
-                print("which comment error2")
-                
-                helper.showAlert(title: "JSON Error", message: error.localizedDescription, from: self)
+                    
+                    print("which comment error2")
+                    
+                    helper.showAlert(title: "JSON Error", message: error.localizedDescription, from: self)
                     //print(error)
                 }
-        
-        
+                
+                
             }
-
+            
+        }
     }).resume()
         
         
@@ -361,7 +421,7 @@ override func viewDidLoad() {
         
         let spinningActivity = MBProgressHUD.showAdded(to: self.view, animated: true)
             spinningActivity.label.text = "Loading.  Please wait."
-        spinningActivity.detailsLabel.text = "Deleting User Data"
+        spinningActivity.detailsLabel.text = ""
         
             if (self.view.frame.width > 414) {
                 

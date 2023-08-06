@@ -209,6 +209,32 @@ class InterestsViewController: UIViewController {
         return button
     }()
     
+    private let dismissButton: AuthButton = {
+        let button = AuthButton(type: .system)
+        button.setTitle("Dismiss", for: .normal)
+        
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        // 2. check the idiom
+        switch (deviceIdiom) {
+
+        case .pad:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            //print("iPad style UI")
+        case .phone:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("iPhone and iPod touch style UI")
+       // case .tv:
+           // print("tvOS style UI")
+        default:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("Unspecified UI idiom")
+        }
+        
+        return button
+    }()
+    
     
 
     override func viewDidLoad() {
@@ -235,7 +261,7 @@ class InterestsViewController: UIViewController {
         
         
        
-        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, foodsButton, sportsButton, partyingButton, moviesButton, gamingButton, registerButton])
+        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, foodsButton, sportsButton, partyingButton, moviesButton, gamingButton, registerButton, dismissButton])
         stackFirst.axis = .vertical
         stackFirst.spacing = 50
         stackFirst.distribution = .equalSpacing
@@ -294,9 +320,17 @@ class InterestsViewController: UIViewController {
          */
         
         imageData = UserTwo.avaImgData
+        
+        let testImg = UIImage(data: imageData)
+        
+        let testOrientation = testImg?.imageOrientation
+        
+        print("here is the test orientation")
+        
+        let currentDate = generateCurrentTimeStamp()
             
             // assigning full body to the request to be sent to the server
-            request.httpBody = Helper().body(with: params, filename: "\(imageViewTapped).jpg", filePathKey: "file", imageDataKey: imageData, boundary: boundary) as Data
+            request.httpBody = Helper().body(with: params, filename: "\(imageViewTapped)\(currentDate).jpg", filePathKey: "file", imageDataKey: imageData, boundary: boundary) as Data
             
             URLSession.shared.dataTask(with: request) { (data, response, error) in
                 DispatchQueue.main.async {
@@ -373,8 +407,12 @@ class InterestsViewController: UIViewController {
                                       }
                                 
                                 let vc = HomeTabBarController()//HomeViewController() //your view controller
-                                                           vc.modalPresentationStyle = .overFullScreen
-                                                           self.present(vc, animated: true, completion: nil)
+                                
+                                UIApplication.shared.windows.first?.rootViewController = vc
+                                UIApplication.shared.windows.first?.makeKeyAndVisible()
+                                
+                                vc.modalPresentationStyle = .overFullScreen
+                                self.present(vc, animated: true, completion: nil)
                                                            
                                                            print("why aren't we moving from here2")
                                                            
@@ -410,6 +448,8 @@ class InterestsViewController: UIViewController {
             
             
         }
+    
+    
        
         
         @objc func registerAction() {
@@ -452,7 +492,7 @@ class InterestsViewController: UIViewController {
                 
            
             
-            let paramString: String = "uid=\(UserTwo.uid)&email=cheesetoochalk50@yahoo.com&firstName=\(UserTwo.firstName)&phoneNumber=\(UserTwo.phone)&birthday=\(UserTwo.birthday)&gender=\(UserTwo.gender)&Interested_In=\(UserTwo.matching)&Interests=\(joined)&Looking_For=\(UserTwo.lookingFor)&Facebook_link=something50&cover=\(emptyString)&ava=\(emptyString)"
+            let paramString: String = "uid=\(UserTwo.uid)&email=\(UserTwo.email)&firstName=\(UserTwo.firstName)&phoneNumber=\(UserTwo.phone)&birthday=\(UserTwo.birthday)&gender=\(UserTwo.gender)&Interested_In=\(UserTwo.matching)&Interests=\(joined)&Looking_For=\(UserTwo.lookingFor)&Facebook_link=\(UserTwo.Facebook_link)&cover=\(emptyString)&ava=\(emptyString)"
             
             
             print("param stuff \(paramString) \(UserTwo.lookingFor)  \(UserTwo.interests)  \(UserTwo.gender)  \(UserTwo.matching)  \(UserTwo.firstName)  \(UserTwo.birthday)")
@@ -495,9 +535,36 @@ class InterestsViewController: UIViewController {
 
                                     UIApplication.shared.endIgnoringInteractionEvents()
                                     
-                                    helper.showAlert(title: "Data Error", message: error!.localizedDescription, from: self)
+                                   // helper.showAlert(title: "Data Error", message: error!.localizedDescription, from: self)
+                                    
+                                    let alert = UIAlertController(title: "Data Error.  Something went wrong in sign up.  Please try again.", message: error?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+
+                                    // add an action (button)
+                                    alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
+                                        print("Handle Ok logic here")
+                                        
+                                        let user = Auth.auth().currentUser
+
+                                        user?.delete { error in
+                                          if let error = error {
+                                            // An error happened.
+                                          } else {
+                                            // Account deleted.
+                                              
+                                              let vc = LogInViewController() //your view controller
+                                              vc.modalPresentationStyle = .overFullScreen
+                                              self.present(vc, animated: true, completion: nil)
+                                          }
+                                        }
+                                      
+                                        }))
+
+                                    // show the alert
+                                    self.present(alert, animated: true, completion: nil)
+                                    
                                     return
-                                }
+                                    
+                                     }
                           
                                 
                                 let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? NSDictionary
@@ -520,6 +587,8 @@ class InterestsViewController: UIViewController {
                                     
                                     UserTwo.uid = uid
                                     
+                                    UserTwo.id = id
+                                    
                                     print("need to check that you go here")
                                     
                                   
@@ -540,7 +609,33 @@ class InterestsViewController: UIViewController {
                                         
                                         let message = parsedJSON["message"] as! String
                                         
-                                        helper.showAlert(title: "JSON Error", message: message, from: self)
+                                        //helper.showAlert(title: "JSON Error", message: message, from: self)
+                                        
+                                        
+                                        let alert = UIAlertController(title: "JSON Error.  Something went wrong in sign up.  Please try again.", message: error?.localizedDescription, preferredStyle: UIAlertController.Style.alert)
+
+                                        // add an action (button)
+                                        alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.default, handler: { (action: UIAlertAction!) in
+                                            print("Handle Ok logic here")
+                                            
+                                            let user = Auth.auth().currentUser
+
+                                            user?.delete { error in
+                                              if let error = error {
+                                                // An error happened.
+                                              } else {
+                                                // Account deleted.
+                                                  
+                                                  let vc = LogInViewController() //your view controller
+                                                  vc.modalPresentationStyle = .overFullScreen
+                                                  self.present(vc, animated: true, completion: nil)
+                                              }
+                                            }
+                                          
+                                            }))
+
+                                        // show the alert
+                                        self.present(alert, animated: true, completion: nil)
                                     }
                                 }
                                 
@@ -729,6 +824,15 @@ class InterestsViewController: UIViewController {
         
     }
     
+    func generateCurrentTimeStamp () -> String {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy_MM_dd_hh_mm_ss"
+            return (formatter.string(from: Date()) as NSString) as String
+        }
 
 }
 
+
+    
+    
+  

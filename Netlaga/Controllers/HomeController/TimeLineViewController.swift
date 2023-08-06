@@ -64,6 +64,7 @@ class TimeLineViewController: UIViewController, UITableViewDelegate, UITableView
             myTableView.estimatedRowHeight = 300
              */
             myTableView.separatorStyle = .none
+            myTableView.backgroundColor = .white
             
             self.view.addSubview(myTableView)
             
@@ -97,17 +98,25 @@ class TimeLineViewController: UIViewController, UITableViewDelegate, UITableView
         }
 
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            
+            if timeLineArray.count == 0 {
+            self.myTableView.setEmptyMessage("Be the first to post to the timeline!")
+            } else {
+            self.myTableView.restore()
+            }
+            
             return timeLineArray.count
         }
     
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300.0;//Choose your custom row height
+        return 500.0;//Choose your custom row height
     }
      
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {//-> CommentCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TimeLineCell", for: indexPath) as! TimeLineCell
+        cell.contentView.backgroundColor = .white
         
         cell.delegateComment = self
            
@@ -162,21 +171,9 @@ class TimeLineViewController: UIViewController, UITableViewDelegate, UITableView
             
             print("pic url \(timeLineValues.picture)")
             
-            cell.photoImageView.image = UIImage(named: "Post.png")
             
-            let imageUrl = URL(fileURLWithPath: timeLineValues.picture)
-            
-            
-            AF.request( timeLineValues.picture,method: .get).response{ response in
-
-               switch response.result {
-                case .success(let responseData):
-                   cell.photoImageView.image = UIImage(data: responseData!, scale:1)
-
-                case .failure(let error):
-                    print("error--->",error)
-                }
-            }
+        
+        //cell.photoImageView.contentMode = .scaleAspectFit
             
             cell.contentView.addSubview(cell.postName)
          
@@ -185,25 +182,66 @@ class TimeLineViewController: UIViewController, UITableViewDelegate, UITableView
             cell.contentView.addSubview(cell.postDate)
          
             cell.postDate.anchor(top: cell.contentView.topAnchor, left: cell.postName.rightAnchor, right: cell.contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, height: 40)
-            
-            
-            cell.contentView.addSubview(cell.photoImageView)
-            
-            cell.photoImageView.anchor(top: cell.postName.bottomAnchor, left: cell.contentView.leftAnchor, right: cell.contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingRight: 0, height: 100)
-            
-            cell.contentView.addSubview(cell.postText)
-         
-            cell.postText.anchor(top: cell.photoImageView.bottomAnchor, left: cell.contentView.leftAnchor, bottom: cell.contentView.bottomAnchor, right: cell.contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 50, paddingRight: 0)
-            
-            cell.contentView.addSubview(cell.likeButton)
-            
-            cell.likeButton.anchor(top: cell.postText.bottomAnchor, right: cell.contentView.rightAnchor, width: 20, height: 20)
         
-            cell.contentView.addSubview(cell.commentButton)
         
-            cell.commentButton.anchor(top: cell.postText.bottomAnchor, right: cell.likeButton.leftAnchor, paddingRight: 40, width: 20, height: 20)
+        cell.photoImageView.image = UIImage(named: "Post.png")
+        
+        let imageUrl = URL(fileURLWithPath: timeLineValues.picture)
+        
+        
+        AF.request( timeLineValues.picture,method: .get).response{ response in
+
+           switch response.result {
+            case .success(let responseData):
+               cell.photoImageView.image = UIImage(data: responseData!, scale:1)
+               
+                var aspectR: CGFloat = 0.0
+
+               aspectR = (cell.photoImageView.image?.size.width)!/(cell.photoImageView.image?.size.height)!
+
+               
+               
+               DispatchQueue.main.async {
+                   
+                   //cell.photoImageView.translatesAutoresizingMaskIntoConstraints = false
+                                          
+                   //cell.photoImageView.contentMode = .scaleToFill//.scaleAspectFit
+                   
+                   cell.contentView.addSubview(cell.photoImageView)
+                   
+                   cell.photoImageView.anchor(top: cell.postName.bottomAnchor, left: cell.contentView.leftAnchor, right: cell.contentView.rightAnchor, paddingTop: 0, paddingLeft: 10, paddingRight: 10, height: 300)
+                   /*
+                   NSLayoutConstraint.activate([
+                    cell.photoImageView.centerXAnchor.constraint(equalTo: cell.contentView.centerXAnchor),
+                    cell.photoImageView.topAnchor.constraint(equalTo: cell.contentView.topAnchor),
+                    cell.photoImageView.leadingAnchor.constraint(greaterThanOrEqualTo: cell.contentView.leadingAnchor),
+                    cell.photoImageView.trailingAnchor.constraint(lessThanOrEqualTo: cell.contentView.trailingAnchor),
+                    cell.photoImageView.heightAnchor.constraint(equalTo: cell.photoImageView.widthAnchor, multiplier: 1/aspectR)
+                           ])
+                   */
+                   cell.contentView.addSubview(cell.postText)
+                
+                   cell.postText.anchor(top: cell.photoImageView.bottomAnchor, left: cell.contentView.leftAnchor, bottom: cell.contentView.bottomAnchor, right: cell.contentView.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 50, paddingRight: 0)
+                   
+                   cell.contentView.addSubview(cell.likeButton)
+                   
+                   cell.likeButton.anchor(top: cell.postText.bottomAnchor, right: cell.contentView.rightAnchor, width: 20, height: 20)
+               
+                   cell.contentView.addSubview(cell.commentButton)
+               
+                   cell.commentButton.anchor(top: cell.postText.bottomAnchor, right: cell.likeButton.leftAnchor, paddingRight: 40, width: 20, height: 20)
+                   
+               }
+
+            case .failure(let error):
+                print("error--->",error)
+            }
+        }
             
             
+            
+            
+        
             
             
             /*
@@ -430,90 +468,115 @@ class TimeLineViewController: UIViewController, UITableViewDelegate, UITableView
         
        let dataString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
        // var dataString = NSString(data: data!, encoding: CFStringConvertEncodingToNSStringEncoding(0x0422))
-                
-        print("YOU THERE ESSAY3? \(dataString)")
         
-        DispatchQueue.main.async
+        var dataEncoded : NSString = ""
+        
+        dataEncoded = dataString ?? ""
+                
+        print("YOU THERE ESSAY3? \(dataString ?? "")")
+        
+        switch dataEncoded {
+        case "":
+            print("Bring an umbrella")
+        
+            DispatchQueue.main.async
             {
-            print("YOU THERE ESSAY4? ")
                 
+                self.timeLineArray = []
                 
-                do {
-                    
-                  
-                    
-                    let datadata = dataString!.data(using: String.Encoding.utf8.rawValue)
-                    
-                    //if let jsonResult = try JSONSerialization.jsonObject(with: datadata!, options: []) as? [String : Any] {
-                    
-                   if let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
+                self.myTableView.reloadData()
+                
+            }
+            
+        default:
+            print("Enjoy your day!")
+            
+            DispatchQueue.main.async
+                       {
+                       print("YOU THERE ESSAY4? ")
+                           
+                           
+                           do {
+                               
+                             
+                               
+                               let datadata = dataString!.data(using: String.Encoding.utf8.rawValue)
+                               
+                               //if let jsonResult = try JSONSerialization.jsonObject(with: datadata!, options: []) as? [String : Any] {
+                               //if let jsonResult = try JSONSerialization.jsonObject(with: data!, options: []) as? [String : Any] {
+                               
+                              
+                               if let jsonResult = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers) as? NSDictionary {
 
-                      let status = jsonResult["status"] as? String ?? ""
-                       
-                    // uploaded successfully
-                    if status == "400" {
-                        
-                        let message = jsonResult["message"] as? String ?? ""
-                        
-                        helper.showAlert(title: "JSON Error", message: message, from: self)
-                        
-        
-                        
-                    // error while uploading
-                    } else {
-                        
-                        if let parse = jsonResult ["posts"] as? [[String:Any]] {
-                        
-                        print("YOU THERE ESSAY6? \(dataString)")
-                            
-                            for json in parse {
-                        
-                        // saving upaded user related information (e.g. ava's path, cover's path)
-                        let user_id = json["user_id"] as? String ?? ""
-                        let text = json["text"] as? String ?? ""
-                        let id =    json["id"] as! Int
-                        let picture = json["picture"] as? String ?? ""
-                        let date_created = json["date_created"] as? String ?? ""
-                        let firstName = json["firstName"] as? String ?? ""
-                        let cover = json["cover"] as? String ?? ""
-                        let ava = json["ava"] as? String ?? ""
-                        let liked = json["liked"] as? Int ?? 0
-                        
-                            print("text name \(text) \(firstName) \(liked)")
-                                let timeLineModel = TimeLineModel(user_id: user_id, text: text, id: id, picture: picture, date_created: date_created, firstName: firstName, cover: cover, ava: ava, liked: liked)
-                                
-                                self.timeLineArray.append(timeLineModel)
-                                
-                                print("here1")
-                        
-                            }
-                            
-                            let imageUrl = URL(string: self.timeLineArray[0].picture)
-                            
-                            
-                            
-                            
-                            print("here2")
-                            DispatchQueue.main.async {
-                                self.myTableView.reloadData()
-                                
-                            }
-                                
-                        }
-                    }
-                        
-                    }
-                    
-                }
-                catch
-                {
-                
-                print("YOU THERE ESSAY8?")
-                
-                helper.showAlert(title: "JSON Error", message: error.localizedDescription, from: self)
-                    //print(error)
-                }
+                                 let status = jsonResult["status"] as? String ?? ""
+                                  
+                               // uploaded successfully
+                               if status == "400" {
+                                   
+                                   let message = jsonResult["message"] as? String ?? ""
+                                   
+                                   helper.showAlert(title: "Error", message: message, from: self)
+                                   
+                   
+                                   
+                               // error while uploading
+                               } else {
+                                   
+                                   if let parse = jsonResult ["posts"] as? [[String:Any]] {
+                                   
+                                   print("YOU THERE ESSAY6? \(dataString)")
+                                       
+                                       for json in parse {
+                                   
+                                   // saving upaded user related information (e.g. ava's path, cover's path)
+                                   let user_id = json["user_id"] as? String ?? ""
+                                   let text = json["text"] as? String ?? ""
+                                   let id =    json["id"] as! Int
+                                   let picture = json["picture"] as? String ?? ""
+                                   let date_created = json["date_created"] as? String ?? ""
+                                   let firstName = json["firstName"] as? String ?? ""
+                                   let cover = json["cover"] as? String ?? ""
+                                   let ava = json["ava"] as? String ?? ""
+                                   let liked = json["liked"] as? Int ?? 0
+                                   
+                                       print("text name \(text) \(firstName) \(liked)")
+                                           let timeLineModel = TimeLineModel(user_id: user_id, text: text, id: id, picture: picture, date_created: date_created, firstName: firstName, cover: cover, ava: ava, liked: liked)
+                                           
+                                           self.timeLineArray.append(timeLineModel)
+                                           
+                                           print("here1")
+                                   
+                                       }
+                                       
+                                       let imageUrl = URL(string: self.timeLineArray[0].picture)
+                                       
+                                       
+                                       
+                                       
+                                       print("here2")
+                                       DispatchQueue.main.async {
+                                           self.myTableView.reloadData()
+                                           
+                                       }
+                                           
+                                   }
+                               }
+                                   
+                               }
+                               
+                           }
+                           catch
+                           {
+                           
+                           print("YOU THERE ESSAY8?")
+                           
+                           helper.showAlert(title: "JSON Error", message: error.localizedDescription, from: self)
+                               //print(error)
+                           }
+                   }
         }
+        
+       
         
         
     }).resume()

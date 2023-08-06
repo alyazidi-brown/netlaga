@@ -12,8 +12,12 @@
 		5304BF6B2A00D95600FBDEDA /* CustomCalloutView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5304BF692A00D95500FBDEDA /* CustomCalloutView.xib */; };
 		5304BF6C2A00D95600FBDEDA /* CustomCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304BF6A2A00D95600FBDEDA /* CustomCalloutView.swift */; };
 		5304C3D829E080D4009ECCE4 /* PushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5304C3D729E080D4009ECCE4 /* PushNotifications.swift */; };
+		53058F9F2A59B5330019D9EE /* EventController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53058F9E2A59B5330019D9EE /* EventController.swift */; };
+		532B54BA2A5351E200342E55 /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532B54B92A5351E200342E55 /* CustomView.swift */; };
+		532B54C02A5360B600342E55 /* CustomCallOutView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 532B54BF2A5360B600342E55 /* CustomCallOutView2.swift */; };
 		5331B28D29D2B10100273D06 /* ProfileImagesViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331B28C29D2B10100273D06 /* ProfileImagesViewController2.swift */; };
 		5331B28F29D2B9BB00273D06 /* ProfilePictureCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5331B28E29D2B9BB00273D06 /* ProfilePictureCell.swift */; };
+		533B0DBA2A46A387009FCE93 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 533B0DB92A46A387009FCE93 /* ImageCache.swift */; };
 		534138042A02EBC6004E7EB8 /* InviteStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 534138032A02EBC6004E7EB8 /* InviteStruct.swift */; };
 		5346DD7229FE195600E44744 /* MapInviteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5346DD7129FE195600E44744 /* MapInviteViewController.swift */; };
 		5346DD7429FE1A4F00E44744 /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5346DD7329FE1A4F00E44744 /* ResultsViewController.swift */; };
@@ -107,8 +111,25 @@
 		538A2CD529CB7C6A003E7368 /* UserMessageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538A2CD429CB7C6A003E7368 /* UserMessageObject.swift */; };
 		538A2CD729CB7C91003E7368 /* UserFirebase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538A2CD629CB7C90003E7368 /* UserFirebase.swift */; };
 		538A2CD929CB7E1D003E7368 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538A2CD829CB7E1D003E7368 /* UserModel.swift */; };
+		538E5E372A30BD8A00BB7F06 /* RadioWaveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538E5E362A30BD8A00BB7F06 /* RadioWaveView.swift */; };
+		538E5E392A30F65400BB7F06 /* PulseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538E5E382A30F65400BB7F06 /* PulseViewController.swift */; };
+		539036BE2A48B00000D99D75 /* ChatMessagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539036BD2A48B00000D99D75 /* ChatMessagesCollectionView.swift */; };
+		5391AF612A6316B100232D6D /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5391AF602A6316B100232D6D /* SignInViewController.swift */; };
+		53936BEA2A7D293800795D4F /* LocationServicesController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53936BE92A7D293800795D4F /* LocationServicesController.swift */; };
+		53954DDA2A33E59A00268184 /* PeopleFinderController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53954DD92A33E59A00268184 /* PeopleFinderController.swift */; };
+		53954DDC2A33EC8B00268184 /* PeopleFinderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53954DDB2A33EC8B00268184 /* PeopleFinderCell.swift */; };
+		5396A3C62A7F4EDF00C63FBA /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5396A3C52A7F4EDF00C63FBA /* NotificationsController.swift */; };
+		5398E1442A7B7DDA00C6681D /* areacode2.json in Resources */ = {isa = PBXBuildFile; fileRef = 5398E1432A7B7DDA00C6681D /* areacode2.json */; };
+		5398E2562A4F6BD4002538BA /* areacode.json in Resources */ = {isa = PBXBuildFile; fileRef = 5398E2552A4F3E8E002538BA /* areacode.json */; };
+		539E5BBB2A5DE6A40021EBF6 /* GradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E5BBA2A5DE6A40021EBF6 /* GradientView.swift */; };
+		539E5BBF2A5DFCF70021EBF6 /* NewAuthButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539E5BBE2A5DFCF70021EBF6 /* NewAuthButton.swift */; };
+		539F94292A323BE000DE8C6B /* InterestsStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539F94282A323BE000DE8C6B /* InterestsStruct.swift */; };
+		539F942B2A32424500DE8C6B /* InterestsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539F942A2A32424500DE8C6B /* InterestsCell.swift */; };
+		53AD6BA02A54807000D8DD9C /* CustomCallOutView2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 532B54BD2A5357BE00342E55 /* CustomCallOutView2.xib */; };
+		53AE08BA2A35540E00676352 /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AE08B92A35540E00676352 /* ProfileController.swift */; };
 		53B8DEBD29CCC05000274638 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53B8DEBC29CCC05000274638 /* GoogleService-Info.plist */; };
-		E5A8EDE41EB0854643ACEE98 /* Pods_Netlaga.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A6402A90C87DDA3391A22C6 /* Pods_Netlaga.framework */; };
+		53C09FBF2A1F271700084E00 /* EmailScreen2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53C09FBE2A1F271700084E00 /* EmailScreen2.swift */; };
+		69971DE51FB8205AEB55BC11 /* Pods_Netlaga.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F61EE23C47B7A014714275F7 /* Pods_Netlaga.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -129,16 +150,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		3B0F3867651A084DCF82D4ED /* Pods-Netlaga.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netlaga.debug.xcconfig"; path = "Target Support Files/Pods-Netlaga/Pods-Netlaga.debug.xcconfig"; sourceTree = "<group>"; };
-		49927A3471FB7CDBFE2D4297 /* Pods-Netlaga.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netlaga.release.xcconfig"; path = "Target Support Files/Pods-Netlaga/Pods-Netlaga.release.xcconfig"; sourceTree = "<group>"; };
-		4A6402A90C87DDA3391A22C6 /* Pods_Netlaga.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Netlaga.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		357F0870A24CDC92C451A992 /* Pods-Netlaga.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netlaga.debug.xcconfig"; path = "Target Support Files/Pods-Netlaga/Pods-Netlaga.debug.xcconfig"; sourceTree = "<group>"; };
 		5304BF5D2A007D9B00FBDEDA /* CustomAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAnnotation.swift; sourceTree = "<group>"; };
 		5304BF672A00CF7600FBDEDA /* AnnotationView.swift 23-54-39-902.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "AnnotationView.swift 23-54-39-902.swift"; sourceTree = "<group>"; };
 		5304BF692A00D95500FBDEDA /* CustomCalloutView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCalloutView.xib; sourceTree = "<group>"; };
 		5304BF6A2A00D95600FBDEDA /* CustomCalloutView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomCalloutView.swift; sourceTree = "<group>"; };
 		5304C3D729E080D4009ECCE4 /* PushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotifications.swift; sourceTree = "<group>"; };
+		53058F9E2A59B5330019D9EE /* EventController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventController.swift; sourceTree = "<group>"; };
+		532B54B92A5351E200342E55 /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		532B54BD2A5357BE00342E55 /* CustomCallOutView2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CustomCallOutView2.xib; sourceTree = "<group>"; };
+		532B54BF2A5360B600342E55 /* CustomCallOutView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCallOutView2.swift; sourceTree = "<group>"; };
 		5331B28C29D2B10100273D06 /* ProfileImagesViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImagesViewController2.swift; sourceTree = "<group>"; };
 		5331B28E29D2B9BB00273D06 /* ProfilePictureCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePictureCell.swift; sourceTree = "<group>"; };
+		533B0DB92A46A387009FCE93 /* ImageCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCache.swift; sourceTree = "<group>"; };
 		534138032A02EBC6004E7EB8 /* InviteStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteStruct.swift; sourceTree = "<group>"; };
 		5346DD7129FE195600E44744 /* MapInviteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapInviteViewController.swift; sourceTree = "<group>"; };
 		5346DD7329FE1A4F00E44744 /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
@@ -238,8 +262,27 @@
 		538A2CD429CB7C6A003E7368 /* UserMessageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserMessageObject.swift; sourceTree = "<group>"; };
 		538A2CD629CB7C90003E7368 /* UserFirebase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserFirebase.swift; sourceTree = "<group>"; };
 		538A2CD829CB7E1D003E7368 /* UserModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
+		538E5E362A30BD8A00BB7F06 /* RadioWaveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioWaveView.swift; sourceTree = "<group>"; };
+		538E5E382A30F65400BB7F06 /* PulseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PulseViewController.swift; sourceTree = "<group>"; };
+		539036BD2A48B00000D99D75 /* ChatMessagesCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessagesCollectionView.swift; sourceTree = "<group>"; };
+		5391AF602A6316B100232D6D /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		53936BE92A7D293800795D4F /* LocationServicesController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationServicesController.swift; sourceTree = "<group>"; };
+		53954DD92A33E59A00268184 /* PeopleFinderController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleFinderController.swift; sourceTree = "<group>"; };
+		53954DDB2A33EC8B00268184 /* PeopleFinderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeopleFinderCell.swift; sourceTree = "<group>"; };
+		5396A3C52A7F4EDF00C63FBA /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
+		5398E1432A7B7DDA00C6681D /* areacode2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = areacode2.json; sourceTree = "<group>"; };
+		5398E2552A4F3E8E002538BA /* areacode.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = areacode.json; sourceTree = "<group>"; };
+		539B44342A2EDF7F00BC44CA /* MockLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MockLocations.gpx; sourceTree = "<group>"; };
+		539E5BBA2A5DE6A40021EBF6 /* GradientView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientView.swift; sourceTree = "<group>"; };
+		539E5BBE2A5DFCF70021EBF6 /* NewAuthButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAuthButton.swift; sourceTree = "<group>"; };
+		539F94282A323BE000DE8C6B /* InterestsStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsStruct.swift; sourceTree = "<group>"; };
+		539F942A2A32424500DE8C6B /* InterestsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterestsCell.swift; sourceTree = "<group>"; };
+		53AE08B92A35540E00676352 /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
 		53B8DEBC29CCC05000274638 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		53C09FBE2A1F271700084E00 /* EmailScreen2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailScreen2.swift; sourceTree = "<group>"; };
 		53DE201829CC01B500903A2D /* Netlaga.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Netlaga.entitlements; sourceTree = "<group>"; };
+		DCB9ADE0F95D521B82CD466F /* Pods-Netlaga.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Netlaga.release.xcconfig"; path = "Target Support Files/Pods-Netlaga/Pods-Netlaga.release.xcconfig"; sourceTree = "<group>"; };
+		F61EE23C47B7A014714275F7 /* Pods_Netlaga.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Netlaga.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -247,7 +290,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E5A8EDE41EB0854643ACEE98 /* Pods_Netlaga.framework in Frameworks */,
+				69971DE51FB8205AEB55BC11 /* Pods_Netlaga.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,10 +311,10 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		12DDCD6D967F806E6F163D71 /* Frameworks */ = {
+		45097444DD801359C91F4577 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				4A6402A90C87DDA3391A22C6 /* Pods_Netlaga.framework */,
+				F61EE23C47B7A014714275F7 /* Pods_Netlaga.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -284,7 +327,7 @@
 				538A2C1F29CB66AD003E7368 /* NetlagaUITests */,
 				538A2BFD29CB66AB003E7368 /* Products */,
 				8B1FC961E1D42A222DE476E7 /* Pods */,
-				12DDCD6D967F806E6F163D71 /* Frameworks */,
+				45097444DD801359C91F4577 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -309,6 +352,8 @@
 				538A2BFF29CB66AB003E7368 /* AppDelegate.swift */,
 				538A2C0129CB66AB003E7368 /* SceneDelegate.swift */,
 				538A2C0329CB66AB003E7368 /* ViewController.swift */,
+				5398E2552A4F3E8E002538BA /* areacode.json */,
+				5398E1432A7B7DDA00C6681D /* areacode2.json */,
 				538A2C9C29CB6974003E7368 /* Utils */,
 				538A2C9529CB67FB003E7368 /* Service */,
 				538A2C7229CB67BA003E7368 /* Model */,
@@ -346,6 +391,7 @@
 				538A2C6729CB67AA003E7368 /* AppleAuthViewController.swift */,
 				538A2C6429CB67AA003E7368 /* EmailViewController.swift */,
 				538906D329D6BE33009B4305 /* EmailScreen.swift */,
+				53C09FBE2A1F271700084E00 /* EmailScreen2.swift */,
 				538A2C6629CB67AA003E7368 /* FacebookViewController.swift */,
 				538A2C6829CB67AA003E7368 /* InstagramViewController.swift */,
 				538A2C6929CB67AA003E7368 /* PhoneViewController.swift */,
@@ -363,6 +409,7 @@
 			isa = PBXGroup;
 			children = (
 				538A2C5E29CB678E003E7368 /* LogInViewController.swift */,
+				5391AF602A6316B100232D6D /* SignInViewController.swift */,
 				538A2C5F29CB678E003E7368 /* MessageViewModel.swift */,
 			);
 			path = Authentication;
@@ -376,6 +423,8 @@
 				538A2C3829CB676D003E7368 /* TableCell2.swift */,
 				538A2C3B29CB676D003E7368 /* TimeLineCell.swift */,
 				5331B28E29D2B9BB00273D06 /* ProfilePictureCell.swift */,
+				539F942A2A32424500DE8C6B /* InterestsCell.swift */,
+				53954DDB2A33EC8B00268184 /* PeopleFinderCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -394,12 +443,17 @@
 				538A2C4629CB6781003E7368 /* HomeViewController.swift */,
 				538A2C4029CB6781003E7368 /* MatchViewController.swift */,
 				538A2C4D29CB6781003E7368 /* NewChatViewController.swift */,
+				539036BD2A48B00000D99D75 /* ChatMessagesCollectionView.swift */,
 				5346DD7129FE195600E44744 /* MapInviteViewController.swift */,
 				5346DD7329FE1A4F00E44744 /* ResultsViewController.swift */,
 				538A2C4E29CB6781003E7368 /* PostViewController.swift */,
 				538A2C4829CB6781003E7368 /* PreDiscoveryViewController.swift */,
 				538A2C4B29CB6781003E7368 /* TimeLineViewController.swift */,
+				53954DD92A33E59A00268184 /* PeopleFinderController.swift */,
+				53AE08B92A35540E00676352 /* ProfileController.swift */,
 				538A2C4929CB6781003E7368 /* TinderViewController.swift */,
+				538E5E382A30F65400BB7F06 /* PulseViewController.swift */,
+				53058F9E2A59B5330019D9EE /* EventController.swift */,
 			);
 			path = HomeController;
 			sourceTree = "<group>";
@@ -415,6 +469,8 @@
 				538A2CC929CB7747003E7368 /* MatchingViewController.swift */,
 				538A2CC729CB7746003E7368 /* ProfileImagesViewController.swift */,
 				5331B28C29D2B10100273D06 /* ProfileImagesViewController2.swift */,
+				53936BE92A7D293800795D4F /* LocationServicesController.swift */,
+				5396A3C52A7F4EDF00C63FBA /* NotificationsController.swift */,
 			);
 			path = RegistrationControllers;
 			sourceTree = "<group>";
@@ -429,6 +485,7 @@
 				5350D14C29D339ED00936671 /* ProfilePhotosModel.swift */,
 				538A2CD629CB7C90003E7368 /* UserFirebase.swift */,
 				538A2C8029CB67E3003E7368 /* CommentsModel.swift */,
+				539F94282A323BE000DE8C6B /* InterestsStruct.swift */,
 				538A2C7929CB67E3003E7368 /* DiscoveryStruct.swift */,
 				538A2C8329CB67E4003E7368 /* Helper.swift */,
 				538A2C7529CB67E3003E7368 /* Landmark.swift */,
@@ -472,6 +529,8 @@
 				538A2C9F29CB6993003E7368 /* Extensions.swift */,
 				538A2CA129CB6993003E7368 /* MessageDefault.swift */,
 				538A2C9D29CB6993003E7368 /* Util.swift */,
+				539B44342A2EDF7F00BC44CA /* MockLocations.gpx */,
+				533B0DB92A46A387009FCE93 /* ImageCache.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -490,6 +549,8 @@
 			isa = PBXGroup;
 			children = (
 				538A2CB329CB6A14003E7368 /* AuthButton.swift */,
+				539E5BBE2A5DFCF70021EBF6 /* NewAuthButton.swift */,
+				538E5E362A30BD8A00BB7F06 /* RadioWaveView.swift */,
 				538A2CAF29CB6A13003E7368 /* ButtonStackView.swift */,
 				538A2CAE29CB6A13003E7368 /* CustomInputAccessory.swift */,
 				538A2CB129CB6A13003E7368 /* MessageCell.swift */,
@@ -498,7 +559,11 @@
 				538A2CB229CB6A14003E7368 /* TinderCardFooterView.swift */,
 				538A2CB429CB6A14003E7368 /* TinderCardOverlay.swift */,
 				5304BF6A2A00D95600FBDEDA /* CustomCalloutView.swift */,
+				532B54BF2A5360B600342E55 /* CustomCallOutView2.swift */,
 				5304BF692A00D95500FBDEDA /* CustomCalloutView.xib */,
+				532B54BD2A5357BE00342E55 /* CustomCallOutView2.xib */,
+				532B54B92A5351E200342E55 /* CustomView.swift */,
+				539E5BBA2A5DE6A40021EBF6 /* GradientView.swift */,
 				5304BF672A00CF7600FBDEDA /* AnnotationView.swift 23-54-39-902.swift */,
 			);
 			path = View;
@@ -507,8 +572,8 @@
 		8B1FC961E1D42A222DE476E7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B0F3867651A084DCF82D4ED /* Pods-Netlaga.debug.xcconfig */,
-				49927A3471FB7CDBFE2D4297 /* Pods-Netlaga.release.xcconfig */,
+				357F0870A24CDC92C451A992 /* Pods-Netlaga.debug.xcconfig */,
+				DCB9ADE0F95D521B82CD466F /* Pods-Netlaga.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -520,12 +585,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 538A2C2629CB66AD003E7368 /* Build configuration list for PBXNativeTarget "Netlaga" */;
 			buildPhases = (
-				7B724AB6EE9EB326FBE14FCB /* [CP] Check Pods Manifest.lock */,
+				E90CF97A67526E7477DBE90B /* [CP] Check Pods Manifest.lock */,
 				538A2BF829CB66AB003E7368 /* Sources */,
 				538A2BF929CB66AB003E7368 /* Frameworks */,
 				538A2BFA29CB66AB003E7368 /* Resources */,
-				2EEE76FCCC3725AE71B8803B /* [CP] Embed Pods Frameworks */,
-				D083760B2CFFDFD1B8737ACF /* [CP] Copy Pods Resources */,
+				7DCCFB02CF29FD35EEC2E1E3 /* [CP] Embed Pods Frameworks */,
+				2D9D1CF25DFAABF7A469DC13 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -621,6 +686,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5398E1442A7B7DDA00C6681D /* areacode2.json in Resources */,
+				53AD6BA02A54807000D8DD9C /* CustomCallOutView2.xib in Resources */,
+				5398E2562A4F6BD4002538BA /* areacode.json in Resources */,
 				5304BF6B2A00D95600FBDEDA /* CustomCalloutView.xib in Resources */,
 				538A2C0C29CB66AC003E7368 /* LaunchScreen.storyboard in Resources */,
 				538A2CC129CB6ADD003E7368 /* user.png in Resources */,
@@ -649,7 +717,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2EEE76FCCC3725AE71B8803B /* [CP] Embed Pods Frameworks */ = {
+		2D9D1CF25DFAABF7A469DC13 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Netlaga/Pods-Netlaga-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Netlaga/Pods-Netlaga-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Netlaga/Pods-Netlaga-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7DCCFB02CF29FD35EEC2E1E3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -666,7 +751,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Netlaga/Pods-Netlaga-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		7B724AB6EE9EB326FBE14FCB /* [CP] Check Pods Manifest.lock */ = {
+		E90CF97A67526E7477DBE90B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -688,23 +773,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D083760B2CFFDFD1B8737ACF /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Netlaga/Pods-Netlaga-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Netlaga/Pods-Netlaga-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Netlaga/Pods-Netlaga-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -713,6 +781,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				538A2C5D29CB6781003E7368 /* PostViewController.swift in Sources */,
+				53058F9F2A59B5330019D9EE /* EventController.swift in Sources */,
 				538A2CD329CB7749003E7368 /* InterestsViewController.swift in Sources */,
 				538A2C5B29CB6781003E7368 /* AudioController.swift in Sources */,
 				538A2C9029CB67E4003E7368 /* User.swift in Sources */,
@@ -735,7 +804,9 @@
 				5304C3D829E080D4009ECCE4 /* PushNotifications.swift in Sources */,
 				538A2CB829CB6A14003E7368 /* TinderButton.swift in Sources */,
 				538A2C9A29CB68FC003E7368 /* FCollectionReference.swift in Sources */,
+				5391AF612A6316B100232D6D /* SignInViewController.swift in Sources */,
 				5346DD7429FE1A4F00E44744 /* ResultsViewController.swift in Sources */,
+				53954DDA2A33E59A00268184 /* PeopleFinderController.swift in Sources */,
 				538A2C5C29CB6781003E7368 /* NewChatViewController.swift in Sources */,
 				538A2C7129CB67AA003E7368 /* PhoneViewController.swift in Sources */,
 				538A2CBA29CB6A14003E7368 /* TinderCardFooterView.swift in Sources */,
@@ -744,7 +815,9 @@
 				538A2C6129CB678E003E7368 /* MessageViewModel.swift in Sources */,
 				538A2C8529CB67E4003E7368 /* MatchObject.swift in Sources */,
 				538A2C3D29CB676D003E7368 /* TableCell.swift in Sources */,
+				53C09FBF2A1F271700084E00 /* EmailScreen2.swift in Sources */,
 				538A2C5629CB6781003E7368 /* CommentViewController.swift in Sources */,
+				53AE08BA2A35540E00676352 /* ProfileController.swift in Sources */,
 				538A2CB629CB6A14003E7368 /* CustomInputAccessory.swift in Sources */,
 				538A2CCE29CB7749003E7368 /* ProfileImagesViewController.swift in Sources */,
 				538A2C8A29CB67E4003E7368 /* DiscoveryStruct.swift in Sources */,
@@ -754,6 +827,7 @@
 				5304BF682A00CF7600FBDEDA /* AnnotationView.swift 23-54-39-902.swift in Sources */,
 				5350D14D29D339ED00936671 /* ProfilePhotosModel.swift in Sources */,
 				534138042A02EBC6004E7EB8 /* InviteStruct.swift in Sources */,
+				532B54BA2A5351E200342E55 /* CustomView.swift in Sources */,
 				538A2CD929CB7E1D003E7368 /* UserModel.swift in Sources */,
 				538A2CA229CB6993003E7368 /* Util.swift in Sources */,
 				538A2C6E29CB67AA003E7368 /* FacebookViewController.swift in Sources */,
@@ -766,16 +840,22 @@
 				538A2C5329CB6781003E7368 /* FeaturesViewController.swift in Sources */,
 				538801B12A00489B00ABB09C /* MapPlace.swift in Sources */,
 				5304BF6C2A00D95600FBDEDA /* CustomCalloutView.swift in Sources */,
+				53936BEA2A7D293800795D4F /* LocationServicesController.swift in Sources */,
 				538A2C8429CB67E4003E7368 /* Post.swift in Sources */,
 				538A2CCF29CB7749003E7368 /* LookingViewController.swift in Sources */,
 				538A2C6C29CB67AA003E7368 /* EmailViewController.swift in Sources */,
+				539E5BBB2A5DE6A40021EBF6 /* GradientView.swift in Sources */,
 				538A2C0029CB66AB003E7368 /* AppDelegate.swift in Sources */,
 				538A2C9229CB67E4003E7368 /* Message.swift in Sources */,
 				538A2C8729CB67E4003E7368 /* AudioItem.swift in Sources */,
 				538A2CBC29CB6A14003E7368 /* TinderCardOverlay.swift in Sources */,
+				539F942B2A32424500DE8C6B /* InterestsCell.swift in Sources */,
 				538A2C6B29CB67AA003E7368 /* RegistrationViewController.swift in Sources */,
+				533B0DBA2A46A387009FCE93 /* ImageCache.swift in Sources */,
+				538E5E372A30BD8A00BB7F06 /* RadioWaveView.swift in Sources */,
 				538A2C3F29CB676D003E7368 /* TimeLineCell.swift in Sources */,
 				538A2C8C29CB67E4003E7368 /* PlaceList.swift in Sources */,
+				538E5E392A30F65400BB7F06 /* PulseViewController.swift in Sources */,
 				538A2C8B29CB67E4003E7368 /* TimeLineModel.swift in Sources */,
 				538A2CD529CB7C6A003E7368 /* UserMessageObject.swift in Sources */,
 				538A2C5529CB6781003E7368 /* HomeViewController.swift in Sources */,
@@ -785,18 +865,24 @@
 				538A2C5229CB6781003E7368 /* DiscoveryViewController.swift in Sources */,
 				538A2C9129CB67E4003E7368 /* CommentsModel.swift in Sources */,
 				5346DD7229FE195600E44744 /* MapInviteViewController.swift in Sources */,
+				539E5BBF2A5DFCF70021EBF6 /* NewAuthButton.swift in Sources */,
 				538A2C3E29CB676D003E7368 /* CommentCell.swift in Sources */,
 				538A2C6A29CB67AA003E7368 /* SMSCodeViewController.swift in Sources */,
+				53954DDC2A33EC8B00268184 /* PeopleFinderCell.swift in Sources */,
 				538A2CD729CB7C91003E7368 /* UserFirebase.swift in Sources */,
 				538A2C6F29CB67AA003E7368 /* AppleAuthViewController.swift in Sources */,
 				5346DD7629FE27D000E44744 /* GooglePlaceManager.swift in Sources */,
 				538A2C8929CB67E4003E7368 /* MessageTwo.swift in Sources */,
 				538A2CD129CB7749003E7368 /* InputViewController.swift in Sources */,
+				539036BE2A48B00000D99D75 /* ChatMessagesCollectionView.swift in Sources */,
 				538A2CB929CB6A14003E7368 /* MessageCell.swift in Sources */,
 				538A2C6D29CB67AA003E7368 /* AccountViewController.swift in Sources */,
 				538A2C9929CB68FC003E7368 /* FileStorage.swift in Sources */,
+				539F94292A323BE000DE8C6B /* InterestsStruct.swift in Sources */,
 				538A2C5829CB6781003E7368 /* TinderViewController.swift in Sources */,
+				532B54C02A5360B600342E55 /* CustomCallOutView2.swift in Sources */,
 				5377EDFE2A022654003E77B9 /* LocationItem.swift in Sources */,
+				5396A3C62A7F4EDF00C63FBA /* NotificationsController.swift in Sources */,
 				538A2C6029CB678E003E7368 /* LogInViewController.swift in Sources */,
 				538A2C8629CB67E4003E7368 /* Landmark.swift in Sources */,
 				538A2C5129CB6781003E7368 /* ChatController.swift in Sources */,
@@ -977,14 +1063,14 @@
 		};
 		538A2C2729CB66AD003E7368 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B0F3867651A084DCF82D4ED /* Pods-Netlaga.debug.xcconfig */;
+			baseConfigurationReference = 357F0870A24CDC92C451A992 /* Pods-Netlaga.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Netlaga/Netlaga.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = KZ4SEZLK43;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Netlaga/Info.plist;
@@ -1011,14 +1097,14 @@
 		};
 		538A2C2829CB66AD003E7368 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 49927A3471FB7CDBFE2D4297 /* Pods-Netlaga.release.xcconfig */;
+			baseConfigurationReference = DCB9ADE0F95D521B82CD466F /* Pods-Netlaga.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Netlaga/Netlaga.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 19;
+				CURRENT_PROJECT_VERSION = 34;
 				DEVELOPMENT_TEAM = KZ4SEZLK43;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Netlaga/Info.plist;

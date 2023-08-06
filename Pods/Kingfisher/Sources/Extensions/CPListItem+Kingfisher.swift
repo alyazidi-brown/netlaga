@@ -199,12 +199,7 @@ extension KingfisherWrapper where Base: CPListItem {
                                 if let unwrapped = image {
                                     self.base.setImage(unwrapped)
                                 }
-                                #endif
-                                
-                            } else {
-                                #if compiler(>=5.4)
-                                self.base.setImage(nil)
-                                #endif
+                                #endif   
                             }
                             completionHandler?(result)
                     }
@@ -229,6 +224,7 @@ private var taskIdentifierKey: Void?
 private var imageTaskKey: Void?
 
 // MARK: Properties
+@available(iOS 12.0, *)
 extension KingfisherWrapper where Base: CPListItem {
 
     public private(set) var taskIdentifier: Source.Identifier.Value? {

@@ -24,7 +24,7 @@ specify it in your `Podfile`, for example:
 
     ```
     source 'https://github.com/CocoaPods/Specs.git'
-    platform :ios, '13.0'
+    platform :ios, '14.0'
     target 'YOUR_APPLICATION_TARGET_NAME_HERE' do
       pod 'GooglePlaces', '7.1.0'
     end

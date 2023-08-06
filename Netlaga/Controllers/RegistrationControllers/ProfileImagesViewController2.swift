@@ -99,6 +99,8 @@ class ProfileImagesViewController: UIViewController, UIImagePickerControllerDele
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
+        self.presentAlertController(withTitle: "One photo only", message: "For the sake of the demo/ beta.  Please use only one picture.")
+        
         imagePickerController.delegate = self
         
             // Create an instance of UICollectionViewFlowLayout since you cant
@@ -220,26 +222,36 @@ class ProfileImagesViewController: UIViewController, UIImagePickerControllerDele
     
     @objc func ImageAction() {
         
-        let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
-        
-        
-        alert.addAction(UIAlertAction(title: "Photo Album", style: .default, handler: {(action: UIAlertAction) in
-            self.getImage(fromSourceType: .photoLibrary)
-        }))
-        
-        
-        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {(action: UIAlertAction) in
+        if profileImageArr.count < 1 {
             
-            self.openCameraButton()
+            let alert = UIAlertController(title: "", message: "", preferredStyle: .actionSheet)
             
-        }))
+            
+            alert.addAction(UIAlertAction(title: "Photo Album", style: .default, handler: {(action: UIAlertAction) in
+                self.getImage(fromSourceType: .photoLibrary)
+            }))
+            
+            
+            alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {(action: UIAlertAction) in
+                
+                self.openCameraButton()
+                
+            }))
+            
+            alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
+            
+            alert.popoverPresentationController?.sourceView = self.view
+            alert.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+            
+            self.present(alert, animated: true, completion: nil)
+            
+        } else {
+            
+            self.presentAlertController(withTitle: "Only one picture allowed", message: "For the sake of beta/ demo.  Only one picture can be selected.")
+            
+        }
         
-        alert.addAction(UIAlertAction(title: "Cancel", style: .default, handler: nil))
         
-        alert.popoverPresentationController?.sourceView = self.view
-        alert.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
-        
-        self.present(alert, animated: true, completion: nil)
         
         
     }
@@ -275,7 +287,7 @@ class ProfileImagesViewController: UIViewController, UIImagePickerControllerDele
             self.present(alert, animated: true, completion: nil)
         }
     }
-    
+    /*
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         if let imagePicked = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
@@ -285,8 +297,35 @@ class ProfileImagesViewController: UIViewController, UIImagePickerControllerDele
             profileImageArr.append(photoModel)
             
             if profileImageArr.count > 0 {
+                
+                var newImage = UIImage()
+                
+                let orientation = profileImageArr[0].profileImage.imageOrientation
+                
+                print("image orientation \(orientation)")
+                if orientation.rawValue != 0 {
+                 
+                newImage = UIImage(cgImage: profileImageArr[0].profileImage.cgImage!, scale: profileImageArr[0].profileImage.scale, orientation: .up)
+                    
+                    let newOrientation = newImage.imageOrientation
+                    
+                    print("new image orientation \(newOrientation)")
+                    
+                } else {
+                   
+                    newImage = profileImageArr[0].profileImage
+                    
+                }
+                
+                
             
-                UserTwo.avaImgData = profileImageArr[0].profileImage.pngData()!
+                UserTwo.avaImgData = newImage.jpegData(compressionQuality: 0.8)!//.pngData()!
+                
+                let retestImg = UIImage(data: UserTwo.avaImgData)
+                
+                let retestOrientation = retestImg!.imageOrientation
+                
+                print("retest orientation \(retestOrientation)")
                 
             }
             
@@ -297,6 +336,81 @@ class ProfileImagesViewController: UIViewController, UIImagePickerControllerDele
                 collectionview.reloadData()
                 
             }
+            
+        }
+        
+        picker.dismiss(animated: true) {
+            
+            
+            print("Picker Dismissed...")
+        }
+    }
+     */
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let imagePicked = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            
+            
+            let photoModel = ProfilePhotosModel(profileImage: imagePicked)
+            
+            
+            if profileImageArr.count < 1 {
+                
+                profileImageArr.append(photoModel)
+                
+                
+                
+                if profileImageArr.count > 0 {
+                    
+                    print("image orientation1 \(profileImageArr[0].profileImage.imageOrientation)")
+                    
+                    var newImage = self.imageOrientation(profileImageArr[0].profileImage)
+                    
+                    print("image orientation2 \(newImage.imageOrientation)")
+                    
+                    if newImage.jpegData(compressionQuality: 0.8) != nil {
+                        
+                        UserTwo.avaImgData = newImage.jpegData(compressionQuality: 0.8)!//.pngData()!
+                        
+                        
+                        print("profileImageArr", profileImageArr)
+                        
+                        if profileImageArr.count < 7 {
+                            
+                            collectionview.reloadData()
+                            
+                        }
+                        
+                        
+                    } else {
+                        
+                        profileImageArr = []
+                        
+                        collectionview.reloadData()
+                        
+                        self.presentAlertController(withTitle: "Oops something went wrong", message: "Please try again.")
+                        
+                        
+                        //UserTwo.avaImgData = newImage
+                        
+                    }
+                    
+                    
+                    
+                }
+                
+                
+            } else {
+                
+                self.presentAlertController(withTitle: "Only one picture allowed", message: "For the sake of beta/ demo.  Only one picture can be selected.")
+                
+                
+            }
+            
+        }else {
+            
+            self.presentAlertController(withTitle: "Oops something went wrong", message: "Please try again.")
             
         }
         
@@ -318,6 +432,59 @@ class ProfileImagesViewController: UIViewController, UIImagePickerControllerDele
         vc.modalPresentationStyle = .overFullScreen
         self.present(vc, animated: true, completion: nil)
         
+    }
+    
+    func imageOrientation(_ src:UIImage)->UIImage {
+        if src.imageOrientation == UIImage.Orientation.up {
+            return src
+        }
+        var transform: CGAffineTransform = CGAffineTransform.identity
+        switch src.imageOrientation {
+        case UIImage.Orientation.down, UIImage.Orientation.downMirrored:
+            transform = transform.translatedBy(x: src.size.width, y: src.size.height)
+            transform = transform.rotated(by: CGFloat(M_PI))
+            break
+        case UIImage.Orientation.left, UIImage.Orientation.leftMirrored:
+            transform = transform.translatedBy(x: src.size.width, y: 0)
+            transform = transform.rotated(by: CGFloat(M_PI_2))
+            break
+        case UIImage.Orientation.right, UIImage.Orientation.rightMirrored:
+            transform = transform.translatedBy(x: 0, y: src.size.height)
+            transform = transform.rotated(by: CGFloat(-M_PI_2))
+            break
+        case UIImage.Orientation.up, UIImage.Orientation.upMirrored:
+            break
+        }
+
+        switch src.imageOrientation {
+        case UIImage.Orientation.upMirrored, UIImage.Orientation.downMirrored:
+            transform.translatedBy(x: src.size.width, y: 0)
+            transform.scaledBy(x: -1, y: 1)
+            break
+        case UIImage.Orientation.leftMirrored, UIImage.Orientation.rightMirrored:
+            transform.translatedBy(x: src.size.height, y: 0)
+            transform.scaledBy(x: -1, y: 1)
+        case UIImage.Orientation.up, UIImage.Orientation.down, UIImage.Orientation.left, UIImage.Orientation.right:
+            break
+        }
+
+        let ctx:CGContext = CGContext(data: nil, width: Int(src.size.width), height: Int(src.size.height), bitsPerComponent: (src.cgImage)!.bitsPerComponent, bytesPerRow: 0, space: (src.cgImage)!.colorSpace!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+
+        ctx.concatenate(transform)
+
+        switch src.imageOrientation {
+        case UIImage.Orientation.left, UIImage.Orientation.leftMirrored, UIImage.Orientation.right, UIImage.Orientation.rightMirrored:
+            ctx.draw(src.cgImage!, in: CGRect(x: 0, y: 0, width: src.size.height, height: src.size.width))
+            break
+        default:
+            ctx.draw(src.cgImage!, in: CGRect(x: 0, y: 0, width: src.size.width, height: src.size.height))
+            break
+        }
+
+        let cgimg:CGImage = ctx.makeImage()!
+        let img:UIImage = UIImage(cgImage: cgimg)
+
+        return img
     }
     
 }

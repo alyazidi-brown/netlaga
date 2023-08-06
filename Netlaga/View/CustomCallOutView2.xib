@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="CustomCalloutView2" customModule="Netlaga" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="370" height="225"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="starbucks-2.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="08t-aW-Ig0">
+                    <rect key="frame" x="-21" y="0.0" width="180" height="225"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="180" id="S93-H1-Hzf"/>
+                        <constraint firstAttribute="height" constant="225" id="TPl-Kf-Dmu"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HF6-1M-H5a">
+                    <rect key="frame" x="195" y="8" width="155" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="155" id="Qx0-ED-ldP"/>
+                        <constraint firstAttribute="height" constant="38" id="fBZ-JM-Ced"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Choose a Date and Time Below" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbz-X3-0mT">
+                    <rect key="frame" x="174" y="92.5" width="176" height="14.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Date" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9k5-yW-SQW">
+                    <rect key="frame" x="175" y="123" width="95" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Time" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="k66-Ml-7AY">
+                    <rect key="frame" x="290" y="123" width="60" height="34"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="leading" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hpy-mf-lzz">
+                    <rect key="frame" x="175" y="165" width="95" height="35"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain" title="Invite?"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="HF6-1M-H5a" firstAttribute="leading" secondItem="08t-aW-Ig0" secondAttribute="trailing" constant="36" id="1x0-BB-RsS"/>
+                <constraint firstItem="08t-aW-Ig0" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="2Sy-5M-x9Y"/>
+                <constraint firstItem="Hpy-mf-lzz" firstAttribute="trailing" secondItem="9k5-yW-SQW" secondAttribute="trailing" id="38M-DB-AW7"/>
+                <constraint firstItem="HF6-1M-H5a" firstAttribute="trailing" secondItem="vbz-X3-0mT" secondAttribute="trailing" id="8rw-Rj-qA5"/>
+                <constraint firstAttribute="bottom" secondItem="Hpy-mf-lzz" secondAttribute="bottom" constant="25" id="Djy-Rq-Ryv"/>
+                <constraint firstItem="9k5-yW-SQW" firstAttribute="top" secondItem="vbz-X3-0mT" secondAttribute="bottom" constant="16" id="Dr6-QA-85W"/>
+                <constraint firstItem="Hpy-mf-lzz" firstAttribute="top" secondItem="9k5-yW-SQW" secondAttribute="bottom" constant="8" symbolic="YES" id="KiD-nf-ZEQ"/>
+                <constraint firstItem="Hpy-mf-lzz" firstAttribute="centerX" secondItem="9k5-yW-SQW" secondAttribute="centerX" id="b3l-Xx-hxb"/>
+                <constraint firstItem="HF6-1M-H5a" firstAttribute="trailing" secondItem="k66-Ml-7AY" secondAttribute="trailing" id="b8L-3T-TTc"/>
+                <constraint firstAttribute="trailing" secondItem="HF6-1M-H5a" secondAttribute="trailing" constant="20" id="dST-W3-FkF"/>
+                <constraint firstItem="vbz-X3-0mT" firstAttribute="top" secondItem="HF6-1M-H5a" secondAttribute="bottom" constant="46.5" id="id6-CC-jBh"/>
+                <constraint firstItem="k66-Ml-7AY" firstAttribute="centerY" secondItem="9k5-yW-SQW" secondAttribute="centerY" id="lJs-58-Qro"/>
+                <constraint firstItem="Hpy-mf-lzz" firstAttribute="leading" secondItem="08t-aW-Ig0" secondAttribute="trailing" constant="16" id="mbX-AL-rDS"/>
+                <constraint firstAttribute="trailing" secondItem="Hpy-mf-lzz" secondAttribute="trailing" constant="100" id="qIO-EY-V8j"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="dateLabel" destination="9k5-yW-SQW" id="BsR-5P-oF2"/>
+                <outlet property="inviteButton" destination="Hpy-mf-lzz" id="o1I-w7-SGQ"/>
+                <outlet property="mapImageView" destination="08t-aW-Ig0" id="vfS-cp-g6J"/>
+                <outlet property="nameLabel" destination="HF6-1M-H5a" id="5AE-y1-dWB"/>
+                <outlet property="starbucksAddress" destination="vbz-X3-0mT" id="ZbI-FJ-hsr"/>
+                <outlet property="starbucksImage" destination="08t-aW-Ig0" id="ZFr-Oe-Wb0"/>
+                <outlet property="starbucksName" destination="HF6-1M-H5a" id="Ej9-pr-nks"/>
+                <outlet property="timeLabel" destination="k66-Ml-7AY" id="YBG-Un-uI2"/>
+            </connections>
+            <point key="canvasLocation" x="594.20289855072474" y="286.94196428571428"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="starbucks-2.jpg" width="259" height="194"/>
+    </resources>
+</document>

@@ -5,7 +5,7 @@
 //  Created by Scott Brown on 3/31/23.
 //
 
-
+/*
 import SwiftUI
 import FirebaseAuth
 
@@ -43,8 +43,10 @@ struct ContentView: View {
         passwordlessSignIn(email: email, link: link) { result in
           switch result {
           case .success(_):
+              UserTwo.email = email
             //isPresentingSheet = user?.isEmailVerified ?? false
               isPresentingSheet = Auth.auth().currentUser?.isEmailVerified ?? false
+              isPresentingSheet = true
               alertItem = AlertItem(
                 title: "Success!",
                 message: "✔ Authentication was successful."
@@ -241,3 +243,6 @@ struct ContentView_Previews: PreviewProvider {
     ContentView()
   }
 }
+
+ */
+

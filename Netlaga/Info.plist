@@ -25,12 +25,16 @@
 	<string>AppIcon</string>
 	<key>CFBundleDisplayName</key>
 	<string>netlaga</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:datingappnew.page.link</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.BrownTech.Netlaga</string>
 	<key>CFBundleShortVersionString</key>
 	<string>0.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>17</string>
+	<string>34</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -57,6 +61,8 @@
 	</array>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We would like to access your microphone.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>Please Allow Access for Service Events</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We would like to access your camera/ gallery for your profile picture and posts.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

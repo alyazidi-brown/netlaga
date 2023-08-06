@@ -15,6 +15,7 @@ import Alamofire
 
 
 
+
 class DiscoveryViewController: UITableViewController, CLLocationManagerDelegate, friendDelegate {
     
     
@@ -80,7 +81,7 @@ override func viewDidLoad() {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
     if discoveryArray.count == 0 {
-    self.tableView.setEmptyMessage("No cool people around here.... Don't worry check Feature tab to match you with someone cool.")
+    self.tableView.setEmptyMessage("No cool places around here.")//("No cool people around here.... Don't worry check Feature tab to match you with someone cool.")
     } else {
     self.tableView.restore()
     }

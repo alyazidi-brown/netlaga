@@ -143,8 +143,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return false
         
     }
-    
-    
+   /*
+    func application(_ application: UIApplication, didReceiveRemoteNotification notification: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        if Auth.auth().canHandleNotification(notification) {
+            completionHandler(.noData)
+            return
+        }
+    }
+   */
+   /*
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
             // If you are receiving a notification message while your app is in the background,
             // this callback will not be fired till the user taps on the notification launching the application.
@@ -203,12 +210,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print(userInfo)
         completionHandler(.newData)
     }
+    */
+    
+    /*
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let firebaseAuth = Auth.auth()
+        firebaseAuth.setAPNSToken(deviceToken, type: AuthAPNSTokenType.prod)
+
+    }
+     */
+
+   func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        let firebaseAuth = Auth.auth()
+        if (firebaseAuth.canHandleNotification(userInfo)){
+            print(userInfo)
+            return
+        }
+    }
+    
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         Messaging.messaging().apnsToken = deviceToken
         let deviceTokenString = deviceToken.reduce("", {$0 + String(format: "%02X", $1)})
+        
+        let firebaseAuth = Auth.auth()
+            firebaseAuth.setAPNSToken(deviceToken, type: AuthAPNSTokenType.unknown)
         print("APNs device token: \(deviceTokenString)")
     }
+     
     
     // Called when APNs failed to register the device for push notifications
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
@@ -256,10 +285,37 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Print full message.
         print("userinfo 5 \(userInfo)")//*
         
-        let type = userInfo["type"] as? String
+        //let type = userInfo["type"] as? String ?? ""
         
-        print("type \(type!)")
+        //print("type \(type!)")
+        /*
+        if (userInfo["aps"] as? [String:Any]) != nil {
+           if let data = userInfo["data"] as? String{
+              if let desc = userInfo["desc"] as? String {
+                  //Access variable desc here...
+                  print(desc)
+              }
+           }
+        }
+         */
+        let senderUid = userInfo["senderId"] as? String ?? ""
         
+        print("sender id received \(senderUid)")
+        if senderUid != "" && senderUid != nil {
+            
+            UserDefaults.standard.set(true, forKey: senderUid)
+            
+            UserDefaults.standard.synchronize()
+            
+        }
+        
+        let myNotificationKey = "notificationKey"
+                        
+        NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: self)
+        
+        
+        
+        /*
         if let notification = userInfo["message"] as? String,
                     let jsonData = notification.data(using: .utf8),
                     let dict = try? JSONSerialization.jsonObject(with: jsonData, options: .allowFragments) as? NSDictionary {
@@ -267,10 +323,31 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                    // savePushNotification(payloadDict: dict ?? [:])
                     print("APS PAYLOAD DICTIONARY \(dict)")
             
-                    let service_request_id = dict["service_request_id"] as? String ?? ""
+            let dataStuff = dict["data"] as? [String: Any] ?? [:]
             
-                // Write/Set Value
-                userDefaults.set(true, forKey: "\(service_request_id)")
+            print("is data here \(dataStuff)")
+            
+            if dataStuff != nil {
+                
+                let senderUid = dataStuff["senderId"] as? String ?? ""
+                
+                print("is senderuid here \(senderUid)")
+                            
+                                // Write/Set Value
+                            
+                            if senderUid != "" && senderUid != nil {
+                                
+                                UserDefaults.standard.set(true, forKey: senderUid)
+                                
+                                UserDefaults.standard.synchronize()
+                                
+                            }
+                
+            }
+            
+            
+             
+           
             
             let myNotificationKey = "notificationKey"
                             
@@ -279,6 +356,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             
                
                 }
+         */
         
         
         // Change this to your preferred presentation option
@@ -306,17 +384,38 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
                     //This is the point where we need to save push notification
                    // savePushNotification(payloadDict: dict ?? [:])
                     print("APS PAYLOAD DICTIONARY \(dict)")
-              
-                    let service_request_id = dict["service_request_id"] as? String ?? ""
             
-                // Write/Set Value
-                userDefaults.set(true, forKey: "\(service_request_id)")
+            let dataStuff = dict["data"] as? [String: Any] ?? [:]
+            
+            print("is data here \(dataStuff)")
+            
+            if dataStuff != nil {
+                
+                let senderUid = dataStuff["senderId"] as? String ?? ""
+                
+                print("is senderuid here \(senderUid)")
+                            
+                                // Write/Set Value
+                            
+                            if senderUid != "" && senderUid != nil {
+                                
+                                UserDefaults.standard.set(true, forKey: senderUid)
+                                
+                                UserDefaults.standard.synchronize()
+                                
+                            }
+                
+            }
+            
+            
+             
+           
             
             let myNotificationKey = "notificationKey"
                             
             NotificationCenter.default.post(name: Notification.Name(rawValue: myNotificationKey), object: self)
+                    
             
-           
                
                 }
         

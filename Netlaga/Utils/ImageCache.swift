@@ -5,4 +5,9 @@
 //  Created by Scott Brown on 23/06/2023.
 //
 
-import Foundation
+class ImageCache {
+
+    private init() {}
+
+    static let shared = NSCache<NSString, UIImage>()
+}

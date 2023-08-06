@@ -67,6 +67,24 @@ class TableCell: UITableViewCell {
            return theImageView
         }()
     
+    let unreadImageView: UIImageView = {
+        let theImageView = UIImageView()
+        
+        if #available(iOS 13.0, *) {
+        theImageView.image = UIImage(named: "blue_circle.png")
+        }else{
+        let image = UIImage(named: "blue_circle.png")?.withRenderingMode(.alwaysTemplate)
+        theImageView.image = image
+        theImageView.tintColor = UIColor.white
+        }
+           
+           
+        theImageView.translatesAutoresizingMaskIntoConstraints = false //You need to call this property so the image is added to your view
+       
+        
+           return theImageView
+        }()
+    
      var friendButton: UIButton = {
         let button = UIButton(type: .custom)
         

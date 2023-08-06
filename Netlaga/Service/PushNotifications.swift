@@ -11,7 +11,7 @@
     //
     //  Created by Scott Brown on 3/12/23.
     //  Copyright © 2023 Fruktorum. All rights reserved.
-    //
+    //https://firebase.google.com/docs/cloud-messaging/concept-options
 
     import Foundation
     import Firebase
@@ -35,12 +35,16 @@ struct PushNotificationService {
             
             let paramString : [String : Any] = ["to" : token,
                                                 "content_available": false,
+                                                "priority": "high",
                                                 "notification" : [
                                                     "title" : title,
                                                     "body" : body,
                                                     "badge" : "1",
                                                     "sound" : "default"
-                                                ]
+                                                ],
+                                                "data": [
+                                                    "senderId": sender
+                                                 ]
             ]
             
             print("param notification \(paramString)")

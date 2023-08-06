@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import FirebaseAuth
 
 class InputViewController: UIViewController {
     
@@ -94,7 +95,10 @@ class InputViewController: UIViewController {
         
         let tf = UITextField()
         
-        tf.placeholder = "Jill"
+       
+        tf.attributedPlaceholder = NSAttributedString(
+            string: "Jill",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         tf.textColor = .black
         
@@ -108,6 +112,32 @@ class InputViewController: UIViewController {
         
         
         return tf
+    }()
+    
+    private let dismissButton: AuthButton = {
+        let button = AuthButton(type: .system)
+        button.setTitle("Dismiss", for: .normal)
+        
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        // 2. check the idiom
+        switch (deviceIdiom) {
+
+        case .pad:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            //print("iPad style UI")
+        case .phone:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("iPhone and iPod touch style UI")
+       // case .tv:
+           // print("tvOS style UI")
+        default:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("Unspecified UI idiom")
+        }
+        
+        return button
     }()
     
     
@@ -150,7 +180,28 @@ class InputViewController: UIViewController {
         
         configureUI()
         
+        
         self.nameTextField.resignFirstResponder()
+        
+        //Looks for single or multiple taps.
+             let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+
+            //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+            //tap.cancelsTouchesInView = false
+
+            view.addGestureRecognizer(tap)
+        
+    }
+    
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        return true
         
     }
     
@@ -161,7 +212,7 @@ class InputViewController: UIViewController {
         stackTextField.spacing = 5
         stackTextField.distribution = .equalSpacing
      
-        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, stackTextField, continueButton])
+        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, stackTextField, continueButton, dismissButton])
         stackFirst.axis = .vertical
         stackFirst.spacing = 50
         stackFirst.distribution = .fillProportionally
@@ -191,7 +242,7 @@ class InputViewController: UIViewController {
                 UserTwo.firstName = nameTextField.text ?? "First Name"
             
             let vc = DOBViewController() //your view controller
-            vc.modalPresentationStyle = .overFullScreen
+                vc.modalPresentationStyle = .overFullScreen
             self.present(vc, animated: true, completion: nil)
                 
             }
@@ -199,6 +250,12 @@ class InputViewController: UIViewController {
         }
          
    
+    @objc func backAction() {
+        print("It goes here")
+        
+        self.dismiss(animated: true, completion: nil)
+        //self.navigationController?.popViewController(animated: true)
+    }
 
 
 }

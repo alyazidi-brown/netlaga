@@ -22,13 +22,91 @@ import CoreLocation
 import UIKit
 
 
+protocol ReadMessageDelegate: AnyObject {
+    func notifyMe()
+}
+
+protocol SaveInviteDelegate: AnyObject {
+    func saveInvite(date: String, time: String, name: String, discoverySetUp: DiscoveryStruct)
+}
 
 
+class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, InviteLocationDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate{//, chatResetDelegate{
+    
+    /*
+    func chatReset() {
+        downloadChats()
+        
+        self.messagesCollectionView = ChatMessagesCollectionView()
+        (self.messagesCollectionView as? ChatMessagesCollectionView)?.messagesCollectionViewDelegate = self
+        
+        self.messagesCollectionView.reloadData()
+        
+        print("reloaded 1")
+        super.viewDidLoad()
+        
+        print("reloaded 2")
+        /*
+        deleteImage(discoveryStruct: discoverySetUp)
+        configNotificationStatus()
+        
+        if UserDefaults.standard.object(forKey: discoverySetUp.uid) != nil {
+          
+            UserDefaults.standard.set(false, forKey: discoverySetUp.uid)
+            
+            UserDefaults.standard.synchronize()
+            
+            UserDefaults.standard.removeObject(forKey: discoverySetUp.uid)
+            
+            self.delegate?.notifyMe()
+            
+        }
+        
+        
+        self.messagesCollectionView = ChatMessagesCollectionView()
+        (self.messagesCollectionView as? ChatMessagesCollectionView)?.messagesCollectionViewDelegate = self
+        
+        
+        super.viewDidLoad()
+        
+        print("right chat")
+        
+        view.backgroundColor = .white
+        
+        overrideUserInterfaceStyle = .light
+        
+        self.messagesCollectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 70, right: 0)
+        
+        self.navigationItem.title = "title"
+        //self.tabBarController?.navigationController?.navigationBar.backgroundColor = .red
+        
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Abcd", style: .done, target: self, action: #selector(backButtonAction))
+        
+        //navigationItem.hidesBackButton = true
+       // navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "BackButton"), style: .plain, target: self, action: #selector(backButtonAction))
+        
+        senderRoom = Auth.auth().currentUser?.uid ?? "userNotFound"
+        
+        setChatTitle()
+        
+        self.setNavigationBar()
+        //backButtonUI()
+        
+        //configureLeftBarButton()
+        configureMessageCollectionView()
+        configureMessageInputBar()
+        
+        //downloadChats()
+        
+        audioController = AudioController(messageCollectionView: messagesCollectionView)
+         */
+    }
+    */
+    
 
-class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, InviteLocationDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     
-    func uploadLocation(location: CLLocation, locationImage: UIImage) {
+    func uploadLocation(location: CLLocation, locationImage: UIImage, date: String, time: String, placeName: String) {
         print ("do you even go here location chat?")
         var latitudeStr: String = ""
         var longitudeStr: String = ""
@@ -38,7 +116,9 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
         
         print ("latitude string \(latitudeStr) \(longitudeStr)")
         
-        UserService.uploadMessage(inviteLatitude: latitudeStr, inviteLongitude: longitudeStr, type: "location", to: discoverySetUp) { error in
+        UserService.uploadMessage(inviteLatitude: latitudeStr, inviteLongitude: longitudeStr, type: "location", to: discoverySetUp, invite: "true", date: date, time: time, placeName: placeName) { error in
+            
+            
             if let error = error {
                 
                 print("DEBUG: failed")
@@ -53,7 +133,22 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
             
             let body = "\(UserTwo.firstName) sent you a message."
             
-            PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+            UserService.fetchActivity(to: self.discoverySetUp) { str in
+                
+                print("the activity string noted4 \(str)")
+                
+                if str == "inactive" {
+                    
+                    PushNotificationService.sendMessageToUser(sender: UserTwo.uid, chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                    
+                } else {
+                    
+                    
+                    
+                }
+                
+                
+            }
             
             UserService.uploadPhoto(locationImage, to: self.discoverySetUp) { imageUrl in//{ error  in
                 
@@ -69,7 +164,7 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
                 }
                 */
                 
-                UserService.uploadMessage("Wanna meet here? :D", type: "text", to: self.discoverySetUp) { error in
+                UserService.uploadMessage("Wanna meet here? :D", type: "text", to: self.discoverySetUp, invite: "true", date: date, time: time, placeName: placeName) { error in
                     if let error = error {
                         
                         print("DEBUG: failed")
@@ -106,6 +201,10 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
     //private var chatId = ""
     private var recipientId = ""
     private var recipientName = ""
+    
+    var delegate: ReadMessageDelegate?
+    
+    var inviteDelegate: SaveInviteDelegate?
     
     var recordingSession: AVAudioSession?
     var audioRecorder: AVAudioRecorder?
@@ -202,7 +301,18 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
     
     
     override func viewDidLoad() {
+        
+        
+        
+        self.messagesCollectionView = ChatMessagesCollectionView()
+        (self.messagesCollectionView as? ChatMessagesCollectionView)?.messagesCollectionViewDelegate = self
+        
+        configureMessageCollectionView()
+        configureMessageInputBar()
+
+        
         super.viewDidLoad()
+       
         
         print("right chat")
         
@@ -210,37 +320,61 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
         
         overrideUserInterfaceStyle = .light
         
+        
+        
+        
+        
+        self.messagesCollectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 70, right: 0)
+        
+        self.navigationItem.title = "title"
+        //self.tabBarController?.navigationController?.navigationBar.backgroundColor = .red
+        
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Abcd", style: .done, target: self, action: #selector(backButtonAction))
+        
+        //navigationItem.hidesBackButton = true
+       // navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "BackButton"), style: .plain, target: self, action: #selector(backButtonAction))
+        
         senderRoom = Auth.auth().currentUser?.uid ?? "userNotFound"
         
         setChatTitle()
         
-        backButtonUI()
+        self.setNavigationBar()
+        //backButtonUI()
         
-        configureLeftBarButton()
-        configureMessageCollectionView()
-        configureMessageInputBar()
+        //configureLeftBarButton()
+        //configureMessageCollectionView()
+        //configureMessageInputBar()
         
         //downloadChats()
         
         audioController = AudioController(messageCollectionView: messagesCollectionView)
         
-        /*
-            //Looks for single or multiple taps.
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
 
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
-
-        view.addGestureRecognizer(tap)
+    }
+    
+    func configNotificationStatus() {
         
-        let tapTwo = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-
+        UserService.uploadActivity(to: discoverySetUp, status: "active") { str in
+            
+            print("activity string \(str)")
+        }
         
-
-        view.addGestureRecognizer(tap)
         
-        messagesCollectionView.addGestureRecognizer(tapTwo)
-         */
+    }
+    
+    func configNotificationExitStatus() {
+      
+        
+        UserService.uploadActivity(to: discoverySetUp, status: "inactive") { str in
+            
+            print("activity string \(str)")
+        }
+        
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
     }
     
         //Calls this function when the tap is recognized.
@@ -254,16 +388,61 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        //configureMessageInputBar()
         downloadChats()
         deleteImage(discoveryStruct: discoverySetUp)
-        //FirebaseListener.shared.resetRecentCounter(chatRoomId: chatId)
+        configNotificationStatus()
+        
+        if UserDefaults.standard.object(forKey: discoverySetUp.uid) != nil {
+          
+            UserDefaults.standard.set(false, forKey: discoverySetUp.uid)
+            
+            UserDefaults.standard.synchronize()
+            
+            UserDefaults.standard.removeObject(forKey: discoverySetUp.uid)
+            
+            self.delegate?.notifyMe()
+            
+        }
+        
+        //inputAccessoryView?.becomeFirstResponder()
+        self.becomeFirstResponder()
+        
+        /*
+        self.messagesCollectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 70, right: 0)
+        
+        self.navigationItem.title = "title"
+        
+        
+        senderRoom = Auth.auth().currentUser?.uid ?? "userNotFound"
+        
+        setChatTitle()
+        
+        self.setNavigationBar()
+        
+        configureMessageCollectionView()
+        configureMessageInputBar()
+        
+       
+        
+        audioController = AudioController(messageCollectionView: messagesCollectionView)
+         */
+        
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        configNotificationExitStatus()
+        
+    }
+    
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("will disappear")
-        //removeListeners()
-        //FirebaseListener.shared.resetRecentCounter(chatRoomId: chatId)
+        
     }
     
     //MARK: - Config
@@ -272,6 +451,59 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
         
         
     }
+    
+    func setNavigationBar() {
+        
+        //create a new button
+                let button = UIButton(type: .custom)
+                //set image for button
+                button.setImage(UIImage(named: "BackButton"), for: .normal)
+                //add function for button
+                button.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
+                //set frame
+                button.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+
+                let barButton = UIBarButtonItem(customView: button)
+                //assign button to navigationbar
+                //self.navigationItem.rightBarButtonItem = barButton
+        
+        
+        let url = URL(string: discoverySetUp.ava)!
+        
+
+            //let data = try! Data(contentsOf: url)
+            //let img = UIImage(data: data)
+            let imageView = UIImageView(frame: CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0))
+            
+            // NEW CODE HERE: Setting the constraints
+            imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+            imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
+            imageView.kf.setImage(with: url)
+        
+            //imageView.image = img?.withRenderingMode(.alwaysOriginal)
+            imageView.layer.cornerRadius = 20.0
+            imageView.layer.masksToBounds = true
+        
+        
+            
+        
+        
+        let screenSize: CGRect = UIScreen.main.bounds
+        let navBar = UINavigationBar(frame: CGRect(x: 0, y: 40, width: screenSize.width, height: 70))
+        let navItem = UINavigationItem(title: "")//(title: "\(discoverySetUp.firstName)")
+        let doneItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.action, target: nil, action: #selector(backButtonAction))
+        //navItem.leftBarButtonItem = doneItem
+        
+        navItem.prompt = discoverySetUp.firstName
+        
+        navItem.titleView = imageView
+        
+        navItem.leftBarButtonItem = barButton
+        navBar.setItems([navItem], animated: false)
+        self.view.addSubview(navBar)
+    }
+
     
     func backButtonUI() {
         
@@ -423,10 +655,10 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
         /*messageInputBar.setMiddleContentView(recordButton, animated: false)*/
         
         
-        messageInputBar.setStackViewItems([button], forStack: .left, animated: false)
+        messageInputBar.setStackViewItems([button,audioButton], forStack: .left, animated: false)
         //messageInputBar.setStackViewItems([audioButton, messageInputBar.sendButton], forStack: .right, animated: false)
-        messageInputBar.setLeftStackViewWidthConstant(to: 36, animated: false)
-        messageInputBar.setStackViewItems([audioButton], forStack: .bottom, animated: false)
+        messageInputBar.setLeftStackViewWidthConstant(to: 70, animated: false)
+        //messageInputBar.setStackViewItems([audioButton], forStack: .bottom, animated: false)
         
         messageInputBar.inputTextView.isImagePasteEnabled = false
         messageInputBar.backgroundView.backgroundColor = .systemBackground
@@ -484,7 +716,22 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
                             
                             let body = "\(UserTwo.firstName) sent you a message."
                             
-                            PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                            UserService.fetchActivity(to: self.discoverySetUp) { str in
+                                
+                                print("the activity string noted5 \(str)")
+                                
+                                if str == "inactive" {
+                                    
+                                    PushNotificationService.sendMessageToUser(sender: UserTwo.uid, chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                                    
+                                } else {
+                                    
+                                    
+                                    
+                                }
+                                
+                                
+                            }
                             
                             UserService.uploadMessageUser(to: self.discoverySetUp) { str in//error in
                                 
@@ -596,7 +843,24 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
             
             let body = "\(UserTwo.firstName) sent you a message."
             
-            PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+            UserService.fetchActivity(to: self.discoverySetUp) { str in
+                
+                print("the activity string noted \(str)")
+                
+                if str == "inactive" {
+                    
+                    PushNotificationService.sendMessageToUser(sender: UserTwo.uid, chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                    
+                } else {
+                    
+                    
+                    
+                }
+                
+                
+            }
+            
+            
             
             
             UserService.uploadMessageUser(to: self.discoverySetUp) { str in//error in
@@ -623,15 +887,23 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
     
     private func downloadChats() {
         
-        UserService.fetchMessagesTwo(forUser: discoverySetUp) { messages in
+        UserService.fetchMessagesTwo(forUser: discoverySetUp) { messages, messagesTwo in
             
             self.mkmessagesTwo = messages
             
-            print("the messages \(self.mkmessagesTwo) \(messages)")
+            self.mkmessages = messagesTwo
             
-            self.messagesCollectionView.reloadData()
+            print("the messages \(self.mkmessagesTwo) sep1 \(messages) sep2 \(self.mkmessages)")
+            
             self.view.isUserInteractionEnabled = true
-            self.messagesCollectionView.scrollToLastItem()
+            
+            DispatchQueue.main.async {
+                
+                self.messagesCollectionView.reloadData()
+                
+                self.messagesCollectionView.scrollToLastItem()
+                
+            }
         }
         
        
@@ -719,8 +991,22 @@ class ChatViewController: MessagesViewController, AudioRecorderVCDelegate, Invit
                     
                     let body = "\(UserTwo.firstName) sent you a message."
                     
-                    PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
-                }
+                    UserService.fetchActivity(to: self.discoverySetUp) { str in
+                        
+                        print("the activity string noted2 \(str)")
+                        
+                        if str == "inactive" {
+                            
+                            PushNotificationService.sendMessageToUser(sender: UserTwo.uid, chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                            
+                        } else {
+                            
+                            
+                            
+                        }
+                        
+                        
+                    }                }
             }
 
         }
@@ -795,6 +1081,12 @@ extension ChatViewController : MessagesDataSource {
 
 extension ChatViewController: MessageCellDelegate {
     
+    /*
+    @objc(didTapBackgroundIn:) func didTapBackground(in cell: MessageCollectionViewCell) {
+    self.messageInputBar.inputTextView.resignFirstResponder()
+    }
+     */
+    
     func didTapPlayButton(in cell: AudioMessageCell) {
         
         let indexPath = messagesCollectionView.indexPath(for: cell)
@@ -804,7 +1096,7 @@ extension ChatViewController: MessageCellDelegate {
         switch msg.kind {
        
         case .audio(_):
-            audioController?.mp3Player?.volume = 1.0
+            audioController?.mp3Player?.volume = 0.7
             if audioController?.state == .stopped {
                 audioController!.playSound(for: msg, in: cell)
             } else if audioController?.state == .playing {
@@ -821,10 +1113,16 @@ extension ChatViewController: MessageCellDelegate {
         
         let indexPath = messagesCollectionView.indexPath(for: cell)
         let msg = mkmessagesTwo[indexPath!.section]
+        
+        let msgTwo = mkmessages[indexPath!.section]
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+       
+        
         print("tap on image message")
         
         switch msg.kind {
-       
+            
         case .audio(_):
             audioController?.mp3Player?.volume = 1.0
             if audioController?.state == .stopped {
@@ -836,10 +1134,67 @@ extension ChatViewController: MessageCellDelegate {
             }
         default:
             print("do nothing")
+            if msg.invite == "true" {
+                
+                if msgTwo.fromId != currentUid{
+                    
+                    let alert = UIAlertController(title: "\(discoverySetUp.firstName) is inviting you out!", message: "Would you like to accept the invite to attend \(msgTwo.placeName) on \(msgTwo.date) at \(msgTwo.time)?", preferredStyle: .alert)
+                    let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+                        print("ok pressed for invite")
+                        
+                        self.dismiss(animated: true) {
+                            
+                            self.inviteDelegate?.saveInvite(date: msgTwo.date, time: msgTwo.time, name: msgTwo.placeName, discoverySetUp: self.discoverySetUp)
+                            
+                        }
+                        
+                            /*
+                            
+                             let vc =  EventViewController() //your view controller
+                             vc.discoverySetUp = self.discoverySetUp
+                             vc.inviteDateString = msgTwo.date
+                             vc.inviteTimeString = msgTwo.time
+                             vc.inviteTitle = msgTwo.placeName
+                             vc.chatDelegate = self
+                             
+                             vc.modalPresentationStyle = .overFullScreen
+                             
+                             //self.navigationController?.pushViewController(vc, animated: true)
+                             self.present(vc, animated: true, completion: nil)
+                             
+                            */
+                       
+                         
+                    })
+                    
+                    let cancel = UIAlertAction(title: "Cancel", style: .cancel) { (action) -> Void in
+                        
+                        print("cancel pressed for invite")
+                        
+                    }
+                    
+                    alert.addAction(ok)
+                    alert.addAction(cancel)
+                    self.present(alert, animated: true, completion: nil)
+                    
+                    
+                }
+            }
+            
         }
     }
     
 }
+
+
+extension ChatViewController: MessagesCollectionViewDelegate {
+    func didTap() {
+        
+        print("touch for message")
+        self.messageInputBar.inputTextView.resignFirstResponder()
+    }
+}
+
 
 
 extension ChatViewController: MessagesDisplayDelegate {
@@ -920,6 +1275,7 @@ extension ChatViewController: MessagesLayoutDelegate {
         
         print("image url here? \(imageURL) \(indexPath.section) messagetype \(message.sender.senderId) \(message.messageId)")
         
+        /*
         if let url = URL(string: "\(imageURL)") {
             let task = URLSession.shared.dataTask(with: url) { data, response, error in
                 guard let data = data, error == nil else { return }
@@ -932,7 +1288,27 @@ extension ChatViewController: MessagesLayoutDelegate {
             
             task.resume()
         }
+       */
         
+        if let url = URL(string: imageURL) {
+            
+
+            
+            KingfisherManager.shared.retrieveImage(with: url) { result in
+                let image = try? result.get().image
+                if let image = image {
+                   
+                    avatarView.set(avatar: Avatar(image: image, initials: "AB"))
+                    
+                } else {
+                    
+                    avatarView.set(avatar: Avatar(image: UIImage(named: "avatar"), initials: "AB"))
+                    
+                    
+                }
+            }
+            
+        }
         
         
         //.set(avatar: Avatar(initials: mkmessages[indexPath.section].senderInitials))
@@ -996,7 +1372,24 @@ extension ChatViewController : GalleryControllerDelegate {
                     
                     let body = "\(UserTwo.firstName) sent you a message."
                     
-                    PushNotificationService.sendMessageToUser(sender: "", chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                    
+                    
+                    UserService.fetchActivity(to: self.discoverySetUp) { str in
+                        
+                        print("the activity string noted3 \(str)")
+                        
+                        if str == "inactive" {
+                            
+                            PushNotificationService.sendMessageToUser(sender: UserTwo.uid, chatRoomId: "", to: self.discoverySetUp.token, title: title, body: body)
+                            
+                        } else {
+                            
+                            
+                            
+                        }
+                        
+                        
+                    }
                 }
                 //self.messageSend(text: nil, photo: image)
             }

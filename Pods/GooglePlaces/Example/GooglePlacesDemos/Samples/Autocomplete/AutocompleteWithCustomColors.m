@@ -16,15 +16,18 @@
 #import "GooglePlacesDemos/Samples/Autocomplete/AutocompleteWithCustomColors.h"
 
 #import <GooglePlaces/GooglePlaces.h>
-
+#import "GooglePlacesDemos/Samples/Autocomplete/AutocompleteBaseViewController.h"
+#import "GooglePlacesDemos/Support/BaseDemoViewController.h"
 /**
  * Simple subclass of GMSAutocompleteViewController solely for the purpose of localising appearance
  * proxy changes to this part of the demo app.
  */
 @interface GMSStyledAutocompleteViewController : GMSAutocompleteViewController
+
 @end
 
 @implementation GMSStyledAutocompleteViewController
+
 @end
 
 static CGFloat const kButtonPadding = 10.f;
@@ -45,18 +48,7 @@ static CGFloat const kButtonPadding = 10.f;
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  UIColor *textColor = nil;
-#if defined(__IPHONE_13_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0)
-  if (@available(iOS 13.0, *)) {
-    self.view.backgroundColor = [UIColor systemBackgroundColor];
-    textColor = [UIColor labelColor];
-  } else {
-    self.view.backgroundColor = [UIColor whiteColor];
-    textColor = [UIColor blackColor];
-  }
-#else
-  self.view.backgroundColor = [UIColor whiteColor];
-#endif  // defined(__IPHONE_13_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_13_0
+  UIColor *textColor = [UIColor labelColor];
 
   NSString *titleYellowAndBrown =
       NSLocalizedString(@"Demo.Content.Autocomplete.Styling.Colors.YellowAndBrown",
@@ -276,12 +268,24 @@ static CGFloat const kButtonPadding = 10.f;
       appearanceWhenContainedInInstancesOfClasses:@[ [GMSStyledAutocompleteViewController class] ]];
   [appearance setColor:primaryTextColor];
 
-  [[UINavigationBar
-      appearanceWhenContainedInInstancesOfClasses:@[ [GMSStyledAutocompleteViewController class] ]]
-      setBarTintColor:darkBackgroundColor];
-  [[UINavigationBar
-      appearanceWhenContainedInInstancesOfClasses:@[ [GMSStyledAutocompleteViewController class] ]]
-      setTintColor:searchBarTintColor];
+  // Customize the navigation bar appearance.
+  UINavigationBar *navBar = [UINavigationBar
+      appearanceWhenContainedInInstancesOfClasses:@[ [GMSStyledAutocompleteViewController class] ]];
+  [navBar setBarTintColor:darkBackgroundColor];
+  [navBar setTintColor:searchBarTintColor];
+
+  // On iOS 15 onwards, we need to update the navigation bar appearance to ensure customized colors
+  // are consistently applied on all states of the navigation bar.
+#if defined(__IPHONE_15_0) && (__IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_15_0)
+  if (@available(iOS 15.0, *)) {
+    UINavigationBarAppearance *consistentAppearance = [[UINavigationBarAppearance alloc] init];
+    consistentAppearance.backgroundColor = darkBackgroundColor;
+    navBar.standardAppearance = consistentAppearance;
+    navBar.scrollEdgeAppearance = consistentAppearance;
+    navBar.compactAppearance = consistentAppearance;
+    navBar.compactScrollEdgeAppearance = consistentAppearance;
+  }
+#endif  // defined(__IPHONE_15_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_15_0
 
   // Color of typed text in search bar.
   NSDictionary *searchBarTextAttributes = @{
@@ -337,7 +341,7 @@ static CGFloat const kButtonPadding = 10.f;
   }
 }
 
-/*
+/**
  * This method shows how to replace the "search" and "clear text" icons in the search bar with
  * custom icons in the case where the default gray icons don't match a custom background.
  */

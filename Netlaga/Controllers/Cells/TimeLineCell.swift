@@ -95,7 +95,7 @@ class TimeLineCell: UITableViewCell {//CommentCell {
            
            
         theImageView.translatesAutoresizingMaskIntoConstraints = false //You need to call this property so the image is added to your view
-        
+        /*
         let idiomHeight = UIScreen.main.bounds.height
         if idiomHeight  < 736.0 {
             
@@ -108,7 +108,7 @@ class TimeLineCell: UITableViewCell {//CommentCell {
             theImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
 
         }
-       
+       */
         
            return theImageView
         }()

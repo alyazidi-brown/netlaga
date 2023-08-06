@@ -126,6 +126,32 @@ class GenderViewController: UIViewController {
         return button
     }()
     
+    private let dismissButton: AuthButton = {
+        let button = AuthButton(type: .system)
+        button.setTitle("Dismiss", for: .normal)
+        
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        // 2. check the idiom
+        switch (deviceIdiom) {
+
+        case .pad:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            //print("iPad style UI")
+        case .phone:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("iPhone and iPod touch style UI")
+       // case .tv:
+           // print("tvOS style UI")
+        default:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("Unspecified UI idiom")
+        }
+        
+        return button
+    }()
+    
     
 
     override func viewDidLoad() {
@@ -154,7 +180,7 @@ class GenderViewController: UIViewController {
         stackButtons.spacing = 10
         stackButtons.distribution = .equalSpacing
      
-        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, stackButtons, continueButton])
+        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, stackButtons, continueButton, dismissButton])
         stackFirst.axis = .vertical
         stackFirst.spacing = 50
         stackFirst.distribution = .fillProportionally

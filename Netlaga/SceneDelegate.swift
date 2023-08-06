@@ -6,8 +6,10 @@
 //
 
 import UIKit
+import Firebase
 import FirebaseAuth
 import FBSDKCoreKit
+import FirebaseDynamicLinks
      
     
 
@@ -15,7 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -32,30 +34,72 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
            }
         
         
- 
-        
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
+        window.backgroundColor = .systemPurple
+        //window.makeKeyAndVisible()
         
-        if Auth.auth().currentUser == nil{
         
-        print("you should hit the login")
-            
-        let vc = LogInViewController()//RegistrationViewController()//InputViewController()
-        vc.view.backgroundColor = .white
+        
+        let vc = NotificationsController()//LocationServicesController()//RegistrationViewController()//InputViewController()
+        
         window.rootViewController = vc
+        
+       /*
+        if Auth.auth().currentUser != nil {//&& Auth.auth().currentUser!.isEmailVerified {
             
+            let ref = Database.database().reference().child("users").child(Auth.auth().currentUser!.uid)
             
+            ref.observeSingleEvent(of: .value, with: { snapshot in
+                
+                
+                if snapshot.exists() {
+                   
+                    let vc = HomeTabBarController()//RegistrationViewController()//InputViewController()
+                    vc.view.backgroundColor = .white
+                    
+                    window.rootViewController = vc
+                    
+                } else {
+                    
+                    let user = Auth.auth().currentUser
+
+                    user?.delete { error in
+                      if let error = error {
+                        // An error happened.
+                      } else {
+                        // Account deleted.
+                          
+                          print("you should hit the login")
+                                      
+                          let vc = LogInViewController()//RegistrationViewController()//InputViewController()
+                          vc.view.backgroundColor = .white
+                          window.rootViewController = vc
+                      }
+                    }
+                    
+                }
+                
+                    })
+        
+            
+       // if Auth.auth().currentUser == nil{
+        
         } else {
-              
-            window.makeKeyAndVisible()
             
-            let vc = HomeTabBarController()//RegistrationViewController()//InputViewController()
+            print("you should hit the login")
+                        
+            let vc = LogInViewController()//RegistrationViewController()//InputViewController()
             vc.view.backgroundColor = .white
-            
             window.rootViewController = vc
+            
+            
         }
+       
+        */
+        
+        
         
         
         /*
@@ -99,7 +143,51 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             annotation: [UIApplication.OpenURLOptionsKey.annotation]
         )
     }
+    
+    func scene(_ scene: UIScene, continue userActivity: NSUserActivity) {
+                    
+            if let incomingURL = userActivity.webpageURL {
+                
+                print("\n \nIncoming URL is \(incomingURL)")
+                
+                _ = DynamicLinks.dynamicLinks().handleUniversalLink(incomingURL) { (dynamicLink, error) in
+                    
+                    guard error == nil else {
+                        print("\n \nError with handling incoming URL: \(error!.localizedDescription)")
+                        return
+                    }
+                    
+                    if let dynamicLink = dynamicLink {
+                        
+                        guard let url = dynamicLink.url else {
+                            print("\n \nDynamic link object has no url")
+                            return
+                        }
+                        
+                        print("\n \nIncoming link parameter is \(url.absoluteString)")
+                        
+                        let link = url.absoluteString
+                        
+                        if Auth.auth().isSignIn(withEmailLink: link) {
+                            
+                            // Send notification to trigger the rest of the sign in sequence
+                            NotificationCenter.default.post(name: Notification.Name("Success"), object: nil, userInfo: ["link": link])
+                            
+                        } else {
+                            
+                            // Send error notification
+                            NotificationCenter.default.post(name: Notification.Name("Error"), object: nil, userInfo: nil)
+                            
+                        }
+                        
+                    }
+                    
+                }
+            }
+        }
 
+    
+    
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.
         // This occurs shortly after the scene enters the background, or when its session is discarded.

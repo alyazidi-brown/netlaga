@@ -32,6 +32,8 @@ let REF_TRIPS = DB_REF.child("trips")
 let REF_DRIVER_TRANSIT = DB_REF.child("driver-transit")
 let COLLECTION_MESSAGES = Firestore.firestore().collection("message")
 let COLLECTION_MESSAGE_USERS = Firestore.firestore().collection("message_users")
+let COLLECTION_INVITES = Firestore.firestore().collection("invites")
+let COLLECTION_ACTIVITY = Firestore.firestore().collection("activity")
 let LIKED_LIST = Firestore.firestore().collection("liked-list")
 
 var userArray: [UserFirebase] = []
@@ -373,7 +375,7 @@ struct UserService {
         
     }
     
-    static func fetchMessagesTwo(forUser user: DiscoveryStruct, completion: @escaping([MKMessage]) -> Void) {
+    static func fetchMessagesTwo(forUser user: DiscoveryStruct, completion: @escaping([MKMessage], [Message]) -> Void) {
         
         
         var messages = [Message]()
@@ -414,6 +416,26 @@ struct UserService {
                                 return
                             }
                     
+                    guard let dateString = dictionary["date"] as? String else {
+                                return
+                            }
+                    guard let timeString = dictionary["time"] as? String else {
+                                return
+                            }
+                    
+                    guard let placeName = dictionary["placeName"] as? String else {
+                                return
+                            }
+                    
+                    
+                    
+                    
+                   // guard let invite = dictionary["invite"] as? String else {
+                               // return
+                           // }
+                    
+                    let invite = dictionary["invite"] as? String
+                    
                     print("the type \(type)")
                     let date = stamp.dateValue()
                     
@@ -422,6 +444,12 @@ struct UserService {
                     
                     
                     if hours! < 24 {
+                        
+                        if invite != nil {
+                            
+                            dictionary.updateValue(invite!, forKey: "invite")
+                            
+                        }
                         
                         if type == "picture" {
                             
@@ -447,9 +475,11 @@ struct UserService {
                                                         
                                 let mkMessage = MKMessage(message: message)
                                 
+                                messages.append(message)
+                                
                                 messagesTwo.append(mkMessage)
                             
-                                completion(messagesTwo)
+                                completion(messagesTwo, messages)
                                 
                             }
 
@@ -488,10 +518,11 @@ struct UserService {
                                                                 
                                         let mkMessage = MKMessage(message: message)
                             
+                                        messages.append(message)
                                         
                                         messagesTwo.append(mkMessage)
                                         
-                                        completion(messagesTwo)
+                                        completion(messagesTwo, messages)
                                         
                             
                             
@@ -532,10 +563,11 @@ struct UserService {
                                                                 
                                         let mkMessage = MKMessage(message: message)
                             
+                                        messages.append(message)
                                         
                                         messagesTwo.append(mkMessage)
                                         
-                                        completion(messagesTwo)
+                                        completion(messagesTwo, messages)
                                         
                             
                             
@@ -562,9 +594,11 @@ struct UserService {
                                                     
                             let mkMessage = MKMessage(message: message)
                             
+                            messages.append(message)
+                            
                             messagesTwo.append(mkMessage)
                             
-                            completion(messagesTwo)
+                            completion(messagesTwo, messages)
                         }
                         
                         
@@ -625,6 +659,111 @@ struct UserService {
                 
             }
         }
+    }
+    
+    static func fetchActivity(to user: DiscoveryStruct, completion: @escaping(String) -> Void) {
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        var status: String = ""
+        
+        COLLECTION_MESSAGES.document(user.uid).collection(currentUid).document("activity").getDocument { (snapshot, error) in
+            
+            guard let snapshot = snapshot else { return }
+           
+            
+            if snapshot.exists {
+                
+                status = snapshot.get("status") as! String
+                
+                completion(status)
+
+                
+            } else {
+               
+                
+                completion(status)
+                
+            }
+        }
+    }
+    
+    static func uploadActivity(to user: DiscoveryStruct, status: String, completion: @escaping(String) -> Void) {
+        
+        
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else {return}
+        
+        
+        let data = ["status": status] as [String : Any]
+        
+        print("is my data here? \(data)")
+        
+        
+        let docRef = COLLECTION_MESSAGES.document(currentUid).collection(user.uid).document("activity")
+        
+       
+       
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                
+               
+                
+                COLLECTION_MESSAGES.document(currentUid).collection(user.uid).document("activity").updateData(data) {_ in
+                    
+                    completion(status)
+                
+                   
+                }
+                
+               
+            } else {
+                
+                
+                
+                COLLECTION_MESSAGES.document(currentUid).collection(user.uid).document("activity").setData(data) { (error) in
+                    
+                  
+                    
+                    if error != nil {
+                        print(error!.localizedDescription)
+                    }
+                    
+                    completion(status)
+                }
+                
+             
+            }
+        }
+        
+    }
+    
+    static func uploadInvite(discoverySetUp: DiscoveryStruct, body: String, title: String, token: String, date: String, time: String, completion: @escaping(String) -> Void) {
+        
+        guard let currentUid = Auth.auth().currentUser?.uid else {return}
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM yyyy h:mm a"
+        let dateOfficial = dateFormatter.date(from: "\(date) \(time)")
+        
+        if dateOfficial != nil {
+            
+            let data = ["fromId": discoverySetUp.uid, "forId": currentUid, "title": title, "timestamp": Timestamp(date: Date()), "body": body, "token": token, "date": dateOfficial!] as [String : Any]
+            
+            print("is my data here? \(data)")
+            
+            COLLECTION_INVITES.addDocument(data: data) {_ in
+                
+                completion("sent")
+                
+            }
+            
+        } else {
+            
+            completion("unsent")
+        }
+        
+        
     }
     
     //static func uploadMessageUser(to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
@@ -688,7 +827,7 @@ struct UserService {
     //static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
     //static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, completion: @escaping (String, Error?) -> Void) {
     
-    static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, completion: @escaping(String) -> Void) {
+    static func uploadPhoto(_ message: UIImage?, to user: DiscoveryStruct, invite: String? = "", date: String? = "", time: String? = "", placeName: String? = "", completion: @escaping(String) -> Void) {
     
     guard let currentUid = Auth.auth().currentUser?.uid else {return}
     
@@ -709,7 +848,7 @@ struct UserService {
             UserService.uploadMessageUser(to: user) { upload in//error in
                 
                 
-            UserService.uploadMessage(mediaURL: imageURL, mediaURLTwo: fileDirectory, type: "picture", to: user) { error in
+            UserService.uploadMessage(mediaURL: imageURL, mediaURLTwo: fileDirectory, type: "picture", to: user, invite: "true", date: date, time: time, placeName: placeName) { error in
                 
             
                 if let error = error {
@@ -760,12 +899,18 @@ struct UserService {
         
     }
     
-    static func uploadMessage(_ message: String? = "", mediaURL: String? = "", mediaURLTwo: String? = "", inviteLatitude: String? = "", inviteLongitude: String? = "", type: String, to user: DiscoveryStruct, completion: ((Error?) -> Void)?) {
+    static func uploadMessage(_ message: String? = "", mediaURL: String? = "", mediaURLTwo: String? = "", inviteLatitude: String? = "", inviteLongitude: String? = "", type: String, to user: DiscoveryStruct, invite: String? = "", date: String? = "", time: String? = "", placeName: String? = "", completion: ((Error?) -> Void)?) {
         
         guard let currentUid = Auth.auth().currentUser?.uid else {return}
         
+        var newMediaURL : String = ""
         
-        let data = ["text": message, "fromId": currentUid, "toId": user.uid, "timestamp": Timestamp(date: Date()), "type": type, "mediaURL": mediaURL, "mediaURLTwo": mediaURLTwo, "latitude": inviteLatitude, "longitude": inviteLongitude] as [String : Any]
+        if mediaURL != "" && mediaURL != nil {
+            
+            newMediaURL = mediaURL!
+        }
+        
+        let data = ["text": message, "fromId": currentUid, "toId": user.uid, "timestamp": Timestamp(date: Date()), "type": type, "mediaURL": newMediaURL, "mediaURLTwo": mediaURLTwo, "latitude": inviteLatitude, "longitude": inviteLongitude, "invite": invite, "date": date, "time": time, "placeName": placeName] as [String : Any]
         
         print("is my data here? \(data)")
         

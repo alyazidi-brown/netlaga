@@ -10,10 +10,18 @@ import UIKit
 
 class CustomCalloutView: UIView {
 
-    @IBOutlet var starbucksImage: UIImageView!
-    @IBOutlet var starbucksName: UILabel!
-    @IBOutlet var starbucksAddress: UILabel!
-    @IBOutlet var starbucksPhone: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    
+    @IBOutlet weak var dateLabel: UITextField!
+    
+    @IBOutlet weak var timeLabel: UITextField!
+    
+    
+    @IBOutlet weak var inviteButton: UIButton!
+    
+    @IBOutlet weak var mapImageView: UIImageView!
+    
+    
     /*
     // Only override drawRect: if you perform custom drawing.
     // An empty implementation adversely affects performance during animation.

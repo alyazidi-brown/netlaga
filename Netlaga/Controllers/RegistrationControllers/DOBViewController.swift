@@ -95,9 +95,13 @@ class DOBViewController: UIViewController, UITextFieldDelegate{
         
         
         let tf = UITextField()
+        tf.textColor = .black
         tf.textAlignment = .center
         
-        tf.placeholder = "Date of Birth (dd/MM/yyyy)"
+        //tf.placeholder = "Date of Birth (dd/MM/yyyy)"
+            tf.attributedPlaceholder = NSAttributedString(
+                string: "Date of Birth (dd/MM/yyyy)",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
         
         let bottomLine = CALayer()
                 
@@ -136,6 +140,33 @@ class DOBViewController: UIViewController, UITextFieldDelegate{
         
         return button
     }()
+    
+    private let dismissButton: AuthButton = {
+        let button = AuthButton(type: .system)
+        button.setTitle("Dismiss", for: .normal)
+        
+        button.addTarget(self, action: #selector(backAction), for: .touchUpInside)
+        
+        let deviceIdiom = UIScreen.main.traitCollection.userInterfaceIdiom
+        // 2. check the idiom
+        switch (deviceIdiom) {
+
+        case .pad:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 30)
+            //print("iPad style UI")
+        case .phone:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("iPhone and iPod touch style UI")
+       // case .tv:
+           // print("tvOS style UI")
+        default:
+            button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+           // print("Unspecified UI idiom")
+        }
+        
+        return button
+    }()
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,6 +190,20 @@ class DOBViewController: UIViewController, UITextFieldDelegate{
         
         showDatePicker()
         
+        //Looks for single or multiple taps.
+             let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
+
+            //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
+            //tap.cancelsTouchesInView = false
+
+            view.addGestureRecognizer(tap)
+        
+    }
+    
+    //Calls this function when the tap is recognized.
+    @objc func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
     
     func configureUI() {
@@ -170,7 +215,7 @@ class DOBViewController: UIViewController, UITextFieldDelegate{
         
         
      
-        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, stackTextField, continueButton])
+        let stackFirst = UIStackView(arrangedSubviews: [titleLabel, stackTextField, continueButton, dismissButton])
         stackFirst.axis = .vertical
         stackFirst.spacing = 50
         stackFirst.distribution = .fillProportionally

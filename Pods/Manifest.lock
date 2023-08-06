@@ -596,7 +596,7 @@ PODS:
     - abseil/base/base_internal
     - abseil/base/config
     - abseil/meta/type_traits
-  - Alamofire (5.6.2)
+  - Alamofire (5.7.1)
   - BoringSSL-GRPC (0.0.24):
     - BoringSSL-GRPC/Implementation (= 0.0.24)
     - BoringSSL-GRPC/Interface (= 0.0.24)
@@ -604,16 +604,16 @@ PODS:
     - BoringSSL-GRPC/Interface (= 0.0.24)
   - BoringSSL-GRPC/Interface (0.0.24)
   - BSImagePicker (3.3.1)
-  - FBAEMKit (15.0.0):
-    - FBSDKCoreKit_Basics (= 15.0.0)
-  - FBSDKCoreKit (15.0.0):
-    - FBAEMKit (= 15.0.0)
-    - FBSDKCoreKit_Basics (= 15.0.0)
-  - FBSDKCoreKit_Basics (15.0.0)
-  - FBSDKLoginKit (15.0.0):
-    - FBSDKCoreKit (= 15.0.0)
-  - FBSDKShareKit (15.0.0):
-    - FBSDKCoreKit (= 15.0.0)
+  - FBAEMKit (16.1.0):
+    - FBSDKCoreKit_Basics (= 16.1.0)
+  - FBSDKCoreKit (16.1.0):
+    - FBAEMKit (= 16.1.0)
+    - FBSDKCoreKit_Basics (= 16.1.0)
+  - FBSDKCoreKit_Basics (16.1.0)
+  - FBSDKLoginKit (16.1.0):
+    - FBSDKCoreKit (= 16.1.0)
+  - FBSDKShareKit (16.1.0):
+    - FBSDKCoreKit (= 16.1.0)
   - Firebase/Analytics (8.15.0):
     - Firebase/Core
   - Firebase/Auth (8.15.0):
@@ -730,34 +730,34 @@ PODS:
     - GoogleUtilities/Network (~> 7.7)
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
     - nanopb (~> 2.30908.0)
-  - GoogleDataTransport (9.2.0):
+  - GoogleDataTransport (9.2.3):
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleMaps (7.1.0):
-    - GoogleMaps/Maps (= 7.1.0)
-  - GoogleMaps/Base (7.1.0)
-  - GoogleMaps/Maps (7.1.0):
+  - GoogleMaps (8.0.0):
+    - GoogleMaps/Maps (= 8.0.0)
+  - GoogleMaps/Base (8.0.0)
+  - GoogleMaps/Maps (8.0.0):
     - GoogleMaps/Base
-  - GooglePlaces (7.1.0)
-  - GoogleUtilities/AppDelegateSwizzler (7.8.0):
+  - GooglePlaces (8.0.0)
+  - GoogleUtilities/AppDelegateSwizzler (7.11.1):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
     - GoogleUtilities/Network
-  - GoogleUtilities/Environment (7.8.0):
+  - GoogleUtilities/Environment (7.11.1):
     - PromisesObjC (< 3.0, >= 1.2)
-  - GoogleUtilities/Logger (7.8.0):
+  - GoogleUtilities/Logger (7.11.1):
     - GoogleUtilities/Environment
-  - GoogleUtilities/MethodSwizzler (7.8.0):
+  - GoogleUtilities/MethodSwizzler (7.11.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/Network (7.8.0):
+  - GoogleUtilities/Network (7.11.1):
     - GoogleUtilities/Logger
     - "GoogleUtilities/NSData+zlib"
     - GoogleUtilities/Reachability
-  - "GoogleUtilities/NSData+zlib (7.8.0)"
-  - GoogleUtilities/Reachability (7.8.0):
+  - "GoogleUtilities/NSData+zlib (7.11.1)"
+  - GoogleUtilities/Reachability (7.11.1):
     - GoogleUtilities/Logger
-  - GoogleUtilities/UserDefaults (7.8.0):
+  - GoogleUtilities/UserDefaults (7.11.1):
     - GoogleUtilities/Logger
   - "gRPC-C++ (1.44.0)":
     - "gRPC-C++/Implementation (= 1.44.0)"
@@ -814,8 +814,8 @@ PODS:
   - InputBarAccessoryView (5.5.0):
     - InputBarAccessoryView/Core (= 5.5.0)
   - InputBarAccessoryView/Core (5.5.0)
-  - Kingfisher (7.4.0)
-  - leveldb-library (1.22.1)
+  - Kingfisher (7.6.2)
+  - leveldb-library (1.22.2)
   - Libuv-gRPC (0.0.10):
     - Libuv-gRPC/Implementation (= 0.0.10)
     - Libuv-gRPC/Interface (= 0.0.10)
@@ -836,10 +836,10 @@ PODS:
   - PopBounceButton (1.2.2):
     - pop (~> 1.0)
   - ProgressHUD (13.6.2)
-  - PromisesObjC (2.1.1)
-  - SDWebImage (5.13.4):
-    - SDWebImage/Core (= 5.13.4)
-  - SDWebImage/Core (5.13.4)
+  - PromisesObjC (2.2.0)
+  - SDWebImage (5.15.8):
+    - SDWebImage/Core (= 5.15.8)
+  - SDWebImage/Core (5.15.8)
   - Shuffle-iOS (0.5.0)
   - SwiftyComments (0.2.0):
     - SwipeCellKit
@@ -863,7 +863,7 @@ DEPENDENCIES:
   - GeoFire
   - GoogleMaps
   - GooglePlaces
-  - Kingfisher
+  - Kingfisher (~> 7.6.2)
   - MessageKit
   - NVActivityIndicatorView
   - PopBounceButton
@@ -922,14 +922,14 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   abseil: ebe5b5529fb05d93a8bdb7951607be08b7fa71bc
-  Alamofire: d368e1ff8a298e6dde360e35a3e68e6c610e7204
+  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   BSImagePicker: 0fe04b574d4d6b81093785d2af6c26227efc8428
-  FBAEMKit: d8312d8451ead46282adc7f3565ffc4965e3a4a7
-  FBSDKCoreKit: 81879058dd06208c0820fc713d054ca54903e8ba
-  FBSDKCoreKit_Basics: eebc9bb69a0e5d133b92dca53a20716227faa454
-  FBSDKLoginKit: 11995469cd7da16fd4d5245e8d2ec61060479270
-  FBSDKShareKit: 9501792c3024580809f811a8a549868699d9bd32
+  FBAEMKit: c7efe06720a8b15b1d25b68921ba46dee20996e0
+  FBSDKCoreKit: ca77d40d46786157b7b31ad3516f5ad9c2315339
+  FBSDKCoreKit_Basics: d39c3361379def7297bf76738cdd4fd2e0eb1a68
+  FBSDKLoginKit: 8fa1a0e3be1c9e8ae6df522844235a05cb03d835
+  FBSDKShareKit: 6dc40042ed436cd3469f975957062be3fc721dea
   Firebase: 5f8193dff4b5b7c5d5ef72ae54bb76c08e2b841d
   FirebaseAnalytics: 7761cbadb00a717d8d0939363eb46041526474fa
   FirebaseAuth: 3e73bf8abf4fbb40f8b421f361f4cc48ee57388c
@@ -944,16 +944,16 @@ SPEC CHECKSUMS:
   Gallery: b7fc1aeb68a39ad6d2c423574750196bf9b25e5c
   GeoFire: c34927b5c81ab614f611c79aa8d074cfa9780f07
   GoogleAppMeasurement: 4c19f031220c72464d460c9daa1fb5d1acce958e
-  GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
-  GoogleMaps: bc56ffb0324e345a2d91bac1a64a920f9c8f1b20
-  GooglePlaces: 187946335ec3dc624de71c0a9ddcc712f19b0ee1
-  GoogleUtilities: 1d20a6ad97ef46f67bbdec158ce00563a671ebb7
+  GoogleDataTransport: f0308f5905a745f94fb91fea9c6cbaf3831cb1bd
+  GoogleMaps: 0dce473ab18742d0f327887853630927cbee9127
+  GooglePlaces: 46231f49e2dc52aa9a604f99e2e6b29996f30cc7
+  GoogleUtilities: 9aa0ad5a7bc171f8bae016300bfcfa3fb8425749
   "gRPC-C++": 9675f953ace2b3de7c506039d77be1f2e77a8db2
   gRPC-Core: 943e491cb0d45598b0b0eb9e910c88080369290b
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
   InputBarAccessoryView: 1d7b0a672b36e370f01f264b3907ef39d03328e3
-  Kingfisher: 596b207973051aae5e4c54a1c1cb39837ea10d36
-  leveldb-library: 50c7b45cbd7bf543c81a468fe557a16ae3db8729
+  Kingfisher: 6c5449c6450c5239166510ba04afe374a98afc4f
+  leveldb-library: f03246171cce0484482ec291f88b6d563699ee06
   Libuv-gRPC: 55e51798e14ef436ad9bc45d12d43b77b49df378
   MessageKit: a1ba0c69ebead94029867853eb44dd05b9b3f453
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
@@ -961,12 +961,12 @@ SPEC CHECKSUMS:
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PopBounceButton: 34105a012678222f058f8d2621672724a3d5c9fb
   ProgressHUD: 355915c8f033e626788fa9b0d99d06e8691595ab
-  PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
-  SDWebImage: e5cc87bf736e60f49592f307bdf9e157189298a3
+  PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
+  SDWebImage: cb032eba469c54e0000e78bcb0a13cdde0a52798
   Shuffle-iOS: ff33658fb1e5eebd6a4724c156473e63754be9cb
   SwiftyComments: 864260f481d4159118e1ee9c0ad2c9a95693fa94
   SwipeCellKit: 3972254a826da74609926daf59b08d6c72e619ea
 
-PODFILE CHECKSUM: 0c13c2164db9eaa0106c11cfb911811f4376133c
+PODFILE CHECKSUM: f93f5c49c22c36b268fe7d605be61af8523cd78a
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

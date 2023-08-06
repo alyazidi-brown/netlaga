@@ -64,7 +64,8 @@ public enum AlertIcon {
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 extension AlertIcon {
 
-	var image: UIImage? {
+    @available(iOS 13.0, *)
+    var image: UIImage? {
 		switch self {
 			case .heart:		return UIImage(systemName: "heart.fill")
 			case .doc:			return UIImage(systemName: "doc.fill")
@@ -91,6 +92,7 @@ extension AlertIcon {
 
 // MARK: -
 //-----------------------------------------------------------------------------------------------------------------------------------------------
+@available(iOS 13.0, *)
 public extension ProgressHUD {
 
 	class var animationType: AnimationType {
@@ -141,6 +143,7 @@ public extension ProgressHUD {
 
 // MARK: -
 //-----------------------------------------------------------------------------------------------------------------------------------------------
+@available(iOS 13.0, *)
 public extension ProgressHUD {
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------
@@ -204,11 +207,17 @@ public extension ProgressHUD {
 	//-------------------------------------------------------------------------------------------------------------------------------------------
 	class func show(_ status: String? = nil, icon: AlertIcon, interaction: Bool = true, delay: TimeInterval? = nil) {
 
-		let image = icon.image?.withTintColor(shared.colorAnimation, renderingMode: .alwaysOriginal)
+        if #available(iOS 13.0, *) {
+            let image = icon.image?.withTintColor(shared.colorAnimation, renderingMode: .alwaysOriginal)
+            
+            DispatchQueue.main.async {
+                        shared.setup(status: status, staticImage: image, hide: true, interaction: interaction, delay: delay)
+                    }
+        } else {
+            // Fallback on earlier versions
+        }
 
-		DispatchQueue.main.async {
-			shared.setup(status: status, staticImage: image, hide: true, interaction: interaction, delay: delay)
-		}
+		
 	}
 
 	//-------------------------------------------------------------------------------------------------------------------------------------------
@@ -247,6 +256,7 @@ public extension ProgressHUD {
 
 // MARK: -
 //-----------------------------------------------------------------------------------------------------------------------------------------------
+@available(iOS 13.0, *)
 public class ProgressHUD: UIView {
 
 	private var viewBackground: UIView?
@@ -1204,6 +1214,7 @@ public class ProgressHUD: UIView {
 
 // MARK: - ProgressView
 //-----------------------------------------------------------------------------------------------------------------------------------------------
+@available(iOS 13.0, *)
 private class ProgressView: UIView {
 
 	var color: UIColor = .systemBackground {
